@@ -1,8 +1,19 @@
 import React from 'react';
 
-const LeaderBoard: React.FC = () => {
+type LeaderProps = {
+  user: string;
+  score: number;
+}
 
-  return (<></>)
+const LeaderBoard: React.FC<LeaderProps> = (LeaderProps) => {
+  const { user, score } = LeaderProps
+
+  return (
+  <div>
+    {user}
+    {score}
+  </div>
+  )
 }
 
 export default LeaderBoard
