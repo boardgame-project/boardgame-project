@@ -1,12 +1,12 @@
 import React from 'react';
 
-type LeaderProps = {
+type Players = {
   user: string;
   score: number;
 }
 
-const LeaderBoard: React.FC<LeaderProps> = (LeaderProps) => {
-  const { user, score } = LeaderProps
+const LeaderBoard: React.FC<Players> = (Players) => {
+  const { user, score } = Players
 
   return (
   <div>
