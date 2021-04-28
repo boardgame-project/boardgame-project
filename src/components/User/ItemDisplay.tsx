@@ -4,6 +4,7 @@ import React from 'react';
 
 type UserReview = {
   review: string,
+  children: React.ReactChild
 }
 
 const ItemDisplay: React.FC<UserReview> = UserReview => {
