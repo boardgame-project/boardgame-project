@@ -4,7 +4,6 @@ import ShelfItem from './ShelfItem';
 import ItemDisplay from './ItemDisplay';
 import MyAccount from './MyAccount';
 
-
 const User: React.FC = () => {
 
   return (
