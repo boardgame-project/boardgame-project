@@ -6,6 +6,7 @@ import routes from './routes';
 
 import './reset.css';
 const App: React.FC = () =>  {
+
   return (
     <div className="App">
       <Header />
