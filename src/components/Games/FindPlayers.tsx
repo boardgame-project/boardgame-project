@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-const FindPlayers: React.FC = (props) => {
-  type Props = {
-
-  }
+const FindPlayers: React.FC = () => {
+ 
   return (<></>)
 }
 
