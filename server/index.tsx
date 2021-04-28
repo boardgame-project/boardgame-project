@@ -1,12 +1,13 @@
-require('dotenv').config()
-const express = require('express')
-const session = require('express-session')
+require('dotenv').config();
+const express = require('express');
+const session = require('express-session');
+const massive = require ('massive'); 
+
 const auth = require( './controllers/authController'); 
 const game = require( './controllers/gameController'); 
 const player = require( './controllers/playerController'); 
 const userGames = require( './controllers/userGamesController');  
 const userInfo = require( './controllers/userInfoController');  
-const massive = require ('massive'); 
 
 const app = express(); 
 
