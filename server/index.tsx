@@ -1,7 +1,7 @@
 require('dotenv').config();
-const express = require('express');
-const session = require('express-session');
-const massive = require ('massive'); 
+import express = require('express');
+import session = require('express-session');
+import massive = require ('massive'); 
 
 const auth = require( './controllers/authController'); 
 const game = require( './controllers/gameController'); 
@@ -24,7 +24,6 @@ app.use(session({
   }
 }))
 
-//session to be added here
 
 //Auth endpoints
 app.post('/api/auth/register', auth.register);
@@ -41,7 +40,8 @@ app.post('/api/game/rating', game.postRating);
 //UserGame endpopints
 app.get('/api/usergame', userGames.getUserGames);
 app.get('/api/usergame/:id', userGames.getUserGame);
-app.post('/api/usergame/playcount', game.incPlayCount);
+app.post('/api/usergame/playcount', userGames.incPlayCount);
+app.delete('/api/usergame/:id', userGames.deleteGame)
 
 //UserInfo endpoints
 app.get('/api/user', userInfo.getUser);
