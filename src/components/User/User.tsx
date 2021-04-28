@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react';
+// import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-const User: React.FC = (props) => {
-  type Props = {
+const User: React.FC = () => {
 
-  }
   return (<></>)
 }
 

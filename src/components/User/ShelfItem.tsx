@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react';
+// import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-const ShelfItem: React.FC = (props) => {
-  type Props = {
+const ShelfItem: React.FC = () => {
 
-  }
   return (<></>)
 }
 
