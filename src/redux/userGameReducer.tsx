@@ -1,4 +1,4 @@
-type Game = {
+export type Game = {
     game_id: string,
     play_count: number, 
     rating: number,
