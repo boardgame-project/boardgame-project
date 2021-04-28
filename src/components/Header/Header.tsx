@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-const Header: React.FC = (props) => {
-  type Props = {
-  }
+const Header: React.FC = () => {
+
   return (<></>)
 }
 

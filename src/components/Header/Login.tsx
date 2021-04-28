@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-const Login: React.FC = (props) => {
-  type Props = {
+const Login: React.FC = () => {
 
-  }
   return (<></>)
 }
 
