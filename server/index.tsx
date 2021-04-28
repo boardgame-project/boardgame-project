@@ -23,6 +23,36 @@ app.use(session({
   }
 }))
 
+//session to be added here
+
+//Auth endpoints
+app.post('/api/auth/register', auth.register);
+app.post('/api/auth/login', auth.login);
+app.get('/api/authuser', auth.getUser);
+app.delete('/api/auth/logout', auth.logout);
+
+//Game endpoints
+app.get('/api/game', game.getGames); //query for search 
+app.get('/api/game/:id', game.getGame);
+app.post('/api/game/review', game.postReview);
+app.post('/api/game/rating', game.postRating);
+
+//UserGame endpopints
+app.get('/api/usergame', userGames.getUserGames);
+app.get('/api/usergame/:id', userGames.getUserGame);
+app.post('/api/usergame/playcount', game.incPlayCount);
+
+//UserInfo endpoints
+app.get('/api/user', userInfo.getUser);
+app.put('/api/user/name', userInfo.editName);
+app.put('/api/user/email', userInfo.editEmail);
+app.put('/api/user/password', userInfo.editPassword); //needs bcryptjs added into this controller file
+
+//Player endpoints
+app.get('/api/player/playcount', player.getPlayCount);
+app.get('/api/player/findplayer', player.findPlayers);
+
+
 massive({
 	connectionString: CONNECTION_STRING,
 	ssl: {rejectUnauthorized: 0}
