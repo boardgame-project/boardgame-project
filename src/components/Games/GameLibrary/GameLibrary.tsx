@@ -33,7 +33,7 @@ const GameLibrary: React.FC = () => {
       const gamesArray = res.data
       console.log(res.data)
       setGames(gamesArray)
-    })
+    }).catch(err => console.log(err))
   };
 
   const mappedGames = games.map((elem: Game, id: number) => {
