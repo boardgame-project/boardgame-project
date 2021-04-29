@@ -29,7 +29,8 @@ module.exports = {
       const storedUser = await db.user.getUserHash(emailFiltered);
       if (storedUser.length !== 0) {
         if (await bcrypt.compare(password, storedUser[0].hash)) {
-          req.session.user = await db.user.getUser(emailFiltered)
+          const user = await db.user.getUser(emailFiltered)
+          req.session.user = user[0]
           return res.status(200).send(req.session.user);
         } else {
           req.session.destroy();
