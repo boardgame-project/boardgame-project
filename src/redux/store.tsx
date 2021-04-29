@@ -1,11 +1,12 @@
-// import {createStore, CombineReducers, applyMiddleware} from 'redux'; 
-// import {composeWithDevTools} from 'redux-devtools-extension'; 
+import {createStore, combineReducers, applyMiddleware} from 'redux'; 
+import {composeWithDevTools} from 'redux-devtools-extension'; 
 
+import userReducer from './userReducer';
+import userGameReducer from './userGameReducer';
 
-// export default createStore(reducer, composeWithDevTools(applyMiddleware))
+const reducer = combineReducers({
+  userReducer: userReducer,
+  userGameReducer: userGameReducer
+})
 
-const store = ():void => {
-  console.log('Hi')
-}
-
-export default store
+export default createStore(reducer, composeWithDevTools(applyMiddleware()));

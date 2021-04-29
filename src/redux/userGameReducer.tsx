@@ -24,4 +24,6 @@ export default function userReducer(state: typeof initialState, action: Actionty
             return initialState;
         default: return state
     }
-};
+}; 
+
+export {}
