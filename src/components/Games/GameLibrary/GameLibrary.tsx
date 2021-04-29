@@ -38,12 +38,12 @@ const GameLibrary: React.FC = () => {
 
   const mappedGames = games.map((elem: Game, id: number) => {
     return <div key={id}>
-      <GameBox game={elem}></GameBox>
+      <GameBox {...elem}></GameBox>
     </div>
   })
 
   return (
-  <div>
+  <div className='gameLibrary'>
     <SearchBar/>
     {mappedGames}
   </div>)
