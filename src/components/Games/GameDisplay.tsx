@@ -9,7 +9,7 @@ type Game = {
   max_players: number,
   min_age: number,
   mechanics: string,
-  categoties: string,
+  categories: string,
   description: string,
   image_url: string, 
   thumb_url: string
@@ -55,7 +55,7 @@ useEffect(():void => {
     {/* <div className="game-reviews">{props.reviews}</div> */}
     <img src={props.image_url} className="game-images" alt={props.name}/>
     <p>{props.year_published}</p>
-    <p>{props.categoties}</p>
+    <p>{props.categories}</p>
     <p>{props.mechanics}</p>
     <p>{props.min_players}</p>
     <p>{props.max_players}</p>

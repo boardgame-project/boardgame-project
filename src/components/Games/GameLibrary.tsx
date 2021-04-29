@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-import SearchBar from '../SearchBar/SearchBar';
-import GameBox from '../GameBox/GameBox';
+import SearchBar from './SearchBar';
+import GameBox from './GameBox';
 
 
 const GameLibrary: React.FC = () => {
@@ -15,7 +15,7 @@ const GameLibrary: React.FC = () => {
     max_players: number,
     min_age: number,
     mechanics: string,
-    categoties: string,
+    categories: string,
     description: string,
     image_url: string, 
     thumb_url: string

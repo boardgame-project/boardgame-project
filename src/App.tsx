@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
-import Header from './components/Header/Header/Header';
-import Hero from './components/Header/Hero/Hero';
+import './scss/main.scss'
+import Header from './components/Header/Header';
+import Hero from './components/Header/Hero';
 import routes from './routes';
 
 import './reset.css';
