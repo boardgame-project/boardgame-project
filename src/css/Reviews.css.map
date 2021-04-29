@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../src/components/Games/Reviews/Reviews.scss"
+    ],
+    "names": [],
+    "file": "Reviews.css"
+}
