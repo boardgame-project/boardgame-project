@@ -2,6 +2,8 @@
   "name": "boardgame-project",
   "version": "0.1.0",
   "private": true,
+  "main": "server/index.ts",
+  "proxy": "http://localhost:5050",
   "dependencies": {
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
