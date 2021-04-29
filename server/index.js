@@ -27,7 +27,7 @@ app.use(session({
 //Auth endpoints
 app.post('/api/auth/register', auth.register);
 app.post('/api/auth/login', auth.login);
-app.get('/api/authuser', auth.getUser);
+app.get('/api/auth/user', auth.getUser);
 app.delete('/api/auth/logout', auth.logout);
 
 //Game endpoints
