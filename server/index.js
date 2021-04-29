@@ -2,10 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const massive = require('massive');
+const authMiddleware = require('./middleware/authMiddleware');
 const auth = require('./controllers/authController');
 // const game = require('./controllers/gameController');
 // const player = require('./controllers/playerController');
-// const userGames = require('./controllers/userGamesController');
+const userGames = require('./controllers/userGamesController');
 // const userInfo = require('./controllers/userInfoController');
 
 const app = express();
@@ -30,17 +31,18 @@ app.post('/api/auth/login', auth.login);
 app.get('/api/auth/user', auth.getUser);
 app.delete('/api/auth/logout', auth.logout);
 
-//Game endpoints
+// // Game endpoints
 // app.get('/api/game', game.getGames); //query for search 
 // app.get('/api/game/:id', game.getGame);
-// app.post('/api/game/review', game.postReview);
-// app.post('/api/game/rating', game.postRating);
 
-// //UserGame endpopints
-// app.get('/api/usergame', userGames.getUserGames);
-// app.get('/api/usergame/:id', userGames.getUserGame);
-// app.post('/api/usergame/playcount', userGames.incPlayCount);
-// app.delete('/api/usergame/:id', userGames.deleteGame)
+//UserGame endpopints
+app.post('/api/usergame/add/:id', authMiddleware.authorize, userGames.addUserGame);
+app.get('/api/usergame', authMiddleware.authorize, userGames.getUserGames);
+app.put('/api/usergame/review', authMiddleware.authorize, userGames.updateReview);
+app.put('/api/usergame/rating', authMiddleware.authorize, userGames.updateRating);
+app.put('/api/usergame/inccount/:id', authMiddleware.authorize, userGames.incPlayCount);
+app.put('/api/usergame/deccount/:id', authMiddleware.authorize, userGames.decPlayCount);
+app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 
 // //UserInfo endpoints
 // app.get('/api/user', userInfo.getUser);
