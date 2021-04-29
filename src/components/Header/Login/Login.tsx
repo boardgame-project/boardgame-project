@@ -58,26 +58,30 @@ const Login: React.FC = () => {
     <div className='loginContainer'>
       <form className='register'>
         <h3>register</h3>
-        <p>first name:</p>
+        <label htmlFor='firstName'>first name:</label>
         <input
+          id='firstName'
           value={firstName} 
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
             ): void => setFirstName(e.target.value)}/>
-        <p>last name:</p>
+        <label htmlFor='lastName'>last name:</label>
         <input
+          id='lastName'
           value={lastName} 
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
             ): void => setLastName(e.target.value)}/>
-        <p>email:</p>
+        <label htmlFor='email'>email:</label>
         <input
+          id='email'
           value={email} 
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
             ): void => setEmail(e.target.value)}/>
-        <p>password:</p>
+        <label htmlFor='password'>password:</label>
         <input
+          id='password'
           value={password} 
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
@@ -88,14 +92,16 @@ const Login: React.FC = () => {
       </form>
       <form> 
         <h3>login</h3>
-      <p>email:</p>
+        <label htmlFor='loginEmail'>email:</label>
         <input
+          id='loginEmail'
           value={loginEmail} 
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
             ): void => setLoginEmail(e.target.value)}/>
-        <p>password:</p>
+        <label htmlFor='loginPassword'>password:</label>
         <input
+          id='loginPassword'
           value={loginPassword} 
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
