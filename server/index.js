@@ -4,8 +4,8 @@ const session = require('express-session');
 const massive = require('massive');
 const authMiddleware = require('./middleware/authMiddleware');
 const auth = require('./controllers/authController');
-// const game = require('./controllers/gameController');
-// const player = require('./controllers/playerController');
+const game = require('./controllers/gameController');
+const player = require('./controllers/playerController');
 const userGames = require('./controllers/userGamesController');
 // const userInfo = require('./controllers/userInfoController');
 
@@ -34,10 +34,14 @@ app.delete('/api/auth/logout', auth.logout);
 // // Game endpoints
 // app.get('/api/game', game.getGames); //query for search 
 // app.get('/api/game/:id', game.getGame);
+// app.get('/api/game/:id, game.gameReviews);
+// app.get('/api/game/ratings, game.gameRatings);
+// app.get('/api/game/players, game.gamePlayers)
 
 //UserGame endpopints
 app.post('/api/usergame/add/:id', authMiddleware.authorize, userGames.addUserGame);
 app.get('/api/usergame', authMiddleware.authorize, userGames.getUserGames);
+app.get('/api/usergame/:id', authMiddleware.authorize, userGames.getUserGame);
 app.put('/api/usergame/review', authMiddleware.authorize, userGames.updateReview);
 app.put('/api/usergame/rating', authMiddleware.authorize, userGames.updateRating);
 app.put('/api/usergame/inccount/:id', authMiddleware.authorize, userGames.incPlayCount);
@@ -45,14 +49,17 @@ app.put('/api/usergame/deccount/:id', authMiddleware.authorize, userGames.decPla
 app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 
 // //UserInfo endpoints
-// app.get('/api/user', userInfo.getUser);
-// app.put('/api/user/name', userInfo.editName);
-// app.put('/api/user/email', userInfo.editEmail);
-// app.put('/api/user/password', userInfo.editPassword); //needs bcryptjs added into this controller file
+// app.get('/api/user', authMiddleware.authorize,userInfo.getUser);
+// app.put('/api/user/name', authMiddleware.authorize,userInfo.editName);
+// app.put('/api/user/email',authMiddleware.authorize, userInfo.editEmail);
+// app.put('/api/user/password', authMiddleware.authorize, userInfo.editPassword); //needs bcryptjs added into this controller file
 
 // //Player endpoints
-// app.get('/api/player/playcount', player.getPlayCount);
-// app.get('/api/player/findplayer', player.findPlayers);
+
+app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
+app.get('/api/player/reviews/:id', player.getPlayerReviews);
+app.get('/api/player/', player.getAllPlayersTotalPlays)
+
 
 
 massive({

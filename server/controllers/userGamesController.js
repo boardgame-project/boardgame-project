@@ -14,9 +14,19 @@ module.exports = {
     try {
       const db = req.app.get('db');
       const userID = req.session.user.user_id;
-      console.log(userID)
-      const userGames = await db.userGames.getGames(userID)
+      const userGames = await db.userGames.getUserGames(userID)
       return res.status(200).send(userGames);
+    } catch (err) {
+      return res.sendStatus(500)
+    }
+  },
+  getUserGame: async (req, res) => {
+    try {
+      const db = req.app.get('db');
+      const userID = req.session.user.user_id;
+      const gameID = req.params.id
+      const userGame = await db.userGames.getUserGame(userID, gameID)
+      return res.status(200).send(userGame[0])
     } catch (err) {
       return res.sendStatus(500)
     }
