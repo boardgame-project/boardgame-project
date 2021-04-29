@@ -26,10 +26,10 @@ module.exports = {
     const { email, password } = req.body;
     const emailFiltered = email.toLowerCase().replace(/\s/g, "")
     try {
-      const storedUser = await db.user.getUser(emailFiltered);
+      const storedUser = await db.user.getUserHash(emailFiltered);
       if (storedUser.length !== 0) {
         if (await bcrypt.compare(password, storedUser[0].hash)) {
-          req.session.user = storedUser[0];
+          req.session.user = await db.user.getUser(emailFiltered)
           return res.status(200).send(req.session.user);
         } else {
           req.session.destroy();
