@@ -30,8 +30,9 @@ const Login: React.FC = () => {
     })
   };
 
-  const registerEnterPress = (event: any) => {
-    if(event.keyCode === 13) {
+  //needs to be checked
+  const registerEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if(+e.key === 13) {
       register()
     }
   }
@@ -45,8 +46,9 @@ const Login: React.FC = () => {
     })
   };
 
-  const loginEnterPress = (event: any) => {
-    if(event.keyCode === 13) {
+  //needs to be checked
+  const loginEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if(+e.key === 13) {
       login()
     }
   }
