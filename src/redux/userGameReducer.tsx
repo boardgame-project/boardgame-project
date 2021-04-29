@@ -14,7 +14,7 @@ type Actiontype =
     | {type: 'CLEAR_GAMES'} 
     
 
-export default function userReducer(state: typeof initialState, action: Actiontype) {
+export default function userReducer(state = initialState, action: Actiontype) {
     switch (action.type) {
         case 'UPDATE_GAMES':
             return {
