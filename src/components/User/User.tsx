@@ -2,6 +2,7 @@
 import React from 'react';
 import ItemDisplay from './ItemDisplay';
 import MyAccount from './MyAccount';
+import ShelfItem from './ShelfItem';
 
 
 const User: React.FC = () => {
@@ -9,7 +10,7 @@ const User: React.FC = () => {
   return (
   
   <div>
-     <ShelfItem />
+    <ShelfItem />
     <ItemDisplay />
     <MyAccount />
   </div>
