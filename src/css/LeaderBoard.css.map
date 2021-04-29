@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../src/components/Header/LeaderBoard/LeaderBoard.scss"
+    ],
+    "names": [],
+    "file": "LeaderBoard.css"
+}
