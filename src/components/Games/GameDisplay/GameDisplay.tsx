@@ -8,6 +8,7 @@ const GameDisplay: React.FC = () => {
   
   <div className="game-display-page">
     <div className="game-info-container">
+      Game
       <div className="game-name"></div>
       <div className="game-info"></div>
       <div className="game-rating"></div>
