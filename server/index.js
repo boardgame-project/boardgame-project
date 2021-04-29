@@ -1,8 +1,7 @@
 require('dotenv').config();
-import express = require('express');
-import session = require('express-session');
-import massive = require ('massive'); 
-
+const express = require('express');
+const session = require('express-session');
+const massive = require ('massive'); 
 const auth = require( './controllers/authController'); 
 const game = require( './controllers/gameController'); 
 const player = require( './controllers/playerController'); 
