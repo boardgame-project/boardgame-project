@@ -1,20 +1,55 @@
-// import React, {useState, useEffect} from 'react';
-import React from 'react';
-import ItemDisplay from './ItemDisplay';
-import MyAccount from './MyAccount';
+// import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import ShelfItem from './ShelfItem';
-
+import { RootState } from '../../redux/store';
+import axios from 'axios';
 
 const User: React.FC = () => {
+    const [userGames, setUserGames] = useState([]);
 
-  return (
-  
-  <div>
-    <ShelfItem />
-    <ItemDisplay />
-    <MyAccount />
-  </div>
-  )
-}
+    const username = useSelector((state: RootState) => state.userReducer.username);
+    const [playCount, setPlayCount] = useState(0);
 
-export default User
+    useEffect((): void => {
+        getUserGames();
+        getPlayerStats();
+    }, []);
+
+    const getUserGames = () => {
+        axios
+            .get('/api/usergame')
+            .then((res) => {
+                // console.log(res.data)
+                setUserGames(res.data);
+            })
+            .catch((err) => console.log(err));
+    };
+
+    const getPlayerStats = () => {
+        axios.get('/api/player/playcount/:id').then((res) => {
+            setPlayCount(res.data.sum);
+        });
+    };
+
+    const mappedUserGames = userGames.map((elem, id) => {
+        return (
+            <div key={id}>
+                <ShelfItem {...elem}></ShelfItem>
+            </div>
+        );
+    });
+
+    return (
+        <div>
+            <section className="userProfile">
+                <p>{username}</p>
+                <p>playcount: {playCount}</p>
+                {/* <div>graph of top 5 plays</div> */}
+            </section>
+            <div className="shelf">{mappedUserGames}</div>
+        </div>
+    );
+};
+
+export default User;
