@@ -1,0 +1,64 @@
+.leaderboard {
+    /* font-family: sans-serif; */
+    text-align: center;
+}
+
+.boardTable {
+    width: 100%;
+    padding: 0;
+    font-size: 50px;
+    color: #004242;
+    margin: 0 0 80px 0;
+}
+
+.userData {
+    border-top: 1px solid silver;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 27px;
+    margin: 0;
+    font-size: 0;
+}
+
+.userDataP {
+    padding: 0;
+    margin: 0;
+}
+
+/* board items, from left to right as they are on the page */
+
+.boardPositionWrapper {
+    transform: translateY(-50%);
+    width: 10%;
+    font-size: 40px;
+    display: inline-table;
+}
+
+.boardUsernameWrapper {
+    position: relative;
+    transform: translateY(-50%);
+    width: 50%;
+    font-size: 40px;
+    display: inline-table;
+}
+
+.boardScoreWrapper {
+    position: relative;
+    transform: translateY(-50%);
+    width: 10%;
+    font-size: 40px;
+    display: inline-table;
+    text-align: right;
+}
+
+@media only screen and (max-width: 740px) {
+    .boardUsernameWrapper,
+    .boardScoreWrapper,
+    .boardPositionWrapper {
+        font-size: 25px;
+    }
+
+    .userAvatar {
+        height: 50px;
+    }
+}
