@@ -1,22 +1,21 @@
 .hero {
     position: relative;
-    background-color: blue;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .hero::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    // background: url(https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg);
-    background-color: blue;
+    background: url(https://media.timeout.com/images/105627949/image.jpg);
     background-repeat: no repeat;
     background-size: cover;
     background-position: center center;
     filter: brightness(60%);
-}
-.hero-content {
-    position: relative;
 }
