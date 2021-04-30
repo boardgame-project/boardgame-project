@@ -17,6 +17,22 @@ module.exports = {
       res.sendStatus(403);
     }
   },
+  editUsername: async (req, res) => {
+    const db = req.app.get('db')
+    const { username } = req.body;
+    const usernameFiltered = username.toLowerCase().replace(/\s/g, "")
+    const storedUser = await db.user.getUser(usernameFiltered);
+    if (storedUser.length === 0) {
+      const user_id = req.session.user.user_id;
+      try {
+        await db.userInfo.editUsername(user_id, usernameFiltered);
+        req.session.user = { ...req.session.user, username: usernameFiltered };
+        res.status(200).send(req.session.user);
+      } catch (err) { res.sendStatus(500) }
+    } else {
+      res.sendStatus(403);
+    }
+  },
   editPassword: async (req, res) => {
     const db = req.app.get('db')
     const { password } = req.body;
@@ -25,8 +41,7 @@ module.exports = {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
       await db.userInfo.editPassword(user_id, hash);
-      req.session.user = { ...req.session.user, hash };
-      res.status(200).send(req.session.user);
+      res.sendStatus(200)
     } catch (err) { res.sendStatus(500) }
   },
   editName: async (req, res) => {

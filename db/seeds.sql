@@ -4,6 +4,7 @@ DROP TABLE users;
 
 CREATE TABLE users (
   user_id serial PRIMARY KEY,
+  username text,
   first_name text,
   last_name text,
   hash text,
@@ -20,9 +21,9 @@ CREATE TABLE user_games (
 );
 
 -- Test Data
-INSERT INTO users (first_name, last_name, email)
-  VALUES ('a', 'a', 'a'), ('b', 'b', 'b'), ('c', 'c', 'c'), ('d', 'd', 'd');
+INSERT INTO users (first_name, last_name, email, username)
+  VALUES ('a', 'a', 'a', 'auser'), ('b', 'b', 'b', 'buser'), ('c', 'c', 'c', 'cuser'), ('d', 'd', 'd', 'duser');
 
 INSERT INTO user_games (game_id, user_id, play_count, rating)
-  VALUES ('0Z20rVZ9GQ', 5, 10, 2), ('kM98P8Iplw', 5, 1, 3), ('0Z20rVZ9GQ', 5, 4, 4), ('0Z20rVZ9GQ', 6, 8, 5), ('kM98P8Iplw', 6, 9, 4), ('0Z20rVZ9GQ', 6, 20, 3), ('kM98P8Iplw', 7, 21, 2), ('kM98P8Iplw', 7, 13, 1), ('0Z20rVZ9GQ', 7, 5, 4), ('2lIAkSns4o', 7, 9, 5), ('0Z20rVZ9GQ', 8, 20, 2), ('kM98P8Iplw', 8, 15, 4), ('0Z20rVZ9GQ', 8, 25, 3), ('2lIAkSns4o', 8, 23, 2);
+  VALUES ('0Z20rVZ9GQ', 1, 10, 2), ('kM98P8Iplw', 1, 1, 3), ('0Z20rVZ9GQ', 1, 4, 4), ('0Z20rVZ9GQ', 2, 8, 5), ('kM98P8Iplw', 2, 9, 4), ('0Z20rVZ9GQ', 2, 20, 3), ('kM98P8Iplw', 3, 21, 2), ('kM98P8Iplw', 3, 13, 1), ('0Z20rVZ9GQ', 3, 5, 4), ('2lIAkSns4o', 3, 9, 5), ('0Z20rVZ9GQ', 4, 20, 2), ('kM98P8Iplw', 4, 15, 4), ('0Z20rVZ9GQ', 4, 25, 3), ('2lIAkSns4o', 4, 23, 2);
 
