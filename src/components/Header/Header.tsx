@@ -62,7 +62,7 @@ const Header: React.FC = () => {
           <li><Link className='navLink' to='/'>profile</Link></li>
           <li><Link className='navLink' to='/'>account</Link></li>
           <li><Link className='navLink' to='/'>games</Link></li>
-          {user_id ? <li><a onClick={logoutUser}>logout</a></li> : <li><Link className='navLink' to='/'>login</Link></li>}
+          {user_id ? <li><a onClick={logoutUser}>logout</a></li> : <li><Link className='navLink' to='/auth'>login</Link></li>}
           
         </ul>
       </div>
