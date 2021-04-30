@@ -23,7 +23,7 @@ type Review = {
 
 const GameDisplay: React.FC<Game> = (props: Game):JSX.Element => {
 
-  const [reviews, setReviews] = useState([])
+const [reviews, setReviews] = useState([])
 
 useEffect(():void => {
   getGameReviews()
