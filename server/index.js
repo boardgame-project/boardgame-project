@@ -31,12 +31,12 @@ app.post('/api/auth/login', auth.login);
 app.get('/api/auth/user', auth.getUser);
 app.delete('/api/auth/logout', auth.logout);
 
-// // Game endpoints
+// Game endpoints
 // app.get('/api/game', game.getGames); //query for search 
-// app.get('/api/game/:id', game.getGame);
-// app.get('/api/game/:id, game.gameReviews);
-// app.get('/api/game/ratings, game.gameRatings);
-// app.get('/api/game/players, game.gamePlayers)
+app.get('/api/game/ratings', game.gameAverageRatings);
+app.get('/api/game/reviews/:id', game.gameReviews);
+app.get('/api/game/players/:id', game.gamePlayers);
+app.get('/api/game/plays/:id', game.totalPlays);
 
 //UserGame endpopints
 app.post('/api/usergame/add/:id', authMiddleware.authorize, userGames.addUserGame);
@@ -58,7 +58,7 @@ app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
 app.get('/api/player/reviews/:id', player.getPlayerReviews);
-app.get('/api/player/', player.getAllPlayersTotalPlays)
+app.get('/api/player/leaderboard', player.getAllPlayersTotalPlays)
 
 
 

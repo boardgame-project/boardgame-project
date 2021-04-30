@@ -1,13 +1,19 @@
 module.exports = {
   addUserGame: async (req, res) => {
-    try {
-      const db = req.app.get('db');
-      const userID = req.session.user.user_id;
-      const gameID = req.params.id;
-      await db.userGames.addGame(userID, gameID);
-      return res.sendStatus(200);
-    } catch (err) {
-      return res.sendStatus(500)
+
+    const db = req.app.get('db');
+    const userID = req.session.user.user_id;
+    const gameID = req.params.id;
+    const existingGame = await db.userGames.getUserGame(userID, gameID)
+    if (!existingGame[0]) {
+      try {
+        await db.userGames.addGame(userID, gameID);
+        return res.sendStatus(200);
+      } catch (err) {
+        return res.sendStatus(500);
+      }
+    } else {
+      return res.sendStatus(403);
     }
   },
   getUserGames: async (req, res) => {
