@@ -3,11 +3,10 @@ import axios from 'axios';
 
 
 type Players = {
-  user_id?: number;
+  username?: string;
   total?: number;
 };
 const LeaderBoard: React.FC<Players> = (): JSX.Element => {
-  // const { username, total } = Players;
 
   
   const getLeaderboard = ():void => {
@@ -29,11 +28,11 @@ const mappedLeaderboard = row.map((elem: Players, id: number) => {
     <div className="leaderboard" key={id}>
     <div className="boardTable">
       <div className="userData">
-        <div className="boardPositionWrapper">
-          <p className="userDataP"></p>
-        </div>
+        {/* <div className="boardPositionWrapper">
+          <p className="userDataP">{id}</p>
+        </div> */}
         <div className="boardUsernameWrapper">
-          <p className="userDataP">{elem.user_id}</p>
+          <p className="userDataP">{elem.username}</p>
         </div>
         <div className="boardScoreWrapper">
           <p className="userDataP">{elem.total}</p>

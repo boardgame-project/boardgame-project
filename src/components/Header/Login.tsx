@@ -42,8 +42,8 @@ const Login: React.FC = () => {
       toast.error('An account with the username you entered already exists in our database. Please log in using your email and password or create a new account using a different username.');
     } else if (err.data ==="incomplete") {
       toast.error("Please enter at least an email, username and password to continue.")
-    } else {()=> toast.error("A problem was encountered while attempting to create your new account. Please try again later.")}
-    })
+    } else (toast.error("A problem was encountered while attempting to create your new account. Please try again later."))
+    });
   };
 
   const login = ():void => {
