@@ -1,4 +1,4 @@
-export type Game = {
+export interface Game {
     game_id: string,
     play_count: number, 
     rating: number,
