@@ -1,5 +1,6 @@
 import React from 'react';
-import './scss/main.scss'
+import './scss/main.scss';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import Hero from './components/Header/Hero';
 import routes from './routes';
