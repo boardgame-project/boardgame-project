@@ -1,16 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+
+
+// interface StateUser {
+//   user_id: number,
+//   first_name: string, 
+//   last_name: string,
+//   email: string
+// }
 
 const Header: React.FC = () => {
 
-  // interface User {
-  //   user_id: number,
-  //   first_name: string, 
-  //   last_name: string,
-  //   email: string
-  // }
+  const user_id = useSelector((state: RootState) => state.userReducer.user_id) 
 
   const dispatch = useDispatch();
 
@@ -34,15 +38,37 @@ const Header: React.FC = () => {
   }
 
   return (
-  <div>
-    <button onClick={logoutUser}>logout</button>
-    <Link className="game-library-link" to="/">Landing Page</Link>
-    <Link className="login-link" to="/auth">Login</Link>
-    <Link className="my-account-link" to="/account">My Account</Link>
-    <Link className="item-display-link" to="/item">Items</Link>
-    <Link  className="game-display-link" to="/game">Games</Link>
+  <div className='header'>
+
+    <div>
+      <div className='hexContainer'>
+        <div className="hexagon1"></div>
+        <div className="hexagon2"></div>
+        <div className="hexagon3"></div>
+      </div>
+    </div>
+
+    <nav id='navContainer'>
+      <div id="menuToggle">
+    
+        <input type="checkbox" />
+    
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <ul id="menu">
+          <li><Link className='navLink' to='/'>home</Link></li>
+          <li><Link className='navLink' to='/'>profile</Link></li>
+          <li><Link className='navLink' to='/'>account</Link></li>
+          <li><Link className='navLink' to='/'>games</Link></li>
+          {user_id ? <li><a onClick={logoutUser}>logout</a></li> : <li><Link className='navLink' to='/auth'>login</Link></li>}
+          
+        </ul>
+      </div>
+    </nav>   
   </div>
   )
 }
 
-export default Header
+export default (Header);
