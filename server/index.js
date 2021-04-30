@@ -11,18 +11,20 @@ const userInfo = require('./controllers/userInfoController');
 
 const app = express();
 
-const { CONNECTION_STRING, SERVER_PORT, SESSION_SECRET } = process.env
+const { CONNECTION_STRING, SERVER_PORT, SESSION_SECRET } = process.env;
 
 app.use(express.json());
 
-app.use(session({
-  secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24
-  }
-}))
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  }),
+);
 
 //Auth endpoints
 app.post('/api/auth/register', auth.register);
@@ -31,23 +33,25 @@ app.get('/api/auth/user', authMiddleware.authorize, auth.getUser);
 app.delete('/api/auth/logout', auth.logout);
 
 // Game endpoints
-// app.get('/api/game', game.getGames); //query for search 
+// app.get('/api/game', game.getGames); //query for search
 app.get('/api/game/ratings', game.gameAverageRatings);
 app.get('/api/game/reviews/:id', game.gameReviews);
 app.get('/api/game/players/:id', game.gamePlayers);
 app.get('/api/game/plays/:id', game.totalPlays);
 
 //UserGame endpopints
+// Add User Game will appear on the search page
 app.post('/api/usergame/add/:id', authMiddleware.authorize, userGames.addUserGame);
 app.get('/api/usergame', authMiddleware.authorize, userGames.getUserGames);
-app.get('/api/usergame/:id', authMiddleware.authorize, userGames.getUserGame);
+// app.get('/api/usergame/:id', authMiddleware.authorize, userGames.getUserGame);
+// Item display 
 app.put('/api/usergame/review', authMiddleware.authorize, userGames.updateReview);
 app.put('/api/usergame/rating', authMiddleware.authorize, userGames.updateRating);
 app.put('/api/usergame/inccount/:id', authMiddleware.authorize, userGames.incPlayCount);
 app.put('/api/usergame/deccount/:id', authMiddleware.authorize, userGames.decPlayCount);
 app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 
-// //UserInfo endpoints
+// //UserInfo endpoints -> My Account
 app.put('/api/user/name', authMiddleware.authorize, userInfo.editName);
 app.put('/api/user/email', authMiddleware.authorize, userInfo.editEmail);
 app.put('/api/user/username', authMiddleware.authorize, userInfo.editUsername);
@@ -55,19 +59,20 @@ app.put('/api/user/password', authMiddleware.authorize, userInfo.editPassword);
 app.delete('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
 
 // //Player endpoints
+// Item Display //User Graph
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
+// Game Display
 app.get('/api/player/reviews/:id', player.getPlayerReviews);
-app.get('/api/player/leaderboard', player.getAllPlayersTotalPlays)
+// Leaderboard
+app.get('/api/player/leaderboard', player.getAllPlayersTotalPlays);
 
 massive({
   connectionString: CONNECTION_STRING,
   // @ts-ignore
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
 })
-  .then(dbInstance => {
+  .then((dbInstance) => {
     app.set('db', dbInstance);
-    app.listen(SERVER_PORT, () => console.log(`DB and Server Connected to Port ${SERVER_PORT}`))
+    app.listen(SERVER_PORT, () => console.log(`DB and Server Connected to Port ${SERVER_PORT}`));
   })
-  .catch(err => console.log(err));
-
-
+  .catch((err) => console.log(err));
