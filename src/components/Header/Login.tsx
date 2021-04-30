@@ -36,16 +36,16 @@ const Login: React.FC = () => {
                 setPassword('');
             })
             .catch((err) => {
-                console.log(err);
-                if (err.data === 'email') {
+                console.log(err.response.data);
+                if (err.response.data === 'email') {
                     toast.error(
                         'An account with the email you entered already exists in our database. Please log in using your email and password or create a new account using a different email.',
                     );
-                } else if (err.data === 'username') {
+                } else if (err.response.data === 'username') {
                     toast.error(
                         'An account with the username you entered already exists in our database. Please log in using your email and password or create a new account using a different username.',
                     );
-                } else if (err.data === 'incomplete') {
+                } else if (err.response.data === 'incomplete') {
                     toast.error('Please enter at least an email, username and password to continue.');
                 } else {
                     toast.error(
@@ -61,16 +61,18 @@ const Login: React.FC = () => {
             .then((res) => {
                 const user = res.data;
                 dispatch({ type: 'UPDATE_USER', action: user });
+                setUserCreds("");
+                setLoginPassword("");
             })
             .catch((err) => {
-                console.log(err);
-                if (err.data === 'userCreds') {
+                console.log(err.response.data);
+                if (err.response.data === 'userCreds') {
                     toast.error(
                         'An account with the email or username you entered does not exist within our database. Please try again or register for an account',
                     );
-                } else if (err.data === 'password') {
+                } else if (err.response.data === 'password') {
                     toast.error('The password you entered is incorrect, please try again.');
-                } else if (err.data === 'incomplete') {
+                } else if (err.response.data === 'incomplete') {
                     toast.error('Please enter your email/username and password to continue.');
                 } else
                     toast.error(
