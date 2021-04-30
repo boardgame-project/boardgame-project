@@ -5,28 +5,37 @@ import {useDispatch} from 'react-redux';
 
 const Header: React.FC = () => {
 
-  interface User {
-    user_id: number,
-    first_name: string, 
-    last_name: string,
-    email: string
-  }
+  // interface User {
+  //   user_id: number,
+  //   first_name: string, 
+  //   last_name: string,
+  //   email: string
+  // }
 
   const dispatch = useDispatch();
 
-  const getUser = ():void => {
-    axios.get<User>('/api/auth/user') 
-    .then(res => {
-      const user = res.data
-      console.log(res.data)
-      dispatch({type: 'UPDATE_USER', action: user})
-    })  
-  };
+  // POTENTIALLY MOVE--due to when the component mounts(was in for initail front to back check)
+  // const getUser = ():void => {
+  //   axios.get<User>('/api/auth/user') 
+  //   .then(res => {
+  //     const user = res.data
+  //     console.log(res.data)
+  //     dispatch({type: 'UPDATE_USER', action: user})
+  //   })  
+  //   .catch(err => console.log(err))
+  // };
 
+  const logoutUser = ():void => {
+    axios.delete('/api/auth/logout')
+      .then(() => {
+        dispatch({type: 'LOGOUT_USER'})
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
   <div>
-    <button onClick={getUser}>getUser</button>
+    <button onClick={logoutUser}>logout</button>
     <Link className="game-library-link" to="/">Landing Page</Link>
     <Link className="login-link" to="/auth">Login</Link>
     <Link className="my-account-link" to="/account">My Account</Link>
