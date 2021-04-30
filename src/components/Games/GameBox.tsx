@@ -9,7 +9,7 @@ type Game = {
   max_players: number,
   min_age: number,
   mechanics: string,
-  categoties: string,
+  categories: string,
   description: string,
   image_url: string, 
   thumb_url: string

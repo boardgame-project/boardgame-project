@@ -1,8 +1,12 @@
 import React from 'react';
 
+
 const Hero: React.FC = () => {
 
-  return (<></>)
+  return (
+    <div className="hero">
+  </div>
+  )
 }
 
 export default Hero

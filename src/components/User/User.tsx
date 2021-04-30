@@ -1,8 +1,8 @@
 // import React, {useState, useEffect} from 'react';
 import React from 'react';
-import ItemDisplay from '../ItemDisplay/ItemDisplay';
-import MyAccount from '../MyAccount/MyAccount';
-import ShelfItem from '../ShelfItem/ShelfItem';
+import ItemDisplay from './ItemDisplay';
+import MyAccount from './MyAccount';
+import ShelfItem from './ShelfItem';
 
 
 const User: React.FC = () => {
