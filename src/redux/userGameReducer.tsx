@@ -5,17 +5,17 @@ export interface Game {
     review: string;
 }
 
-interface gameState {
+export interface GameState {
     games: Game[];
 }
 
-const initialState: gameState = {
+const initialState: GameState = {
     games: [],
 };
 
 type Actiontype = { type: 'UPDATE_GAMES'; payload: Game[] } | { type: 'CLEAR_GAMES' };
 
-export default function userReducer(state = initialState, action: Actiontype): gameState {
+export default function userReducer(state = initialState, action: Actiontype): GameState {
     switch (action.type) {
         case 'UPDATE_GAMES':
             return {
