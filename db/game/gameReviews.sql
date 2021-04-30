@@ -1,5 +1,5 @@
 SELECT
-  u.first_name,
+  u.username,
   ug.rating,
   ug.review
 FROM

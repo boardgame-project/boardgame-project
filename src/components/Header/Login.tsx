@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {ToastContainer, toast} from 'react-toastify';
 
 
 const Login: React.FC = () => {
@@ -9,55 +10,72 @@ const Login: React.FC = () => {
     firstName?: string,
     lastName?: string,
     email: string,
+    username: string, 
     password: string
   }
 
-  const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [loginEmail, setLoginEmail] = useState<string>('')
-  const [loginPassword, setLoginPassword] = useState<string>('')
+  const [username, setUsername] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loginPassword, setLoginPassword] = useState<string>('');
+  const [userCreds, setUserCreds] = useState<string>('');
 
   const dispatch = useDispatch();
 
   const register = ():void => {
-    axios.post<User>('/api/auth/register', {firstName, lastName, email, password})
+    axios.post<User>('/api/auth/register', {username, first_name:firstName, last_name:lastName, email, password})
     .then(res => {
       const user = res.data
-      // console.log(res.data)
       dispatch({type: 'UPDATE_USER', action: user})
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+    })
+    .catch(err=> {
+      if (err.data === "email") {
+        console.log(err.data)
+      toast.error('An account with the email you entered already exists in our database. Please log in using your email and password or create a new account using a different email.');
+    } else if (err.data ==="username") {
+      toast.error('An account with the username you entered already exists in our database. Please log in using your email and password or create a new account using a different username.');
+    } else {()=> toast.error("A problem was encountered while attempting to create your new account. Please try again later.")}
     })
   };
-
-  //needs to be checked
-  const registerEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(+e.key === 13) {
-      register()
-    }
-  }
 
   const login = ():void => {
-    axios.post<User>('/api/auth/login', {loginEmail, loginPassword})
+    axios.post<User>('/api/auth/login', {userCreds, password:loginPassword})
     .then(res => {
       const user = res.data
-      // console.log(res.data)
       dispatch({type: 'UPDATE_USER', action: user})
     })
+    .catch(err=> {
+      if (err.data === "userCreds"){
+        toast.error('An account with the email or username you entered does not exist within our database. Please try again or register for an account')
+      } else if (err.data ==="Password"){
+        toast.error('The password you entered is incorrect, please try again.')
+      } else (()=> toast.error('There was an error while attempting to log you in to your account. Please try again later.'))
+    })
   };
-
-  //needs to be checked
-  const loginEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(+e.key === 13) {
-      login()
-    }
-  }
 
 
   return (
+    <>
+    <ToastContainer/>
     <div className='loginContainer'>
-      <form className='register'>
+      <form onSubmit = {(e: React.SyntheticEvent) => {
+        e.preventDefault()
+        register()
+        }} className='register'>
         <h3>register</h3>
+        <label htmlFor='username'>username:</label>
+        <input
+          id='username'
+          value={username} 
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement>,
+            ): void => setUsername(e.target.value)}/>
         <label htmlFor='firstName'>first name:</label>
         <input
           id='firstName'
@@ -86,19 +104,21 @@ const Login: React.FC = () => {
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
             ): void => setPassword(e.target.value)}
-            onKeyPress={registerEnterPress}
             />
-          <button onClick={register} type='submit'>register</button>
+          <button>register</button>
       </form>
-      <form> 
+      <form onSubmit={(e:React.SyntheticEvent)=> {
+        e.preventDefault()
+        login()
+        }}> 
         <h3>login</h3>
         <label htmlFor='loginEmail'>email:</label>
         <input
           id='loginEmail'
-          value={loginEmail} 
+          value={userCreds} 
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
-            ): void => setLoginEmail(e.target.value)}/>
+            ): void => setUserCreds(e.target.value)}/>
         <label htmlFor='loginPassword'>password:</label>
         <input
           id='loginPassword'
@@ -106,11 +126,11 @@ const Login: React.FC = () => {
           onChange={(
             e: React.ChangeEvent<HTMLInputElement>,
             ): void => setLoginPassword(e.target.value)}
-            onKeyPress={loginEnterPress}
             />
-          <button onClick={login} type='submit'>login</button>
+          <button>login</button>
       </form>
-    </div>)
+    </div>
+    </>)
 }
 
 export default Login

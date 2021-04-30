@@ -27,7 +27,7 @@ app.use(session({
 //Auth endpoints
 app.post('/api/auth/register', auth.register);
 app.post('/api/auth/login', auth.login);
-app.get('/api/auth/user', auth.getUser);
+app.get('/api/auth/user', authMiddleware.authorize, auth.getUser);
 app.delete('/api/auth/logout', auth.logout);
 
 // Game endpoints
@@ -50,8 +50,9 @@ app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 // //UserInfo endpoints
 app.put('/api/user/name', authMiddleware.authorize, userInfo.editName);
 app.put('/api/user/email', authMiddleware.authorize, userInfo.editEmail);
+app.put('/api/user/username', authMiddleware.authorize, userInfo.editUsername);
 app.put('/api/user/password', authMiddleware.authorize, userInfo.editPassword);
-app.delete('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser)
+app.delete('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
 
 // //Player endpoints
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
