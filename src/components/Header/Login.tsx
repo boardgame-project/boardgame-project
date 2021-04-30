@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {ToastContainer, toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Login: React.FC = () => {
@@ -40,6 +40,8 @@ const Login: React.FC = () => {
       toast.error('An account with the email you entered already exists in our database. Please log in using your email and password or create a new account using a different email.');
     } else if (err.data ==="username") {
       toast.error('An account with the username you entered already exists in our database. Please log in using your email and password or create a new account using a different username.');
+    } else if (err.data ==="incomplete") {
+      toast.error("Please enter at least an email, username and password to continue.")
     } else {()=> toast.error("A problem was encountered while attempting to create your new account. Please try again later.")}
     })
   };
@@ -53,9 +55,11 @@ const Login: React.FC = () => {
     .catch(err=> {
       if (err.data === "userCreds"){
         toast.error('An account with the email or username you entered does not exist within our database. Please try again or register for an account')
-      } else if (err.data ==="Password"){
+      } else if (err.data ==="password"){
         toast.error('The password you entered is incorrect, please try again.')
-      } else (()=> toast.error('There was an error while attempting to log you in to your account. Please try again later.'))
+      } else if (err.data ==="incomplete") {
+        toast.error("Please enter your email/username and password to continue.")
+      } else (toast.error('There was an error while attempting to log you in to your account. Please try again later.'))
     })
   };
 

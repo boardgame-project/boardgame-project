@@ -22,12 +22,12 @@ module.exports = {
                 return res.status(200).send(newUser);
               } catch (err) { console.log(err) }
             } else {
-              return res.sendStatus(403);
+              return res.status(400).send("username");
             }
           } catch (err) { res.sendStatus(500) }
         } else { return res.status(400).send("email") }
       } catch (err) { res.sendStatus(500) }
-    } else { return res.status(400).send("password") }
+    } else { return res.status(400).send("incomplete") }
   },
   login: async (req, res) => {
     const db = req.app.get('db');
@@ -47,7 +47,7 @@ module.exports = {
           }
         } else { return res.status(404).send("userCreds") }
       } catch (err) { res.sendStatus(500) }
-    } else { res.sendStatus(400) }
+    } else { res.status(400).send("incomplete") }
   },
 
   logout: async (req, res) => {
