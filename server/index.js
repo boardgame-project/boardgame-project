@@ -7,7 +7,7 @@ const auth = require('./controllers/authController');
 const game = require('./controllers/gameController');
 const player = require('./controllers/playerController');
 const userGames = require('./controllers/userGamesController');
-// const userInfo = require('./controllers/userInfoController');
+const userInfo = require('./controllers/userInfoController');
 
 const app = express();
 
@@ -23,7 +23,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24
   }
 }))
-
 
 //Auth endpoints
 app.post('/api/auth/register', auth.register);
@@ -49,21 +48,19 @@ app.put('/api/usergame/deccount/:id', authMiddleware.authorize, userGames.decPla
 app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 
 // //UserInfo endpoints
-// app.get('/api/user', authMiddleware.authorize,userInfo.getUser);
-// app.put('/api/user/name', authMiddleware.authorize,userInfo.editName);
-// app.put('/api/user/email',authMiddleware.authorize, userInfo.editEmail);
-// app.put('/api/user/password', authMiddleware.authorize, userInfo.editPassword); //needs bcryptjs added into this controller file
+app.put('/api/user/name', authMiddleware.authorize, userInfo.editName);
+app.put('/api/user/email', authMiddleware.authorize, userInfo.editEmail);
+app.put('/api/user/password', authMiddleware.authorize, userInfo.editPassword);
+app.delete('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser)
 
 // //Player endpoints
-
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
 app.get('/api/player/reviews/:id', player.getPlayerReviews);
 app.get('/api/player/leaderboard', player.getAllPlayersTotalPlays)
 
-
-
 massive({
   connectionString: CONNECTION_STRING,
+  // @ts-ignore
   ssl: { rejectUnauthorized: false }
 })
   .then(dbInstance => {
