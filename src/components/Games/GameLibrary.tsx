@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-
+import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
 
@@ -44,6 +44,7 @@ const GameLibrary: React.FC = () => {
 
   return (
   <div className='gameLibrary'>
+    <Hero />
     <SearchBar/>
     {mappedGames}
   </div>)
