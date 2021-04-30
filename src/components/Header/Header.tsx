@@ -36,24 +36,35 @@ const Header: React.FC = () => {
   return (
   <div className='header'>
 
-<nav role="navigation">
-  <div id="menuToggle">
-    
-    <input type="checkbox" />
-    
-    <span></span>
-    <span></span>
-    <span></span>
 
-    <ul id="menu">
-      <li><Link className='navLink' to='/'>home</Link></li>
-      <li><Link className='navLink' to='/'>profile</Link></li>
-      <li><Link className='navLink' to='/'>account</Link></li>
-      <li><Link className='navLink' to='/'>games</Link></li>
-      <li><Link className='navLink' to='/'>login/logout</Link></li>
-    </ul>
-  </div>
-</nav>
+
+    <div>
+      <div className='hexContainer'>
+        <div className="hexagon1"></div>
+        <div className="hexagon2"></div>
+        <div className="hexagon3"></div>
+      </div>
+    </div>
+
+    <nav id='navContainer'>
+      <div id="menuToggle">
+    
+        <input type="checkbox" />
+    
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <ul id="menu">
+          <li><Link className='navLink' to='/'>home</Link></li>
+          <li><Link className='navLink' to='/'>profile</Link></li>
+          <li><Link className='navLink' to='/'>account</Link></li>
+          <li><Link className='navLink' to='/'>games</Link></li>
+          <li><Link className='navLink' to='/'>login/logout</Link></li>
+        </ul>
+      </div>
+    </nav>   
+
     {/* <button onClick={logoutUser}>logout</button>
     <Link className="game-library-link" to="/">Landing Page</Link>
     <Link className="login-link" to="/auth">Login</Link>

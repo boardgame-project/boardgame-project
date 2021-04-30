@@ -1,13 +1,67 @@
 .header {
-    height: 20vh;
-    width: 100%;
+    height: 10vh;
+    width: 100vw;
     background-color: $base-color;
+    overflow: hidden;
 }
+
+.hexContainer {
+    display: inline-block;
+    margin-left: 55px;
+    margin-top: 35px;
+    transition: 800ms ease-in-out;
+    cursor: pointer;
+}
+
+@mixin hexagon {
+    width: 39.5px;
+    height: 21px;
+    background: transparent;
+    border: 1.75px solid #222222;
+    border-radius: 1px;
+    position: absolute;
+    transition: 800ms ease-in-out;
+}
+
+.hexagon1 {
+    @include hexagon();
+}
+
+.hexagon2 {
+    @include hexagon();
+    transform: rotate(60deg);
+}
+
+.hexagon3 {
+    @include hexagon();
+    transform: rotate(120deg);
+}
+
+.hexContainer:hover .hexagon1 {
+    transition: 800ms ease-in-out;
+    transform: rotate(180deg);
+}
+
+.hexContainer:hover .hexagon2 {
+    transition: 800ms ease-in-out;
+    transform: rotate(300deg);
+}
+
+.hexContainer:hover .hexagon3 {
+    transition: 800ms ease-in-out;
+    transform: rotate(600deg);
+}
+
+// #navContainer {
+//     width: 100px;
+//     height: 200px;
+//     overflow: hidden;
+// }
 
 #menuToggle {
     display: block;
     position: absolute;
-    top: 50px;
+    top: 40px;
     right: 60px;
     z-index: 1;
     -webkit-user-select: none;
@@ -17,7 +71,7 @@
 #menuToggle .navLink {
     color: #232323;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.5s ease;
 }
 
 #menuToggle .navLink:hover {
@@ -34,7 +88,6 @@
     cursor: pointer;
     opacity: 0;
     z-index: 2;
-    -webkit-touch-callout: none;
 }
 
 #menuToggle span {
@@ -77,7 +130,7 @@
 #menu {
     position: absolute;
     width: 150px;
-    margin: -100px 0 0 -80px;
+    margin: -100px 0 0 -65px;
     padding: 30px;
     padding-top: 125px;
     background: #bebdbd;
