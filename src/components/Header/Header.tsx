@@ -1,18 +1,22 @@
 import React from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+
+
+// interface StateUser {
+//   user_id: number,
+//   first_name: string, 
+//   last_name: string,
+//   email: string
+// }
 
 const Header: React.FC = () => {
 
-  // interface User {
-  //   user_id: number,
-  //   first_name: string, 
-  //   last_name: string,
-  //   email: string
-  // }
+  const user_id = useSelector((state: RootState) => state.userReducer.user_id) 
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // POTENTIALLY MOVE--due to when the component mounts(was in for initail front to back check)
   // const getUser = ():void => {
@@ -25,18 +29,16 @@ const Header: React.FC = () => {
   //   .catch(err => console.log(err))
   // };
 
-  // const logoutUser = ():void => {
-  //   axios.delete('/api/auth/logout')
-  //     .then(() => {
-  //       dispatch({type: 'LOGOUT_USER'})
-  //     })
-  //     .catch(err => console.log(err))
-  // }
+  const logoutUser = ():void => {
+    axios.delete('/api/auth/logout')
+      .then(() => {
+        dispatch({type: 'LOGOUT_USER'})
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
   <div className='header'>
-
-
 
     <div>
       <div className='hexContainer'>
@@ -60,19 +62,13 @@ const Header: React.FC = () => {
           <li><Link className='navLink' to='/'>profile</Link></li>
           <li><Link className='navLink' to='/'>account</Link></li>
           <li><Link className='navLink' to='/'>games</Link></li>
-          <li><Link className='navLink' to='/'>login/logout</Link></li>
+          {user_id ? <li><a onClick={logoutUser}>logout</a></li> : <li><Link className='navLink' to='/'>login</Link></li>}
+          
         </ul>
       </div>
     </nav>   
-
-    {/* <button onClick={logoutUser}>logout</button>
-    <Link className="game-library-link" to="/">Landing Page</Link>
-    <Link className="login-link" to="/auth">Login</Link>
-    <Link className="my-account-link" to="/account">My Account</Link>
-    <Link className="item-display-link" to="/item">Items</Link>
-    <Link  className="game-display-link" to="/game">Games</Link> */}
   </div>
   )
 }
 
-export default Header
+export default (Header);
