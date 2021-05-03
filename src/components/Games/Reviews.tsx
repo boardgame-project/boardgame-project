@@ -13,6 +13,7 @@ const defaultReviews: Reviews = {
 const Reviews: React.FC<Reviews> = (): JSX.Element => {
 
 const [reviews, setReviews] = useState(defaultReviews)
+const [gameid, setGameId] = useState(defaultReviews)
 
 
 const getReviews = ():void => {
@@ -27,44 +28,52 @@ const getReviews = ():void => {
 useEffect(():void => {
   console.log('component mounted')
   getReviews();
-}, [])
+}, [setGameId])
 
-// const keys = Object.keys(reviews) as Array<keyof Reviews>;
 
-const mappedReviews = useState((elem: Reviews, id: number) => {
-  return (
-    <div key={id}>
-    <div >{elem.review}</div>
-    </div>
-    )
-  })
+// const mappedReviews = Object.values(reviews).map(reviews => {
+//   return (
+//     <div key={reviews}>
+//     <div >{reviews}</div>
+//     </div>
+//     )
+//   })
   
 const handleSubmit = (e: FormEvent<HTMLFormElement> ): void => {
       e.preventDefault();
-    };
-
-  const onReviewChange = <P extends keyof Reviews>(prop: P, value: Reviews[P]) => {
-        setReviews({ ...reviews, [prop]: value });
+};
+const onReviewChange = <P extends keyof Reviews>(prop: P, value: Reviews[P]) => 
+{
+      setReviews({...reviews, [prop]: value});
       };
-      
+const onGameIdChange = <T extends keyof Reviews>(prop: T, value: Reviews[T]) => 
+  {
+    setGameId({...gameid, [prop]: value});
+};
+
+  
 
   return (
   <div>
     Reviews:
-    {mappedReviews}
+    {/* {mappedReviews} */}
     <form
     onSubmit={(e) => handleSubmit(e)}
     >
     <h1>Enter Review:</h1>
     <label>Game ID</label>
-    <div>{reviews.game_id}</div>
-    <label>REVIEW</label>
+    <input
+    onChange={e=>{onGameIdChange('game_id', e.target.value)}}
+    value={reviews.game_id}
+    name="game_id"
+    />
       <textarea
       value={reviews.review || ""}
       name='review'
       placeholder="Write a Review!"
-      onChange={(e)=>{onReviewChange('review', e.target.value)}}/>
-      <button >Enter</button>
+      onChange={(e)=>{onReviewChange('review', e.target.value)}}
+      />
+      <button>Enter</button>
       </form>
   </div>
   )
