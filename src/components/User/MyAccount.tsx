@@ -6,10 +6,10 @@ const MyAccount: React.FC = () => {
 
     // const [editToggle, setEditToggle] = useState(true);
 
-    //   '/api/user/name'
+    // '/api/user/name'
     // '/api/user/email'
     // '/api/user/username'
-    // /api/user/password'
+    // '/api/user/password'
     // '/api/user/delete'
 
     return <></>;
