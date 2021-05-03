@@ -19,7 +19,6 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     
-
     const user = useSelector((state: RootState) => state.userReducer)
 
     useEffect((): void => {

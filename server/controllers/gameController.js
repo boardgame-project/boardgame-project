@@ -1,6 +1,6 @@
-// require('dotenv').config();
-// const { CLIENT_ID, CLIENT_SECRET } = process.env;
-// const axios = require('axios');
+require('dotenv').config();
+const { CLIENT_ID, CLIENT_SECRET } = process.env;
+const axios = require('axios');
 
 
 module.exports = {
@@ -34,13 +34,21 @@ module.exports = {
     }
   },
   totalPlays: async (req, res) => {
+    const db = req.app.get('db');
+    const gameID = req.params.id
     try {
-      const db = req.app.get('db');
-      const gameID = req.params.id
       const plays = await db.game.gameTotalPlays(gameID)
       return res.status(200).send(plays[0])
     } catch (err) {
       return res.sendStatus(500)
     }
   },
+  getGames: async (req, res) => {
+    const db = req.app.get('db');
+    try {
+
+    } catch (err) {
+      return res.sendStatus(500)
+    }
+  }
 }
