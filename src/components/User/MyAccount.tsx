@@ -4,7 +4,7 @@ import axios from 'axios';
 import {RootState} from '../../redux/store';
 import {RouteComponentProps} from 'react-router-dom'
 
-const MyAccount: React.FC = (props: RouteComponentProps<void>) => {
+const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     
     const [isEditingUsername, setIsEditingUsername] = useState<boolean>(false);
     const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
