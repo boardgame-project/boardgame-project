@@ -3,49 +3,56 @@ import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
+const { CLIENT_ID } = process.env;
 
 
 const GameLibrary: React.FC = () => {
 
-  type Game = {
-    game_id: string,
-    name: string, 
-    year_published: string, 
-    min_players: number,
-    max_players: number,
-    min_age: number,
-    mechanics: string,
-    categories: string,
-    description: string,
-    image_url: string, 
-    thumb_url: string
+
+  type gameRatings = [{
+    game_id:string,
+    average_rating: number
+  }]
+
+  type thumbnailGame = {
+    
   }
 
-  const [games, setGames] = useState([]);
+  
+  const [ratings, setGameRatings] = useState([{game_id:"",
+    average_rating: 0}]);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  useEffect(():void => {
-    getGames()
-  });
+  useEffect(() => {
+    getGameRatings();
+  },[]);
 
-  const getGames = ():void => {
-    axios.get('/api/game')
+  const getGameRatings = async ():Promise<void> => {
+    await axios.get('/api/game/ratings')
     .then(res => {
-      const gamesArray = res.data
+      const ratingsArray:gameRatings = res.data
       console.log(res.data)
-      setGames(gamesArray)
-    }).catch(err => console.log(err))
+      setGameRatings(ratingsArray)
+    })
   };
+
+
+  const getAPIGames = async (searchEntry:string, mechanicsSelections:string[], categoriesSelections:string[], itemsPerPage:string):Promise<void> => {
+    const skip = Number.parseInt(itemsPerPage)*currentPage; 
+    axios.get(`https://api.boardgameatlas.com/api/search?limit=fuzzy_match=true&name=${encodeURI(searchEntry)}&mechanics=${mechanicsSelections.join(',')}&categories=${categoriesSelections.join(',')}&limit=${itemsPerPage}&skip=${skip.toString()}client_id=${CLIENT_ID}`)
+    .then()
+  }
 
   const mappedGames = games.map((elem: Game, id: number) => {
     return <div key={id}>
-      <GameBox {...elem}></GameBox>
+      <GameBox {...elem, ...{ratings}}></GameBox>
     </div>
   })
 
   return (
   <div className='gameLibrary'>
     <Hero />
-    <SearchBar/>
+    <SearchBar getAPIGames={getAPIGames}/>
     {mappedGames}
   </div>)
 }

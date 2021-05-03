@@ -42,13 +42,5 @@ module.exports = {
     } catch (err) {
       return res.sendStatus(500)
     }
-  },
-  getGames: async (req, res) => {
-    const db = req.app.get('db');
-    try {
-
-    } catch (err) {
-      return res.sendStatus(500)
-    }
   }
 }
