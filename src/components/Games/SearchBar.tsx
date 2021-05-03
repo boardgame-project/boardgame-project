@@ -49,18 +49,21 @@ const SearchBar: React.FC<searchProps> = (props:searchProps) => {
         default:
           break
       }
-    }
-
+    };
 
     const mechanicsCheckboxMaker = async () => {
       await axios
           .get(`https://api.boardgameatlas.com/api/game/mechanics?client_id=${CLIENT_ID}`)
           .then((res)=> {
             mechanicsCheckboxes = res.data.mechanics.map((option:option, ind:number) => {
-              return (<input type="checkbox" key={`mechanic${ind}`} value={option.id} onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
+              return (
+              <div key={`mechanic${ind}`}>
+              <label htmlFor={`mechanic${ind}`}>{option.name}</label>
+              <input type="checkbox" id={`mechanic${ind}`} value={option.id} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
                 checkToggler("mechanics", e.target.value)
                 props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage)
-              }}>{option.name}</input>);
+              }}>{option.name}</input>
+              </div>);
             });
           });
         };
@@ -70,10 +73,14 @@ const SearchBar: React.FC<searchProps> = (props:searchProps) => {
       .get(`https://api.boardgameatlas.com/api/game/categories?client_id=${CLIENT_ID}`)
       .then((res)=> {
         categoriesCheckboxes = res.data.categories.map((option:option, ind:number)=> {
-          return (<input type="checkbox" key={`category${ind}`} value={option.id} onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+          return (
+          <div key={`category${ind}`}>
+          <label htmlFor={`category${ind}`}>{option.name}</label>
+          <input type="checkbox"  id={`category${ind}`} value={option.id} onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
             checkToggler("category",e.target.value)
             props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage)
-          }}>{option.name}</input>);
+          }}>{option.name}</input>
+          </div>);
         }); 
       })
     }; 

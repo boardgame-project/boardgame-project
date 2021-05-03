@@ -12,16 +12,19 @@ const GameLibrary: React.FC = () => {
   type gameRatings = [{
     game_id:string,
     average_rating: number
-  }]
+  }];
 
-  type thumbnailGame = {
-    
-  }
+  type thumbGame = {
+    game_id: string,
+    name: string, 
+    thumb_url: string,
+    avgRating: number
+  }; 
 
   
-  const [ratings, setGameRatings] = useState([{game_id:"",
-    average_rating: 0}]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [gRatings, setGameRatings] = useState<gameRatings>([{game_id:"", average_rating:0}]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchResults, setSearchResults] = useState<thumbGame[]>([])
 
   useEffect(() => {
     getGameRatings();
@@ -39,13 +42,20 @@ const GameLibrary: React.FC = () => {
 
   const getAPIGames = async (searchEntry:string, mechanicsSelections:string[], categoriesSelections:string[], itemsPerPage:string):Promise<void> => {
     const skip = Number.parseInt(itemsPerPage)*currentPage; 
-    axios.get(`https://api.boardgameatlas.com/api/search?limit=fuzzy_match=true&name=${encodeURI(searchEntry)}&mechanics=${mechanicsSelections.join(',')}&categories=${categoriesSelections.join(',')}&limit=${itemsPerPage}&skip=${skip.toString()}client_id=${CLIENT_ID}`)
-    .then()
+    await axios.get(`https://api.boardgameatlas.com/api/search?limit=fuzzy_match=true&name=${encodeURI(searchEntry)}&mechanics=${mechanicsSelections.join(',')}&categories=${categoriesSelections.join(',')}&limit=${itemsPerPage}&skip=${skip.toString()}&fields=game_id,name,thumb_url&client_id=${CLIENT_ID}`)
+    .then(res => {
+      const apiGames:thumbGame[] = res.data.games
+      apiGames.forEach((game, ind)=> {
+        gRatings.forEach((rating)=> game.game_id === rating.game_id ? apiGames[ind].avgRating = rating.average_rating : apiGames[ind].avgRating = 0)
+      })
+      setSearchResults(apiGames);
+    })
   }
 
-  const mappedGames = games.map((elem: Game, id: number) => {
+  const mappedGames = searchResults.map((elem: thumbGame, id: number) => {
+
     return <div key={id}>
-      <GameBox {...elem, ...{ratings}}></GameBox>
+      <GameBox {...elem}></GameBox>
     </div>
   })
 
@@ -54,6 +64,8 @@ const GameLibrary: React.FC = () => {
     <Hero />
     <SearchBar getAPIGames={getAPIGames}/>
     {mappedGames}
+    <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage+1)}></div>
+    <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage-1)}></div>
   </div>)
 }
 

@@ -2,17 +2,6 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 const {CLIENT_ID} = process.env;
 
-type apiGame = {
-  year_published: number, 
-  min_players: number,
-  max_players: number,
-  min_age: number,
-  mechanics: string,
-  categories: string,
-  description: string,
-  image_url: string, 
-}
-
 type Review = {
   game_id: string,
   review: string
@@ -22,7 +11,8 @@ type Review = {
 type thumbGame = {
   game_id: string,
   name: string, 
-  thumb_url: string
+  thumb_url: string,
+  avgRating: number
 } 
 
 const GameDisplay: React.FC<thumbGame> = (props: thumbGame):JSX.Element => {
@@ -63,8 +53,6 @@ useEffect(():void => {
      setCategories( res.data.games[0].image_url)
      setDescription( res.data.games[0].mechanics)
      setImageUrl( res.data.games[0].categories)
-    axios.get(`https://api.boardgameatlas.com/api/game/mechanics?client_id=${CLIENT_ID}`)
-
     })
   }
 
@@ -83,13 +71,13 @@ useEffect(():void => {
       {/* <div className="game-rating"></div> */}
     </div>
     {/* <div className="game-reviews">{props.reviews}</div> */}
-    <img src={image_url} className="game-images" alt={props.name}/>
-    <p>{year_published}</p>
+    <img src={imageUrl} className="game-images" alt={props.name}/>
+    <p>{yearPublished}</p>
     <p>{categories}</p>
     <p>{mechanics}</p>
-    <p>{min_players}</p>
-    <p>{max_players}</p>
-    <p>{min_age}</p>
+    <p>{minPlayers}</p>
+    <p>{maxPlayers}</p>
+    <p>{minAge}</p>
     {mappedReviews}
   </div>
   
