@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {RootState} from '../../redux/store';
+import {RouteComponentProps} from 'react-router-dom'
 
-const MyAccount: React.FC = () => {
+const MyAccount: React.FC = (props: RouteComponentProps<void>) => {
     
     const [isEditingUsername, setIsEditingUsername] = useState<boolean>(false);
     const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
@@ -28,10 +29,10 @@ const MyAccount: React.FC = () => {
     const captureCurrentUser= ():void => {
         setUsername(user.username)
         setEmail(user.email)
-        setPassword(user.password)
+        setPassword(password)
         setFirstName(user.first_name)
         setLastName(user.last_name)
-    }
+    };
 
     const toggleEditUsername = ():void => {
         setIsEditingUsername(!isEditingUsername)
@@ -54,21 +55,48 @@ const MyAccount: React.FC = () => {
     };
 
     const saveChanges = (param: string):void => {
-        axios.put(`api/user/${param}`)
-    }
+        let body = null
+        switch (param){
+            case 'username':
+                body = {username: username}
+                break
+            case 'email':
+                body = {email: email}
+                break
+            case 'password':
+                body = {password: password}
+                break
+            case 'firstname':
+                body = {first_name: firstName}
+                break
+            case 'lastname':
+                body = {last_name: lastName}
+                break
+        }
+        axios.put(`api/user/${param}`, body)
+        .then(res => {
+            console.log(res)
+            setIsEditingUsername(false)
+            setIsEditingEmail(false)
+            setIsEditingPassword(false)
+            setIsEditingFirstName(false)
+            setIsEditingLastName(false)
+        })
+        .catch(err => console.log(err))
+    };
 
     const confirmDelete = ():void => {
         axios.delete('/api/user/delete')
-        .then(res => {
-            console.log(res)
+        .then(():void => {
+            props.history.push('/')
         })
         .catch(err => console.log(err))
-    }
+    };
 
     const cancelChanges = ():void => {
         setUsername(user.username)
         setEmail(user.email)
-        setPassword(user.password)
+        setPassword(password)
         setFirstName(user.first_name)
         setLastName(user.last_name)
     };
@@ -91,7 +119,7 @@ const MyAccount: React.FC = () => {
                     <button onClick={():void => saveChanges('username')}>save</button>
                     <button onClick={():void => cancelChanges()}>cancel</button>
                 </form>}
-                {!isEditingEmail ?
+            {!isEditingEmail ?
                 <section>
                     <p>email: {email}</p>
                     <button onClick={toggleEditEmail}>edit</button>
@@ -105,7 +133,7 @@ const MyAccount: React.FC = () => {
                     <button onClick={():void => saveChanges('email')}>save</button>
                     <button onClick={():void => cancelChanges()}>cancel</button>
                 </form>} 
-                {!isEditingPassword ?
+            {!isEditingPassword ?
                 <section>
                     <p>password: {password}</p>
                     <button onClick={toggleEditPassword}>edit</button>
@@ -119,7 +147,7 @@ const MyAccount: React.FC = () => {
                     <button onClick={():void => saveChanges('password')}>save</button>
                     <button onClick={():void => cancelChanges()}>cancel</button>
                 </form>} 
-                {!isEditingFirstName ?
+            {!isEditingFirstName ?
                 <section>
                     <p>first name: {firstName}</p>
                     <button onClick={toggleEditFirstName}>edit</button>
@@ -133,7 +161,7 @@ const MyAccount: React.FC = () => {
                     <button onClick={():void => saveChanges('firstname')}>save</button>
                     <button onClick={():void => cancelChanges()}>cancel</button>
                 </form>} 
-                {!isEditingLastName ?
+            {!isEditingLastName ?
                 <section>
                     <p>last name: {lastName}</p>
                     <button onClick={toggleEditLastName}>edit</button>
@@ -147,7 +175,7 @@ const MyAccount: React.FC = () => {
                     <button onClick={():void => saveChanges('lastname')}>save</button>
                     <button onClick={():void => cancelChanges()}>cancel</button>
                 </form>} 
-                {!isDeleting ?
+            {!isDeleting ?
                 <button onClick={toggleDelete}>delete</button> :
                 <div>
                     <p>Are you sure you want to delete your account?</p>
