@@ -33,7 +33,7 @@ app.get('/api/auth/user', authMiddleware.authorize, auth.getUser);
 app.delete('/api/auth/logout', auth.logout);
 
 // Game endpoints
-// app.get('/api/game', game.getGames); //query for search
+app.get('/api/game', game.getGames);
 app.get('/api/game/ratings', game.gameAverageRatings);
 app.get('/api/game/reviews/:id', game.gameReviews);
 app.get('/api/game/players/:id', game.gamePlayers);
@@ -52,11 +52,8 @@ app.put('/api/usergame/deccount/:id', authMiddleware.authorize, userGames.decPla
 app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 
 // //UserInfo endpoints -> My Account
-app.put('/api/user/name', authMiddleware.authorize, userInfo.editName);
-app.put('/api/user/email', authMiddleware.authorize, userInfo.editEmail);
-app.put('/api/user/username', authMiddleware.authorize, userInfo.editUsername);
-app.put('/api/user/password', authMiddleware.authorize, userInfo.editPassword);
-app.delete('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
+app.put('/api/user/:editType', authMiddleware.authorize, userInfo.editInfo);
+app.put('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
 
 // //Player endpoints
 // Item Display //User Graph
