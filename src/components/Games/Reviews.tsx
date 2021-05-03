@@ -3,12 +3,16 @@ import axios from 'axios';
 
 type Reviews = {
   game_id?: string;
-  review?: string;
-  
+  review?: string | null;
+}
+
+const defaultReviews: Reviews = {
+  game_id:"",
+  review:"",
 }
 const Reviews: React.FC<Reviews> = (): JSX.Element => {
 
-const [reviews, setReviews] = useState([])
+const [reviews, setReviews] = useState(defaultReviews)
 
 
 const getReviews = ():void => {
@@ -25,11 +29,12 @@ useEffect(():void => {
   getReviews();
 }, [])
 
-const mappedReviews = reviews.map((elem: Reviews, id: number) => {
+// const keys = Object.keys(reviews) as Array<keyof Reviews>;
+
+const mappedReviews = useState((elem: Reviews, id: number) => {
   return (
     <div key={id}>
     <div >{elem.review}</div>
-    <div >{elem.game_id}</div>
     </div>
     )
   })
@@ -37,17 +42,11 @@ const mappedReviews = reviews.map((elem: Reviews, id: number) => {
 const handleSubmit = (e: FormEvent<HTMLFormElement> ): void => {
       e.preventDefault();
     };
-//  const handleChange = (e: FormEvent<HTMLFormElement> ): void => {
-//       setReviews({
-//           reviews: e.currentTarget.value //Error : property 'value' does not exist on type 'EventTarget'
-//       });
-//   }
 
-  // const onReviewChange = <P extends keyof Reviews>(prop: P, value: Reviews[P]) => {
-  //       setReviews({ ...reviews, [prop]: value });
-  //     };
+  const onReviewChange = <P extends keyof Reviews>(prop: P, value: Reviews[P]) => {
+        setReviews({ ...reviews, [prop]: value });
+      };
       
-// setReviews([]);
 
   return (
   <div>
@@ -56,22 +55,16 @@ const handleSubmit = (e: FormEvent<HTMLFormElement> ): void => {
     <form
     onSubmit={(e) => handleSubmit(e)}
     >
-    Enter Review:
+    <h1>Enter Review:</h1>
     <label>Game ID</label>
-      <input
-      name="game-id"
-      placeholder="game ID!"
-      // onChange={(e)=> handleSubmit(e.target.value)}
-    
-      />
+    <div>{reviews.game_id}</div>
     <label>REVIEW</label>
       <textarea
-      name='reviewTxt'
+      value={reviews.review || ""}
+      name='review'
       placeholder="Write a Review!"
-      // onChange={(e)=>{onReviewChange('review', e.target.value)}}
-
-      />
-      <button>Enter</button>
+      onChange={(e)=>{onReviewChange('review', e.target.value)}}/>
+      <button >Enter</button>
       </form>
   </div>
   )
