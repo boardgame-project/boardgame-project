@@ -1,12 +1,39 @@
-.hero {
+.heroContainer {
     position: relative;
-    width: 100%;
-    height: 100vh;
+    width: 100vw;
+    height: 40vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.hero::before {
+.heroText {
+    background: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 2px;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    -moz-backdrop-filter: blur(3px);
+
+    h1 {
+        font-family: $font-heading;
+        font-size: 3.75rem;
+    }
+    p {
+        font-family: $font-main;
+        font-size: 1rem;
+    }
+}
+.heroPic {
+    position: absolute;
+    width: 100%;
+    height: 40vh;
+    z-index: -1;
+}
+.heroPic::before {
     content: '';
     position: absolute;
     top: 0;
@@ -17,5 +44,22 @@
     background-repeat: no repeat;
     background-size: cover;
     background-position: center center;
-    filter: brightness(60%);
+    // filter: brightness(60%);
+}
+
+@media (min-width: $bp-mobile) {
+    .heroContainer {
+        height: 60vh;
+    }
+    .heroPic {
+        height: 60vh;
+    }
+    .heroText {
+        h1 {
+            font-size: 4.75rem;
+        }
+        p {
+            font-size: 1.3rem;
+        }
+    }
 }
