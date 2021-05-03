@@ -99,30 +99,35 @@ const Login: React.FC = () => {
                         value={username}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}
                     />
+                    <br></br>
                     <label htmlFor="firstName">first name:</label>
                     <input
                         id="firstName"
                         value={firstName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
                     />
+                    <br></br>
                     <label htmlFor="lastName">last name:</label>
                     <input
                         id="lastName"
                         value={lastName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}
                     />
+                    <br></br>
                     <label htmlFor="email">email:</label>
                     <input
                         id="email"
                         value={email}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}
                     />
+                    <br></br>
                     <label htmlFor="password">password:</label>
                     <input
                         id="password"
                         value={password}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)}
                     />
+                    <br></br>
                     <button>register</button>
                 </form>
                 <form
@@ -130,6 +135,7 @@ const Login: React.FC = () => {
                         e.preventDefault();
                         login();
                     }}
+                    className='login'
                 >
                     <h3>login</h3>
                     <label htmlFor="loginEmail">email:</label>
@@ -138,12 +144,14 @@ const Login: React.FC = () => {
                         value={userCreds}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUserCreds(e.target.value)}
                     />
+                    <br></br>
                     <label htmlFor="loginPassword">password:</label>
                     <input
                         id="loginPassword"
                         value={loginPassword}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLoginPassword(e.target.value)}
                     />
+                    <br></br>
                     <button>login</button>
                 </form>
             </div>

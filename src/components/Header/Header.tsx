@@ -41,11 +41,13 @@ const Header: React.FC = () => {
   <div className='header'>
 
     <div>
-      <div className='hexContainer'>
-        <div className="hexagon1"></div>
-        <div className="hexagon2"></div>
-        <div className="hexagon3"></div>
-      </div>
+      <Link to='/'>
+        <div className='hexContainer'>
+          <div className="hexagon1"></div>
+          <div className="hexagon2"></div>
+          <div className="hexagon3"></div>
+        </div>
+      </Link>
     </div>
 
     <nav id='navContainer'>
@@ -59,9 +61,9 @@ const Header: React.FC = () => {
 
         <ul id="menu">
           <li><Link className='navLink' to='/'>home</Link></li>
-          <li><Link className='navLink' to='/'>profile</Link></li>
-          <li><Link className='navLink' to='/'>account</Link></li>
-          <li><Link className='navLink' to='/'>games</Link></li>
+          <li><Link className='navLink' to='/user'>profile</Link></li>
+          <li><Link className='navLink' to='/account'>account</Link></li>
+          <li><Link className='navLink' to='/game'>games</Link></li>
           {user_id ? <li><a onClick={logoutUser}>logout</a></li> : <li><Link className='navLink' to='/auth'>login</Link></li>}
           
         </ul>

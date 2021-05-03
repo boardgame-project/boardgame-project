@@ -1,5 +1,5 @@
 .header {
-    height: 10vh;
+    height: 93px;
     width: 100vw;
     background-color: $base-color;
     overflow: hidden;
@@ -17,7 +17,7 @@
     width: 39.5px;
     height: 21px;
     background: transparent;
-    border: 1.75px solid #222222;
+    border: 1.75px solid $text-color;
     border-radius: 1px;
     position: absolute;
     transition: 800ms ease-in-out;
@@ -69,13 +69,13 @@
 }
 
 #menuToggle .navLink {
-    color: #232323;
+    color: $text-color;
     text-decoration: none;
     transition: color 0.5s ease;
 }
 
 #menuToggle .navLink:hover {
-    color: rgb(145, 54, 12);
+    color: $heighlight-color;
 }
 
 #menuToggle input {
@@ -96,7 +96,7 @@
     height: 2px;
     margin-bottom: 5px;
     position: relative;
-    background: #222222;
+    background: $text-color;
     border-radius: 1px;
     z-index: 1;
     transform-origin: 4px 0px;
@@ -133,7 +133,7 @@
     margin: -100px 0 0 -65px;
     padding: 30px;
     padding-top: 125px;
-    background: #bebdbd;
+    background: $secondary-color;
     list-style-type: none;
     -webkit-font-smoothing: antialiased;
     transform-origin: 0% 0%;
