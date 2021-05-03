@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
+
 type Game = {
   game_id: string,
   name: string, 
