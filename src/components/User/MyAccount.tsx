@@ -105,6 +105,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
     return (
         <div className='myAccountContainer'>
+            <h2>account</h2>
             {!isEditingUsername ?
                 <section>
                     <p>username: {username}</p>
@@ -183,9 +184,11 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
             {!isDeleting ?
                 <button className='deletebtn' onClick={toggleDelete}>delete</button> :
                 <div className='confirmDelete'>
-                    <p>Are you sure you want to delete your account?</p>
-                    <button onClick={confirmDelete}>confirm</button>
-                    <button onClick={toggleDelete}>&#10005;</button>
+                    <p className='confirmDeleteText' >Are you sure you want to delete your account?</p>
+                    <div>
+                        <button onClick={confirmDelete}>confirm</button>
+                        <button onClick={toggleDelete}>&#10005;</button>
+                    </div>
                 </div>}    
         </div>
     );
