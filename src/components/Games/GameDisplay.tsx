@@ -1,87 +1,124 @@
-import React, {useState, useEffect} from 'react';
+import dotenv from 'dotenv';
+dotenv.config();
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-const {CLIENT_ID} = process.env;
+// import Reviews from './Reviews';
+const { REACT_APP_CLIENT_ID } = process.env;
 
-type Review = {
-  game_id: string,
-  review: string
-  firstName: string
-}
+type Option = {
+  id: string;
+  name: string;
+  url: string;
+};
 
-type thumbGame = {
-  game_id: string,
-  name: string, 
-  thumb_url: string,
-  avgRating: number
-} 
+// type Review = {
+//     username: string;
+//     rating: number;
+//     review: string;
+// };
 
-const GameDisplay: React.FC<thumbGame> = (props: thumbGame):JSX.Element => {
+type ThumbGame = {
+  game_id: string;
+  name: string;
+  thumb_url: string;
+  avgRating: number;
+};
 
-const [reviews, setReviews] = useState([])
-const [yearPublished, setYearPublisehd] = useState("");
-const [minPlayers, setMinPlayers] = useState("");
-const [maxPlayers, setMaxPlayers] = useState("");
-const [minAge, setMinAge] = useState("");
-const [mechanics, setMechanics] = useState("");
-const [categories, setCategories] = useState("");
-const [description, setDescription] = useState("");
-const [imageUrl, setImageUrl] = useState("");
+type GameDispProps = {
+  location: { state: ThumbGame };
+  mechanics: Option[];
+  categories: Option[];
+};
 
+const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
+  // const [reviews, setReviews] = useState<Review[]>([]);
+  const [yearPublished, setYearPublisehd] = useState('');
+  const [minPlayers, setMinPlayers] = useState('');
+  const [maxPlayers, setMaxPlayers] = useState('');
+  const [minAge, setMinAge] = useState('');
+  const [mechanics, setMechanics] = useState('');
+  const [categories, setCategories] = useState('');
+  const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
-useEffect(():void => {
-  getGameReviews()
-  getGameDetails()
-})
+  const { game_id, name, avgRating } = props.location.state;
 
-  const getGameReviews = ():void => {
-    axios.get(`/api/game/review/:${props.game_id}`)
-    .then(res => {
-      const reviewsArray = res.data
-      console.log(res.data)
-      setReviews(reviewsArray)
-    }).catch(err => console.log(err))
-  }
+  useEffect((): void => {
+    // getGameReviews();
+    getGameDetails();
+  });
 
-  const getGameDetails = async ():Promise<void>=> {
-    await axios.get(`https://api.boardgameatlas.com/api/search?ids=${props.game_id}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${CLIENT_ID}`)
-    .then(res=> {
-     setYearPublisehd( res.data.games[0].year_published)
-     setMinPlayers( res.data.games[0].min_players)
-     setMaxPlayers( res.data.games[0].max_players)
-     setMinAge( res.data.games[0].min_age)
-     setMechanics( res.data.games[0].description)
-     setCategories( res.data.games[0].image_url)
-     setDescription( res.data.games[0].mechanics)
-     setImageUrl( res.data.games[0].categories)
-    })
-  }
+  // const getGameReviews = (): void => {
+  //     axios.get(`/api/game/review/:${game_id}`).then((res) => {
+  //         setReviews(res.data);
+  //     });
+  // };
 
-  const mappedReviews = reviews.map((elem: Review, id: number) => {
-    return <div key={id}>
-      <p>{elem.firstName}</p>
-      <p>{elem.review}</p>
-    </div>
-  })
+  const getGameDetails = async (): Promise<void> => {
+    await axios
+      .get(
+        `https://api.boardgameatlas.com/api/search?ids=${game_id}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
+      )
+      .then((res) => {
+        const {
+          year_published,
+          min_players,
+          max_players,
+          min_age,
+          image_url,
+          description,
+          mechanics,
+          categories
+        } = res.data.games[0];
+
+        setYearPublisehd(year_published);
+        setMinPlayers(min_players);
+        setMaxPlayers(max_players);
+        setMinAge(min_age);
+        setImageUrl(image_url);
+        setDescription(description);
+
+        const mechanicsProcessed = mechanics;
+        const categoriesProcessed = categories;
+
+        mechanicsProcessed.forEach((searchResMec: { id: string; url: string }, ind: number) => {
+          props.mechanics.forEach((mecLib: Option) => {
+            if (mecLib.id === searchResMec.id) {
+              mechanicsProcessed[ind] = mecLib.name;
+            }
+          });
+        });
+        categoriesProcessed.forEach((searchResCat: { id: string; url: string }, ind: number) => {
+          props.categories.forEach((catLib: Option) => {
+            if (catLib.id === searchResCat.id) {
+              mechanicsProcessed[ind] = catLib.name;
+            }
+          });
+        });
+
+        setMechanics(mechanicsProcessed);
+        setCategories(categoriesProcessed);
+      });
+  };
 
   return (
-  <div className="game-display-page">
-    <div className="game-info-container">
-      <h1 className="game-name">{props.name}</h1>
-      <p className="game-info">{description}</p>
-      {/* <div className="game-rating"></div> */}
+    <div className="game-display-page">
+      <div className="game-info-container">
+        <h1 className="game-name">{name}</h1>
+        <p className="game-info">{description}</p>
+        <div className="game-rating">Average Rating:{avgRating}</div>
+      </div>
+      {/* <div className="game-reviews">{props.reviews}</div> */}
+      <img src={imageUrl} className="game-images" alt={name} />
+      <p>{yearPublished}</p>
+      <p>{categories}</p>
+      <p>{mechanics}</p>
+      <p>{minPlayers}</p>
+      <p>{maxPlayers}</p>
+      <p>{minAge}</p>
+      {/* <Reviews reviews={reviews} /> */}
     </div>
-    {/* <div className="game-reviews">{props.reviews}</div> */}
-    <img src={imageUrl} className="game-images" alt={props.name}/>
-    <p>{yearPublished}</p>
-    <p>{categories}</p>
-    <p>{mechanics}</p>
-    <p>{minPlayers}</p>
-    <p>{maxPlayers}</p>
-    <p>{minAge}</p>
-    {mappedReviews}
-  </div>
-  
-  )
-}
+  );
+};
 
-export default GameDisplay
+export default GameDisplay;

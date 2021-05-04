@@ -11,8 +11,8 @@ export default (
   <Switch>
     <Route exact path='/' component={GameLibrary} />
     <Route path='/auth' component={Login} />
-    <Route  path='/user' component={User} />
-    <Route path='/game' component={GameDisplay} />
+    <Route path='/user' component={User} />
+    <Route path='/game' component={GameLibrary} />
     <Route path='/account' component={MyAccount} />
   </Switch>
 )
