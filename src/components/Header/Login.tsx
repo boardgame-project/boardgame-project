@@ -20,9 +20,14 @@ const Login: React.FC = () => {
     const [loginPassword, setLoginPassword] = useState<string>('');
     const [userCreds, setUserCreds] = useState<string>('');
 
+    const [isLogin, setIslogin] = useState<boolean>(true);
+
 
     const dispatch = useDispatch();
 
+    const toggleLogin = ():void => {
+        setIslogin(!isLogin)
+    };
 
     const register = (): void => {
         axios
@@ -85,6 +90,34 @@ const Login: React.FC = () => {
         <>
             <ToastContainer />
             <div className="loginContainer">
+                {isLogin ?
+                <form
+                    onSubmit={(e: React.SyntheticEvent) => {
+                        e.preventDefault();
+                        login();
+                    }}
+                    className='login'
+                >
+                    <h3>login</h3>
+                    <label htmlFor="loginEmail">email:</label>
+                    <input
+                        id="loginEmail"
+                        value={userCreds}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUserCreds(e.target.value)}
+                    />
+                    <br></br>
+                    <label htmlFor="loginPassword">password:</label>
+                    <input
+                        id="loginPassword"
+                        value={loginPassword}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLoginPassword(e.target.value)}
+                    />
+                    <br></br>
+                    <button>login</button>
+                    <br></br>
+                    <button onClick={toggleLogin}>need to register?</button>
+                </form>
+                :
                 <form
                     onSubmit={(e: React.SyntheticEvent) => {
                         e.preventDefault();
@@ -129,31 +162,7 @@ const Login: React.FC = () => {
                     />
                     <br></br>
                     <button>register</button>
-                </form>
-                <form
-                    onSubmit={(e: React.SyntheticEvent) => {
-                        e.preventDefault();
-                        login();
-                    }}
-                    className='login'
-                >
-                    <h3>login</h3>
-                    <label htmlFor="loginEmail">email:</label>
-                    <input
-                        id="loginEmail"
-                        value={userCreds}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUserCreds(e.target.value)}
-                    />
-                    <br></br>
-                    <label htmlFor="loginPassword">password:</label>
-                    <input
-                        id="loginPassword"
-                        value={loginPassword}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLoginPassword(e.target.value)}
-                    />
-                    <br></br>
-                    <button>login</button>
-                </form>
+                </form>}
             </div>
         </>
     );

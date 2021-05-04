@@ -17,7 +17,7 @@ const initialState: User = {
 type Actiontype = { type: 'UPDATE_USER'; payload: User } | { type: 'LOGOUT_USER' };
 
 export default function userReducer(state = initialState, action: Actiontype): User {
-    console.log(action.type);
+    // console.log(action.type);
     switch (action.type) {
         case 'UPDATE_USER':
             return {
