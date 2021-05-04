@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {RootState} from '../../redux/store';
 import {RouteComponentProps} from 'react-router-dom'
+import Button from '../StyledComponents/Button';
 
 const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     
@@ -98,16 +99,18 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
         setPassword(password)
         setFirstName(user.first_name)
         setLastName(user.last_name)
+        
     };
 
     
 
     return (
         <div className='myAccountContainer'>
+            <h2>account</h2>
             {!isEditingUsername ?
                 <section>
                     <p>username: {username}</p>
-                    <button onClick={toggleEditUsername}>edit</button>
+                    <Button onClick={toggleEditUsername}>edit</Button>
                 </section>
             :
                 <form>
@@ -115,13 +118,14 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                     <input 
                     value={username}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}/>
-                    <button onClick={():void => saveChanges('username')}>save</button>
-                    <button onClick={():void => cancelChanges()}>cancel</button>
+                    <Button onClick={():void => saveChanges('username')}>save</Button>
+                    <Button onClick={():void => {cancelChanges()
+                    toggleEditUsername()}}>&#10005;</Button>
                 </form>}
             {!isEditingEmail ?
                 <section>
                     <p>email: {email}</p>
-                    <button onClick={toggleEditEmail}>edit</button>
+                    <Button onClick={toggleEditEmail}>edit</Button>
                 </section>
             :
                 <form>
@@ -129,13 +133,14 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                     <input 
                     value={email}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}/>
-                    <button onClick={():void => saveChanges('email')}>save</button>
-                    <button onClick={():void => cancelChanges()}>cancel</button>
+                    <Button onClick={():void => saveChanges('email')}>save</Button>
+                    <Button onClick={():void => {cancelChanges()
+                    toggleEditEmail()}}>&#10005;</Button>
                 </form>} 
             {!isEditingPassword ?
                 <section>
                     <p>password: {password}</p>
-                    <button onClick={toggleEditPassword}>edit</button>
+                    <Button onClick={toggleEditPassword}>edit</Button>
                 </section>
             :
                 <form>
@@ -143,13 +148,14 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                     <input 
                     value={password}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}/>
-                    <button onClick={():void => saveChanges('password')}>save</button>
-                    <button onClick={():void => cancelChanges()}>cancel</button>
+                    <Button onClick={():void => saveChanges('password')}>save</Button>
+                    <Button onClick={():void => {cancelChanges()
+                    toggleEditPassword()}}>&#10005;</Button>
                 </form>} 
             {!isEditingFirstName ?
                 <section>
                     <p>first name: {firstName}</p>
-                    <button onClick={toggleEditFirstName}>edit</button>
+                    <Button onClick={toggleEditFirstName}>edit</Button>
                 </section>
             :
                 <form>
@@ -157,13 +163,14 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                     <input 
                     value={firstName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}/>
-                    <button onClick={():void => saveChanges('firstname')}>save</button>
-                    <button onClick={():void => cancelChanges()}>cancel</button>
+                    <Button onClick={():void => saveChanges('firstname')}>save</Button>
+                    <Button onClick={():void => {cancelChanges()
+                    toggleEditFirstName()}}>&#10005;</Button>
                 </form>} 
             {!isEditingLastName ?
                 <section>
                     <p>last name: {lastName}</p>
-                    <button onClick={toggleEditLastName}>edit</button>
+                    <Button onClick={toggleEditLastName}>edit</Button>
                 </section>
             :
                 <form>
@@ -171,14 +178,20 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                     <input 
                     value={lastName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}/>
-                    <button onClick={():void => saveChanges('lastname')}>save</button>
-                    <button onClick={():void => cancelChanges()}>cancel</button>
+                    <Button onClick={():void => saveChanges('lastname')}>save</Button>
+                    <Button onClick={():void => {cancelChanges()
+                    toggleEditLastName()}}>&#10005;</Button>
                 </form>} 
             {!isDeleting ?
-                <button onClick={toggleDelete}>delete</button> :
                 <div>
-                    <p>Are you sure you want to delete your account?</p>
-                    <button onClick={confirmDelete}>confirm</button>
+                    <Button className='deletebtn' onClick={toggleDelete}>delete</Button>
+                </div> :
+                <div className='confirmDelete'>
+                    <p className='confirmDeleteText' >Are you sure you want to delete your account?</p>
+                    <div className='btnGroup'>
+                        <Button onClick={confirmDelete}>confirm</Button>
+                        <Button onClick={toggleDelete}>&#10005;</Button>
+                    </div>
                 </div>}    
         </div>
     );
