@@ -8,6 +8,7 @@ const game = require('./controllers/gameController');
 const player = require('./controllers/playerController');
 const userGames = require('./controllers/userGamesController');
 const userInfo = require('./controllers/userInfoController');
+const arrayCtrl = require('./controllers/arrayController');
 
 const app = express();
 
@@ -38,6 +39,11 @@ app.get('/api/game/ratings', game.gameAverageRatings);
 app.get('/api/game/reviews/:id', game.gameReviews);
 app.get('/api/game/players/:id', game.gamePlayers);
 app.get('/api/game/plays/:id', game.totalPlays);
+
+// ARRAY ENDPOINTS
+// addition for mechanics and catagories
+app.get('/api/game/mechanic', arrayCtrl.getMechanics);
+app.get('/api/game/catagory', arrayCtrl.getCategories);
 
 //UserGame endpopints
 // Add User Game will appear on the search page
