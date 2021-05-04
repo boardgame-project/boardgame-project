@@ -1,4 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import dotenv from 'dotenv';
+dotenv.config();
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import axios from 'axios';
 import './scss/main.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,31 +11,29 @@ import './reset.css';
 
 const App: React.FC = () =>  {
 
-  const [gameMechanics, setGameMechanics] = useState<[]>([]);
-  const [gameCatagories, setGameCatagories] = useState<[]>([]);
 
-  gameMechanics //pull error
-  gameCatagories //pull error
+  const dispatch = useDispatch()
+
 
   useEffect(():void => {
-    getGameMechanics()
-    getGameCatagories()
+    getMechanics()
+    getCatagories()
   }, [])
 
-  const getGameMechanics = ():void => {
-    axios.get('/api/game/mechanic')
+  const getMechanics = ():void => {
+    axios.get(`https://api.boardgameatlas.com/api/game/mechanics?client_id=${process.env.REACT_APP_CLIENT_ID}`)
     .then(res => {
-      // console.log(res.data)
-      setGameMechanics(res.data)
+      const mechanicArr = res.data.mechanics
+      dispatch({type: 'UPDATE_MEC', payload: mechanicArr})
     })
     .catch(err => console.log(err))
   };
 
-  const getGameCatagories = ():void => {
-    axios.get('/api/game/catagory')
+  const getCatagories = ():void => {
+    axios.get(`https://api.boardgameatlas.com/api/game/categories?client_id=${process.env.REACT_APP_CLIENT_ID}`)
     .then(res => {
-      // console.log(res.data)
-      setGameCatagories(res.data)
+      const categoryArr = res.data.category
+      dispatch({type: 'UPDATE_CAT', payload: categoryArr})
     })
     .catch(err => console.log(err))
   };

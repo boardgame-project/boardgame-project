@@ -40,11 +40,6 @@ app.get('/api/game/reviews/:id', game.gameReviews);
 app.get('/api/game/players/:id', game.gamePlayers);
 app.get('/api/game/plays/:id', game.totalPlays);
 
-// ARRAY ENDPOINTS
-// addition for mechanics and catagories
-app.get('/api/game/mechanic', arrayCtrl.getMechanics);
-app.get('/api/game/catagory', arrayCtrl.getCategories);
-
 //UserGame endpopints
 // Add User Game will appear on the search page
 app.post('/api/usergame/add/:id', authMiddleware.authorize, userGames.addUserGame);
