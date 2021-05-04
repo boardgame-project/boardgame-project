@@ -5,16 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 
 
-// interface StateUser {
-//   user_id: number,
-//   first_name: string, 
-//   last_name: string,
-//   email: string
-// }
-
 const Header: React.FC = () => {
 
   const user_id = useSelector((state: RootState) => state.userReducer.user_id) 
+  
 
   const dispatch = useDispatch();
 
