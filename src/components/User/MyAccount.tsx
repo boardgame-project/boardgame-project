@@ -1,201 +1,234 @@
 import React, { useState, useEffect } from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
-import {RootState} from '../../redux/store';
-import {RouteComponentProps} from 'react-router-dom'
+import { RootState } from '../../redux/store';
+import { RouteComponentProps } from 'react-router-dom';
 import Button from '../StyledComponents/Button';
 
 const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
-    
-    const [isEditingUsername, setIsEditingUsername] = useState<boolean>(false);
-    const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
-    const [isEditingPassword, setIsEditingPassword] = useState<boolean>(false);
-    const [isEditingFirstName, setIsEditingFirstName] = useState<boolean>(false);
-    const [isEditingLastName, setIsEditingLastName] = useState<boolean>(false);
-    const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isEditingUsername, setIsEditingUsername] = useState<boolean>(false);
+  const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
+  const [isEditingPassword, setIsEditingPassword] = useState<boolean>(false);
+  const [isEditingFirstName, setIsEditingFirstName] = useState<boolean>(false);
+  const [isEditingLastName, setIsEditingLastName] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    
-    const user = useSelector((state: RootState) => state.userReducer)
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
 
-    useEffect((): void => {
-        captureCurrentUser()
-    }, []);
+  const user = useSelector((state: RootState) => state.userReducer);
 
-    const captureCurrentUser= ():void => {
-        setUsername(user.username)
-        setEmail(user.email)
-        setPassword(password)
-        setFirstName(user.first_name)
-        setLastName(user.last_name)
-    };
+  useEffect((): void => {
+    captureCurrentUser();
+  }, []);
 
-    const toggleEditUsername = ():void => {
-        setIsEditingUsername(!isEditingUsername)
-    };
-    const toggleEditEmail = ():void => {
-        setIsEditingEmail(!isEditingEmail)
-    };
-    const toggleEditPassword = ():void => {
-        setIsEditingPassword(!isEditingPassword)
-    };
-    const toggleEditFirstName = ():void => {
-        setIsEditingFirstName(!isEditingFirstName)
-    };
-    const toggleEditLastName = ():void => {
-        setIsEditingLastName(!isEditingLastName)
-    };
+  const captureCurrentUser = (): void => {
+    setUsername(user.username);
+    setEmail(user.email);
+    setPassword(password);
+    setFirstName(user.first_name);
+    setLastName(user.last_name);
+  };
 
-    const toggleDelete = ():void => {
-        setIsDeleting(!isDeleting)
-    };
+  const toggleEditUsername = (): void => {
+    setIsEditingUsername(!isEditingUsername);
+  };
+  const toggleEditEmail = (): void => {
+    setIsEditingEmail(!isEditingEmail);
+  };
+  const toggleEditPassword = (): void => {
+    setIsEditingPassword(!isEditingPassword);
+  };
+  const toggleEditFirstName = (): void => {
+    setIsEditingFirstName(!isEditingFirstName);
+  };
+  const toggleEditLastName = (): void => {
+    setIsEditingLastName(!isEditingLastName);
+  };
 
-    const saveChanges = (param: string):void => {
-        let body = null
-        switch (param){
-            case 'username':
-                body = {username: username}
-                break
-            case 'email':
-                body = {email: email}
-                break
-            case 'password':
-                body = {password: password}
-                break
-            case 'firstname':
-                body = {first_name: firstName}
-                break
-            case 'lastname':
-                body = {last_name: lastName}
-                break
-        }
-        axios.put(`api/user/${param}`, body)
-        .then(res => {
-            console.log(res)
-            setIsEditingUsername(false)
-            setIsEditingEmail(false)
-            setIsEditingPassword(false)
-            setIsEditingFirstName(false)
-            setIsEditingLastName(false)
-        })
-        .catch(err => console.log(err))
-    };
+  const toggleDelete = (): void => {
+    setIsDeleting(!isDeleting);
+  };
 
-    const confirmDelete = ():void => {
-        axios.delete('/api/user/delete')
-        .then(():void => {
-            props.history.push('/')
-        })
-        .catch(err => console.log(err))
-    };
+  const saveChanges = (param: string): void => {
+    let body = null;
+    switch (param) {
+      case 'username':
+        body = { username: username };
+        break;
+      case 'email':
+        body = { email: email };
+        break;
+      case 'password':
+        body = { password: password };
+        break;
+      case 'firstname':
+        body = { first_name: firstName };
+        break;
+      case 'lastname':
+        body = { last_name: lastName };
+        break;
+    }
+    axios
+      .put(`api/user/${param}`, body)
+      .then((res) => {
+        console.log(res);
+        setIsEditingUsername(false);
+        setIsEditingEmail(false);
+        setIsEditingPassword(false);
+        setIsEditingFirstName(false);
+        setIsEditingLastName(false);
+      })
+      .catch((err) => console.log(err));
+  };
 
-    const cancelChanges = ():void => {
-        setUsername(user.username)
-        setEmail(user.email)
-        setPassword(password)
-        setFirstName(user.first_name)
-        setLastName(user.last_name)
-        
-    };
+  const confirmDelete = (): void => {
+    axios
+      .delete('/api/user/delete')
+      .then((): void => {
+        props.history.push('/');
+      })
+      .catch((err) => console.log(err));
+  };
 
-    
+  const cancelChanges = (): void => {
+    setUsername(user.username);
+    setEmail(user.email);
+    setPassword(password);
+    setFirstName(user.first_name);
+    setLastName(user.last_name);
+  };
 
-    return (
-        <div className='myAccountContainer'>
-            <h2>account</h2>
-            {!isEditingUsername ?
-                <section>
-                    <p>username: {username}</p>
-                    <Button onClick={toggleEditUsername}>edit</Button>
-                </section>
-            :
-                <form>
-                    <p>username:</p>
-                    <input 
-                    value={username}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}/>
-                    <Button onClick={():void => saveChanges('username')}>save</Button>
-                    <Button onClick={():void => {cancelChanges()
-                    toggleEditUsername()}}>&#10005;</Button>
-                </form>}
-            {!isEditingEmail ?
-                <section>
-                    <p>email: {email}</p>
-                    <Button onClick={toggleEditEmail}>edit</Button>
-                </section>
-            :
-                <form>
-                    <p>email:</p>
-                    <input 
-                    value={email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}/>
-                    <Button onClick={():void => saveChanges('email')}>save</Button>
-                    <Button onClick={():void => {cancelChanges()
-                    toggleEditEmail()}}>&#10005;</Button>
-                </form>} 
-            {!isEditingPassword ?
-                <section>
-                    <p>password: {password}</p>
-                    <Button onClick={toggleEditPassword}>edit</Button>
-                </section>
-            :
-                <form>
-                    <p>password:</p>
-                    <input 
-                    value={password}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}/>
-                    <Button onClick={():void => saveChanges('password')}>save</Button>
-                    <Button onClick={():void => {cancelChanges()
-                    toggleEditPassword()}}>&#10005;</Button>
-                </form>} 
-            {!isEditingFirstName ?
-                <section>
-                    <p>first name: {firstName}</p>
-                    <Button onClick={toggleEditFirstName}>edit</Button>
-                </section>
-            :
-                <form>
-                    <p>first name:</p>
-                    <input 
-                    value={firstName}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}/>
-                    <Button onClick={():void => saveChanges('firstname')}>save</Button>
-                    <Button onClick={():void => {cancelChanges()
-                    toggleEditFirstName()}}>&#10005;</Button>
-                </form>} 
-            {!isEditingLastName ?
-                <section>
-                    <p>last name: {lastName}</p>
-                    <Button onClick={toggleEditLastName}>edit</Button>
-                </section>
-            :
-                <form>
-                    <p>last name:</p>
-                    <input 
-                    value={lastName}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}/>
-                    <Button onClick={():void => saveChanges('lastname')}>save</Button>
-                    <Button onClick={():void => {cancelChanges()
-                    toggleEditLastName()}}>&#10005;</Button>
-                </form>} 
-            {!isDeleting ?
-                <div>
-                    <Button className='deletebtn' onClick={toggleDelete}>delete</Button>
-                </div> :
-                <div className='confirmDelete'>
-                    <p className='confirmDeleteText' >Are you sure you want to delete your account?</p>
-                    <div className='btnGroup'>
-                        <Button onClick={confirmDelete}>confirm</Button>
-                        <Button onClick={toggleDelete}>&#10005;</Button>
-                    </div>
-                </div>}    
+  return (
+    <div className="myAccountContainer">
+      <h2>account</h2>
+      {!isEditingUsername ? (
+        <section>
+          <p>username: {username}</p>
+          <Button onClick={toggleEditUsername}>edit</Button>
+        </section>
+      ) : (
+        <form>
+          <p>username:</p>
+          <input
+            value={username}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}
+          />
+          <Button onClick={(): void => saveChanges('username')}>save</Button>
+          <Button
+            onClick={(): void => {
+              cancelChanges();
+              toggleEditUsername();
+            }}>
+            &#10005;
+          </Button>
+        </form>
+      )}
+      {!isEditingEmail ? (
+        <section>
+          <p>email: {email}</p>
+          <Button onClick={toggleEditEmail}>edit</Button>
+        </section>
+      ) : (
+        <form>
+          <p>email:</p>
+          <input value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)} />
+          <Button onClick={(): void => saveChanges('email')}>save</Button>
+          <Button
+            onClick={(): void => {
+              cancelChanges();
+              toggleEditEmail();
+            }}>
+            &#10005;
+          </Button>
+        </form>
+      )}
+      {!isEditingPassword ? (
+        <section>
+          <p>password: {password}</p>
+          <Button onClick={toggleEditPassword}>edit</Button>
+        </section>
+      ) : (
+        <form>
+          <p>password:</p>
+          <input
+            value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
+          />
+          <Button onClick={(): void => saveChanges('password')}>save</Button>
+          <Button
+            onClick={(): void => {
+              cancelChanges();
+              toggleEditPassword();
+            }}>
+            &#10005;
+          </Button>
+        </form>
+      )}
+      {!isEditingFirstName ? (
+        <section>
+          <p>first name: {firstName}</p>
+          <Button onClick={toggleEditFirstName}>edit</Button>
+        </section>
+      ) : (
+        <form>
+          <p>first name:</p>
+          <input
+            value={firstName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
+          />
+          <Button onClick={(): void => saveChanges('firstname')}>save</Button>
+          <Button
+            onClick={(): void => {
+              cancelChanges();
+              toggleEditFirstName();
+            }}>
+            &#10005;
+          </Button>
+        </form>
+      )}
+      {!isEditingLastName ? (
+        <section>
+          <p>last name: {lastName}</p>
+          <Button onClick={toggleEditLastName}>edit</Button>
+        </section>
+      ) : (
+        <form>
+          <p>last name:</p>
+          <input
+            value={lastName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}
+          />
+          <Button onClick={(): void => saveChanges('lastname')}>save</Button>
+          <Button
+            onClick={(): void => {
+              cancelChanges();
+              toggleEditLastName();
+            }}>
+            &#10005;
+          </Button>
+        </form>
+      )}
+      {!isDeleting ? (
+        <div>
+          <Button className="deletebtn" onClick={toggleDelete}>
+            delete
+          </Button>
         </div>
-    );
+      ) : (
+        <div className="confirmDelete">
+          <p className="confirmDeleteText">Are you sure you want to delete your account?</p>
+          <div className="btnGroup">
+            <Button onClick={confirmDelete}>confirm</Button>
+            <Button onClick={toggleDelete}>&#10005;</Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default MyAccount;
-

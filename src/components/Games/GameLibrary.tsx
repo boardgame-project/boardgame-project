@@ -5,9 +5,9 @@ import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
+import { GameRatings, ThumbGame } from 'customTypes';
 
 const { REACT_APP_CLIENT_ID } = process.env;
-
 
 const GameLibrary: React.FC = () => {
   const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);

@@ -1,3 +1,4 @@
+import { GameBoxProps } from 'customTypes';
 import React from 'react';
 import { Link } from 'react-router-dom';
 

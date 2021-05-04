@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { Review } from 'customTypes';
 
 
 
-const Reviews: React.FC<Reviews> = (): JSX.Element => {
+const Reviews: React.FC<Review> = (): JSX.Element => {
 
 const [review, setReview] = useState([])
 const [userId, setUserId] = useState(0)
@@ -35,7 +36,7 @@ useEffect(():void => {
   getGameReview();
 }, [gameId])
 
-  const mappedReviews = review.map((elem: Reviews, id: number) => {
+  const mappedReviews = review.map((elem: Review, id: number) => {
     return <div key={id}>
       <p>{elem.review}</p>
     </div>

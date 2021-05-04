@@ -1162,6 +1162,11 @@
     "@emotion/weak-memoize" "^0.2.5"
     "stylis" "^4.0.3"
 
+"@emotion/eslint-plugin@^11.2.0":
+  "integrity" "sha512-vpyeUtQKudpYjQ2hUG6vroVqSQiBn1Q37HBEck5wma9M+DmzaU8Uh8k5GffXfGcVzervPB3GCX5ip6n7toLmIQ=="
+  "resolved" "https://registry.npmjs.org/@emotion/eslint-plugin/-/eslint-plugin-11.2.0.tgz"
+  "version" "11.2.0"
+
 "@emotion/hash@^0.8.0":
   "integrity" "sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow=="
   "resolved" "https://registry.npmjs.org/@emotion/hash/-/hash-0.8.0.tgz"
