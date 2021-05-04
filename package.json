@@ -5,6 +5,7 @@
   "main": "server/index.js",
   "proxy": "http://localhost:5050",
   "dependencies": {
+    "@emotion/eslint-plugin": "^11.2.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@testing-library/jest-dom": "^5.11.4",
