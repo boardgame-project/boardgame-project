@@ -1,11 +1,12 @@
 .myAccountContainer {
+  //   box-sizing: border-box;
   background: $base-color;
   position: relative;
   margin: 20px;
   padding: 10px 15px 15px 15px;
   display: flex;
   flex-direction: column;
-  height: 240px;
+  height: 260px;
   h2 {
     font-family: $font-heading;
     font-size: 2rem;
@@ -26,19 +27,24 @@
     border: none;
     border-bottom: 1px solid $text-color;
     border-radius: 2px;
+    background: $base-color;
   }
   button {
-    height: 1.2rem;
+    padding: 4px 4px;
+    margin: 0 0 2px 2px;
   }
   section {
     display: flex;
+    align-items: baseline;
     justify-content: space-between;
   }
   form {
     display: flex;
+    align-items: baseline;
   }
   .deletebtn {
-    width: 50px;
+    width: auto;
+    height: auto;
     margin-top: 20px;
     position: absolute;
     right: 15px;
@@ -52,6 +58,10 @@
   .confirmDeleteText {
     white-space: break-spaces;
   }
+  .btnGroup {
+    min-width: 82px;
+    margin-right: 0;
+  }
 }
 
 @media (min-width: $bp-mobile) {
@@ -62,9 +72,9 @@
     h2 {
       margin-bottom: 20px;
     }
-  }
-  .deletebtn {
-    margin-right: 15px;
+    .deletebtn {
+      margin-right: 15px;
+    }
   }
 }
 
