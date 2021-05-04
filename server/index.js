@@ -33,7 +33,6 @@ app.get('/api/auth/user', authMiddleware.authorize, auth.getUser);
 app.delete('/api/auth/logout', auth.logout);
 
 // Game endpoints
-app.get('/api/game', game.getGames);
 app.get('/api/game/ratings', game.gameAverageRatings);
 app.get('/api/game/reviews/:id', game.gameReviews);
 app.get('/api/game/players/:id', game.gamePlayers);

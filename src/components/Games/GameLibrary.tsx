@@ -1,53 +1,101 @@
-import React, {useState, useEffect} from 'react';
+import dotenv from 'dotenv';
+dotenv.config();
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
 
+const { REACT_APP_CLIENT_ID } = process.env;
 
-const GameLibrary: React.FC = () => {
+type Option = {
+  id: string;
+  name: string;
+  url: string;
+};
 
-  type Game = {
-    game_id: string,
-    name: string, 
-    year_published: string, 
-    min_players: number,
-    max_players: number,
-    min_age: number,
-    mechanics: string,
-    categories: string,
-    description: string,
-    image_url: string, 
-    thumb_url: string
+type GameLibProps = {
+  mechanics: Option[];
+  categories: Option[];
+};
+
+type GameRatings = [
+  {
+    game_id: string;
+    average_rating: number;
   }
+];
 
-  const [games, setGames] = useState([]);
+type ThumbGame = {
+  game_id: string;
+  name: string;
+  thumb_url: string;
+  avgRating: number;
+};
 
-  useEffect(():void => {
-    getGames()
-  });
+const GameLibrary: React.FC<GameLibProps> = (props: GameLibProps) => {
+  const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
+  const { mechanics, categories } = props;
 
-  const getGames = ():void => {
-    axios.get('/api/game')
-    .then(res => {
-      const gamesArray = res.data
-      console.log(res.data)
-      setGames(gamesArray)
-    }).catch(err => console.log(err))
+  useEffect(() => {
+    getGameRatings();
+  }, []);
+
+  const getGameRatings = async (): Promise<void> => {
+    await axios.get('/api/game/ratings').then((res) => {
+      const ratingsArray: GameRatings = res.data;
+      console.log(res.data);
+      setGameRatings(ratingsArray);
+    });
   };
 
-  const mappedGames = games.map((elem: Game, id: number) => {
-    return <div key={id}>
-      <GameBox {...elem}></GameBox>
-    </div>
-  })
+  const getAPIGames = async (
+    searchEntry: string,
+    mechanicsSelections: string[],
+    categoriesSelections: string[],
+    itemsPerPage: string
+  ): Promise<void> => {
+    const skip = Number.parseInt(itemsPerPage) * currentPage;
+    await axios
+      .get(
+        `https://api.boardgameatlas.com/api/search?fuzzy_match=true&name=${encodeURI(
+          searchEntry
+        )}&mechanics=${mechanicsSelections.join(',')}&categories=${categoriesSelections.join(
+          ','
+        )}&limit=${itemsPerPage}&skip=${skip.toString()}&fields=game_id,name,thumb_url&client_id=${REACT_APP_CLIENT_ID}`
+      )
+      .then((res) => {
+        const apiGames: ThumbGame[] = res.data.games;
+        apiGames.forEach((game, ind) => {
+          gRatings.forEach((rating) => {
+            if (game.game_id === rating.game_id) {
+              apiGames[ind].avgRating = rating.average_rating;
+            }
+          });
+        });
+        setSearchResults(apiGames);
+      });
+  };
+
+  const mappedGames = searchResults.map((elem: ThumbGame, id: number) => {
+    return (
+      <div key={id}>
+        <GameBox mechanics={mechanics} categories={categories} thumbGame={elem}></GameBox>
+      </div>
+    );
+  });
 
   return (
-  <div className='gameLibrary'>
-    <Hero />
-    <SearchBar/>
-    {mappedGames}
-  </div>)
-}
+    <div className="gameLibrary">
+      <Hero />
+      <SearchBar mechanics={mechanics} categories={categories} getAPIGames={getAPIGames} />
+      {mappedGames}
+      <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage + 1)}></div>
+      <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage - 1)}></div>
+    </div>
+  );
+};
 
-export default GameLibrary
+export default GameLibrary;

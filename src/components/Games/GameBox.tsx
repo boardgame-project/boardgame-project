@@ -1,33 +1,46 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-type Game = {
-  game_id: string,
-  name: string, 
-  year_published: string, 
-  min_players: number,
-  max_players: number,
-  min_age: number,
-  mechanics: string,
-  categories: string,
-  description: string,
-  image_url: string, 
-  thumb_url: string
-}
+type Option = {
+  id: string;
+  name: string;
+  url: string;
+};
 
-const GameBox: React.FC<Game> = (props: Game):JSX.Element => {
+type ThumbGame = {
+  game_id: string;
+  name: string;
+  thumb_url: string;
+  avgRating: number;
+};
 
-  
+type GameBoxProps = {
+  mechanics: Option[];
+  categories: Option[];
+  thumbGame: ThumbGame;
+};
+
+const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
+  const { game_id, name, thumb_url, avgRating } = props.thumbGame;
+  const { mechanics, categories } = props;
 
   return (
-    <div className='gameBox'>
-      <Link to={`/game/${props.game_id}`}>
-        <img src={props.image_url}/>
-        <h3>{props.name}</h3>
-        {/* <h4>rating from db</h4> */}
+    <div className="gameBox">
+      <Link
+        to={{
+          pathname: `/game/${game_id}`,
+          state: {
+            thumbGame: props.thumbGame,
+            mechanics,
+            categories
+          }
+        }}>
+        <img src={thumb_url} />
+        <h3>{name}</h3>
+        <h4>{avgRating}</h4>
       </Link>
+    </div>
+  );
+};
 
-    </div>)
-}
-
-export default GameBox
+export default GameBox;
