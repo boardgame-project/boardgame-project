@@ -37,6 +37,7 @@ const GameLibrary: React.FC<GameLibProps> = (props: GameLibProps) => {
   const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
+  const { mechanics, categories } = props;
 
   useEffect(() => {
     getGameRatings();
@@ -81,7 +82,7 @@ const GameLibrary: React.FC<GameLibProps> = (props: GameLibProps) => {
   const mappedGames = searchResults.map((elem: ThumbGame, id: number) => {
     return (
       <div key={id}>
-        <GameBox thumbGame={elem}></GameBox>
+        <GameBox mechanics={mechanics} categories={categories} thumbGame={elem}></GameBox>
       </div>
     );
   });
@@ -89,7 +90,7 @@ const GameLibrary: React.FC<GameLibProps> = (props: GameLibProps) => {
   return (
     <div className="gameLibrary">
       <Hero />
-      <SearchBar mechanics={props.mechanics} categories={props.categories} getAPIGames={getAPIGames} />
+      <SearchBar mechanics={mechanics} categories={categories} getAPIGames={getAPIGames} />
       {mappedGames}
       <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage + 1)}></div>
       <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage - 1)}></div>

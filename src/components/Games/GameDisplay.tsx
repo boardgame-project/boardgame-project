@@ -25,23 +25,27 @@ type ThumbGame = {
 };
 
 type GameDispProps = {
-  location: { state: ThumbGame };
-  mechanics: Option[];
-  categories: Option[];
+  location: {
+    state: {
+      thumbGame: ThumbGame;
+      mechanics: Option[];
+      categories: Option[];
+    };
+  };
 };
 
 const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
-  // const [reviews, setReviews] = useState<Review[]>([]);
-  const [yearPublished, setYearPublisehd] = useState('');
-  const [minPlayers, setMinPlayers] = useState('');
-  const [maxPlayers, setMaxPlayers] = useState('');
-  const [minAge, setMinAge] = useState('');
-  const [mechanics, setMechanics] = useState('');
-  const [categories, setCategories] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  // const [reviewsState, setReviews] = useState<Review[]>([]);
+  const [yearPublishedState, setYearPublisehd] = useState('');
+  const [minPlayersState, setMinPlayers] = useState('');
+  const [maxPlayersState, setMaxPlayers] = useState('');
+  const [minAgeState, setMinAge] = useState('');
+  const [mechanicsState, setMechanics] = useState('');
+  const [categoriesState, setCategories] = useState('');
+  const [descriptionState, setDescription] = useState('');
+  const [imageUrlState, setImageUrl] = useState('');
 
-  const { game_id, name, avgRating } = props.location.state;
+  const { game_id, name, avgRating } = props.location.state.thumbGame;
 
   useEffect((): void => {
     // getGameReviews();
@@ -82,14 +86,14 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
         const categoriesProcessed = categories;
 
         mechanicsProcessed.forEach((searchResMec: { id: string; url: string }, ind: number) => {
-          props.mechanics.forEach((mecLib: Option) => {
+          props.location.state.mechanics.forEach((mecLib: Option) => {
             if (mecLib.id === searchResMec.id) {
               mechanicsProcessed[ind] = mecLib.name;
             }
           });
         });
         categoriesProcessed.forEach((searchResCat: { id: string; url: string }, ind: number) => {
-          props.categories.forEach((catLib: Option) => {
+          props.location.state.categories.forEach((catLib: Option) => {
             if (catLib.id === searchResCat.id) {
               mechanicsProcessed[ind] = catLib.name;
             }
@@ -105,18 +109,18 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
     <div className="game-display-page">
       <div className="game-info-container">
         <h1 className="game-name">{name}</h1>
-        <p className="game-info">{description}</p>
+        <p className="game-info">{descriptionState}</p>
         <div className="game-rating">Average Rating:{avgRating}</div>
       </div>
       {/* <div className="game-reviews">{props.reviews}</div> */}
-      <img src={imageUrl} className="game-images" alt={name} />
-      <p>{yearPublished}</p>
-      <p>{categories}</p>
-      <p>{mechanics}</p>
-      <p>{minPlayers}</p>
-      <p>{maxPlayers}</p>
-      <p>{minAge}</p>
-      {/* <Reviews reviews={reviews} /> */}
+      <img src={imageUrlState} className="game-images" alt={name} />
+      <p>{yearPublishedState}</p>
+      <p>{categoriesState}</p>
+      <p>{mechanicsState}</p>
+      <p>{minPlayersState}</p>
+      <p>{maxPlayersState}</p>
+      <p>{minAgeState}</p>
+      {/* <Reviews reviews={reviewsState} /> */}
     </div>
   );
 };
