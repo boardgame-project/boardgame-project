@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import './scss/main.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,8 +8,11 @@ import './reset.css';
 
 const App: React.FC = () =>  {
 
-  // const [gameMechanics, setGameMechanics] = useState<[]>([]);
-  // const [gameCatagories, setGameCatagories] = useState<[]>([]);
+  const [gameMechanics, setGameMechanics] = useState<[]>([]);
+  const [gameCatagories, setGameCatagories] = useState<[]>([]);
+
+  gameMechanics //pull error
+  gameCatagories //pull error
 
   useEffect(():void => {
     getGameMechanics()
@@ -19,8 +22,8 @@ const App: React.FC = () =>  {
   const getGameMechanics = ():void => {
     axios.get('/api/game/mechanic')
     .then(res => {
-      console.log(res.data)
-      // setGameMechanics(res.data)
+      // console.log(res.data)
+      setGameMechanics(res.data)
     })
     .catch(err => console.log(err))
   };
@@ -28,8 +31,8 @@ const App: React.FC = () =>  {
   const getGameCatagories = ():void => {
     axios.get('/api/game/catagory')
     .then(res => {
-      console.log(res.data)
-      // setGameCatagories(res.data)
+      // console.log(res.data)
+      setGameCatagories(res.data)
     })
     .catch(err => console.log(err))
   };

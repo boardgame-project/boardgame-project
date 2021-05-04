@@ -8,20 +8,20 @@ module.exports = {
         let mechanicsArray = []
         await axios.get(`https://api.boardgameatlas.com/api/game/mechanics?client_id=${CLIENT_ID}`)
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             mechanicsArray = res.data.mechanics
         })
         return res.status(200).send(mechanicsArray)
         },
  
     getCategories: async (req, res) => {
-        console.log('cat hit')
         let categoriesArray = []
         await axios.get(`https://api.boardgameatlas.com/api/game/categories?client_id=${CLIENT_ID}`)
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             categoriesArray = res.data.categories
         })
         return res.status(200).send(categoriesArray)
         }
+        
 }
