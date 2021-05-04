@@ -31,8 +31,8 @@ useEffect(():void => {
     axios.get(`/api/game/reviews/${gameId}`)
     .then(res => {
       console.log(res.data)
-      const reviewsArray = res.data
-      setReview(reviewsArray)
+      const gameReviewsArray = res.data
+      setReview(gameReviewsArray)
     }).catch(err => console.log(err))
   }
   getGameReview();
@@ -61,7 +61,7 @@ useEffect(():void => {
     <input
     onChange={(e) => {
       e.preventDefault();
-    setGameId(e.currentTarget.value);
+    setGameId(e.target.value);
   }}
     type="string"
     name="game_id"

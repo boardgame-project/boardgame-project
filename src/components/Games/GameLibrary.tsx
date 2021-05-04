@@ -1,10 +1,10 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
