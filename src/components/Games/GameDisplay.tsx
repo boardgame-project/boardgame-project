@@ -2,21 +2,21 @@ import dotenv from 'dotenv';
 dotenv.config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 // import Reviews from './Reviews';
 const { REACT_APP_CLIENT_ID } = process.env;
-
-type Option = {
-  id: string;
-  name: string;
-  url: string;
-};
 
 // type Review = {
 //     username: string;
 //     rating: number;
 //     review: string;
 // };
-
+type Option = {
+  id: string;
+  name: string;
+  url: string;
+};
 type ThumbGame = {
   game_id: string;
   name: string;
@@ -25,13 +25,7 @@ type ThumbGame = {
 };
 
 type GameDispProps = {
-  location: {
-    state: {
-      thumbGame: ThumbGame;
-      mechanics: Option[];
-      categories: Option[];
-    };
-  };
+  thumbGame: ThumbGame;
 };
 
 const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
@@ -45,7 +39,9 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [descriptionState, setDescription] = useState('');
   const [imageUrlState, setImageUrl] = useState('');
 
-  const { game_id, name, avgRating } = props.location.state.thumbGame;
+  const { game_id, name, avgRating } = props.thumbGame;
+  const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
+  const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
   useEffect((): void => {
     // getGameReviews();
@@ -86,14 +82,14 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
         const categoriesProcessed = categories;
 
         mechanicsProcessed.forEach((searchResMec: { id: string; url: string }, ind: number) => {
-          props.location.state.mechanics.forEach((mecLib: Option) => {
+          mechanicsLib.forEach((mecLib: Option) => {
             if (mecLib.id === searchResMec.id) {
               mechanicsProcessed[ind] = mecLib.name;
             }
           });
         });
         categoriesProcessed.forEach((searchResCat: { id: string; url: string }, ind: number) => {
-          props.location.state.categories.forEach((catLib: Option) => {
+          categoriesLib.forEach((catLib: Option) => {
             if (catLib.id === searchResCat.id) {
               mechanicsProcessed[ind] = catLib.name;
             }
