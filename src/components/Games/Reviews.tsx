@@ -13,29 +13,28 @@ const [review, setReview] = useState([])
 const [userId, setUserId] = useState(0)
 const [gameId, setGameId] = useState("")
 
-const getReview = ():void => {
-  axios.get(`/api/player/reviews/${userId}`)
-  .then(res => {
-    console.log(res.data)
-    const reviewsArray = res.data
-    setReview(reviewsArray)
-  }).catch(err => console.log(err))
-}
-const getGameReview = ():void => {
-  axios.get(`/api/game/reviews/${gameId}`)
-  .then(res => {
-    console.log(res.data)
-    const reviewsArray = res.data
-    setReview(reviewsArray)
-  }).catch(err => console.log(err))
-}
 
 useEffect(():void => {
-  console.log('component mounted')
+  const getReview = ():void => {
+    axios.get(`/api/player/reviews/${userId}`)
+    .then(res => {
+      console.log(res.data)
+      const reviewsArray = res.data
+      setReview(reviewsArray)
+    }).catch(err => console.log(err))
+  }
   getReview();
 }, [userId])
+
 useEffect(():void => {
-  console.log('component mounted')
+  const getGameReview = ():void => {
+    axios.get(`/api/game/reviews/${gameId}`)
+    .then(res => {
+      console.log(res.data)
+      const reviewsArray = res.data
+      setReview(reviewsArray)
+    }).catch(err => console.log(err))
+  }
   getGameReview();
 }, [gameId])
 
@@ -68,7 +67,6 @@ useEffect(():void => {
     name="game_id"
     placeholder="Game ID"
     />
-    <button>Enter</button>
     {mappedReviews}
       </form>
   </div>
