@@ -8,7 +8,6 @@ const game = require('./controllers/gameController');
 const player = require('./controllers/playerController');
 const userGames = require('./controllers/userGamesController');
 const userInfo = require('./controllers/userInfoController');
-const arrayCtrl = require('./controllers/arrayController');
 
 const app = express();
 
