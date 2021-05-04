@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-type Players = {
-  username?: string;
-  total?: number;
-};
+
 const LeaderBoard: React.FC<Players> = (): JSX.Element => {
 
   

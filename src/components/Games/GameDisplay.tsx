@@ -4,29 +4,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-// import Reviews from './Reviews';
+
 const { REACT_APP_CLIENT_ID } = process.env;
 
-// type Review = {
-//     username: string;
-//     rating: number;
-//     review: string;
-// };
-type Option = {
-  id: string;
-  name: string;
-  url: string;
-};
-type ThumbGame = {
-  game_id: string;
-  name: string;
-  thumb_url: string;
-  avgRating: number;
-};
-
-type GameDispProps = {
-  thumbGame: ThumbGame;
-};
 
 const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
   // const [reviewsState, setReviews] = useState<Review[]>([]);
