@@ -8,19 +8,6 @@ import GameBox from './GameBox';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
-type GameRatings = [
-  {
-    game_id: string;
-    average_rating: number;
-  }
-];
-
-type ThumbGame = {
-  game_id: string;
-  name: string;
-  thumb_url: string;
-  avgRating: number;
-};
 
 const GameLibrary: React.FC = () => {
   const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);

@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
-type Reviews = {
-  user_id?: number;
-  game_id?: string;
-  review?: Array<string> | null;
-}
+
 
 const Reviews: React.FC<Reviews> = (): JSX.Element => {
 

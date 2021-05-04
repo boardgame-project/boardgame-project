@@ -1,16 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-type ThumbGame = {
-  game_id: string;
-  name: string;
-  thumb_url: string;
-  avgRating: number;
-};
-
-type GameBoxProps = {
-  thumbGame: ThumbGame;
-};
 
 const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
   const { game_id, name, thumb_url, avgRating } = props.thumbGame;

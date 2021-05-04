@@ -4,13 +4,7 @@ import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Login: React.FC = () => {
-    interface User {
-        firstName?: string;
-        lastName?: string;
-        email: string;
-        username: string;
-        password: string;
-    }
+    
 
     const [username, setUsername] = useState<string>('');
     const [firstName, setFirstName] = useState<string>('');

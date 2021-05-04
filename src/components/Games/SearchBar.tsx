@@ -2,18 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-type Option = {
-  id: string;
-  name: string;
-  url: string;
-};
-
-type SearchProps = {
-  getAPIGames: (searchEntry: string, mechanicsSelections: string[], categoriesSelections: string[]) => void;
-  setItemsPerPage: (items: string) => void;
-  itemsPerPage: string;
-};
-
 const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const [searchEntry, setSearchEntry] = useState('');
   const [mechanicsSelections, setMechanicsSelections] = useState<string[]>([]);
