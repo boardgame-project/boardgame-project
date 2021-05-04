@@ -1,82 +1,78 @@
-import React, {useEffect, useState, FormEvent } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
 type Reviews = {
+  user_id?: number;
   game_id?: string;
-  review?: string | null;
+  review?: Array<string> | null;
 }
 
-const defaultReviews: Reviews = {
-  game_id:"",
-  review:"",
-}
 const Reviews: React.FC<Reviews> = (): JSX.Element => {
 
-const [reviews, setReviews] = useState(defaultReviews)
-const [gameid, setGameId] = useState(defaultReviews)
+const [review, setReview] = useState([])
+const [userId, setUserId] = useState(0)
+const [gameId, setGameId] = useState("")
 
-
-const getReviews = ():void => {
-  axios.get(`/api/game/reviews/0Z20rVZ9GQ`)
+const getReview = ():void => {
+  axios.get(`/api/player/reviews/${userId}`)
   .then(res => {
     console.log(res.data)
     const reviewsArray = res.data
-    setReviews(reviewsArray)
+    setReview(reviewsArray)
+  }).catch(err => console.log(err))
+}
+const getGameReview = ():void => {
+  axios.get(`/api/game/reviews/${gameId}`)
+  .then(res => {
+    console.log(res.data)
+    const reviewsArray = res.data
+    setReview(reviewsArray)
   }).catch(err => console.log(err))
 }
 
 useEffect(():void => {
   console.log('component mounted')
-  getReviews();
-}, [setGameId])
+  getReview();
+}, [userId])
+useEffect(():void => {
+  console.log('component mounted')
+  getGameReview();
+}, [gameId])
 
-
-// const mappedReviews = Object.values(reviews).map(reviews => {
-//   return (
-//     <div key={reviews}>
-//     <div >{reviews}</div>
-//     </div>
-//     )
-//   })
-  
-const handleSubmit = (e: FormEvent<HTMLFormElement> ): void => {
-      e.preventDefault();
-};
-const onReviewChange = <P extends keyof Reviews>(prop: P, value: Reviews[P]) => 
-{
-      setReviews({...reviews, [prop]: value});
-      };
-const onGameIdChange = <T extends keyof Reviews>(prop: T, value: Reviews[T]) => 
-  {
-    setGameId({...gameid, [prop]: value});
-};
-
-  
+  const mappedReviews = review.map((elem: Reviews, id: number) => {
+    return <div key={id}>
+      <p>{elem.review}</p>
+    </div>
+  })
 
   return (
   <div>
     Reviews:
-    {/* {mappedReviews} */}
-    <form
-    onSubmit={(e) => handleSubmit(e)}
-    >
-    <h1>Enter Review:</h1>
-    <label>Game ID</label>
+    <form>
+    <label>User Id</label>
     <input
-    onChange={e=>{onGameIdChange('game_id', e.target.value)}}
-    value={reviews.game_id}
-    name="game_id"
+    onChange={(e) => {
+    setUserId(parseInt(e.currentTarget.value));
+  }}
+    type="number"
+    name="user_id"
+    placeholder="User ID"
     />
-      <textarea
-      value={reviews.review || ""}
-      name='review'
-      placeholder="Write a Review!"
-      onChange={(e)=>{onReviewChange('review', e.target.value)}}
-      />
-      <button>Enter</button>
+    <label>Game Id</label>
+    <input
+    onChange={(e) => {
+      e.preventDefault();
+    setGameId(e.currentTarget.value);
+  }}
+    type="string"
+    name="game_id"
+    placeholder="Game ID"
+    />
+    <button>Enter</button>
+    {mappedReviews}
       </form>
   </div>
   )
-}
+  }
 
 export default Reviews
