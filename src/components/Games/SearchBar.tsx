@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-
 const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const [searchEntry, setSearchEntry] = useState('');
-  const [mechanicsSelections, setMechanicsSelections] = useState(['']);
-  const [categoriesSelections, setCategoriesSelections] = useState(['']);
-  const [itemsPerPage, setItemsPerPage] = useState('25');
+  const [mechanicsSelections, setMechanicsSelections] = useState<string[]>([]);
+  const [categoriesSelections, setCategoriesSelections] = useState<string[]>([]);
+  const [mechanicsCheckboxes, setMechanicsCheckboxes] = useState([<></>]);
+  const [categoriesCheckboxes, setCategoriesCheckboxes] = useState([<></>]);
 
   const mechanics = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categories = useSelector((state: RootState) => state.meccatReducer.category);
@@ -15,30 +15,31 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   useEffect(() => {
     mechanicsCheckboxMaker();
     categoriesCheckboxMaker();
-  }, []);
-
-  let mechanicsCheckboxes: React.ReactNodeArray = [<></>];
-  let categoriesCheckboxes: React.ReactNodeArray = [<></>];
+  }, [mechanics, categories]);
 
   const checkToggler = (type: string, value: string) => {
     switch (type) {
       case 'mechanics':
         const arraySearch = mechanicsSelections.indexOf(value);
-        if (arraySearch > -1) {
+        if (arraySearch === -1) {
           const output = mechanicsSelections;
           output.push(value);
           return setMechanicsSelections(output);
         } else {
-          return setMechanicsSelections(mechanicsSelections.slice(arraySearch, arraySearch + 1));
+          const output = mechanicsSelections;
+          output.splice(arraySearch, 1);
+          return setMechanicsSelections(output);
         }
       case 'category':
         const arraySearch1 = categoriesSelections.indexOf(value);
-        if (arraySearch1 > -1) {
-          const output1 = categoriesSelections;
-          output1.push(value);
-          return setCategoriesSelections(output1);
+        if (arraySearch1 === -1) {
+          const output = categoriesSelections;
+          output.push(value);
+          return setCategoriesSelections(output);
         } else {
-          return setCategoriesSelections(categoriesSelections.slice(arraySearch1, arraySearch1 + 1));
+          const output = categoriesSelections;
+          output.splice(arraySearch1, 1);
+          return setCategoriesSelections(output);
         }
       default:
         break;
@@ -46,7 +47,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   };
 
   const mechanicsCheckboxMaker = () => {
-    mechanicsCheckboxes = mechanics.map((option: Option, ind: number) => {
+    const output = mechanics.map((option: Option, ind: number) => {
       return (
         <div key={`mechanic${ind}`}>
           <label htmlFor={`mechanic${ind}`}>{option.name}</label>
@@ -56,17 +57,16 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
             value={option.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               checkToggler('mechanics', e.target.value);
-              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-            }}>
-            {option.name}
-          </input>
+              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections);
+            }}></input>
         </div>
       );
     });
+    setMechanicsCheckboxes(output);
   };
 
   const categoriesCheckboxMaker = () => {
-    categoriesCheckboxes = categories.map((option: Option, ind: number) => {
+    const output = categories.map((option: Option, ind: number) => {
       return (
         <div key={`category${ind}`}>
           <label htmlFor={`category${ind}`}>{option.name}</label>
@@ -76,13 +76,12 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
             value={option.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               checkToggler('category', e.target.value);
-              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-            }}>
-            {option.name}
-          </input>
+              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections);
+            }}></input>
         </div>
       );
     });
+    setCategoriesCheckboxes(output);
   };
 
   return (
@@ -99,10 +98,14 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
             value={searchEntry}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchEntry(e.target.value)}
             placeholder="game title"></input>
-          <button></button>
+          <button>Search</button>
           <select
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setItemsPerPage(e.target.value)}
-            value={itemsPerPage}>
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              console.log(e.target.value);
+              props.setItemsPerPage(e.target.value);
+              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections);
+            }}
+            value={props.itemsPerPage}>
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="75">75</option>

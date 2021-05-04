@@ -13,7 +13,9 @@ const GameLibrary: React.FC = () => {
   const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
+  const [itemsPerPage, setItemsPerPage] = useState<string>('25');
 
+  console.log('rerender', itemsPerPage);
   useEffect(() => {
     getGameRatings();
   }, []);
@@ -21,7 +23,6 @@ const GameLibrary: React.FC = () => {
   const getGameRatings = async (): Promise<void> => {
     await axios.get('/api/game/ratings').then((res) => {
       const ratingsArray: GameRatings = res.data;
-      console.log(res.data);
       setGameRatings(ratingsArray);
     });
   };
@@ -29,8 +30,7 @@ const GameLibrary: React.FC = () => {
   const getAPIGames = async (
     searchEntry: string,
     mechanicsSelections: string[],
-    categoriesSelections: string[],
-    itemsPerPage: string
+    categoriesSelections: string[]
   ): Promise<void> => {
     const skip = Number.parseInt(itemsPerPage) * currentPage;
     await axios
@@ -65,7 +65,7 @@ const GameLibrary: React.FC = () => {
   return (
     <div className="gameLibrary">
       <Hero />
-      <SearchBar getAPIGames={getAPIGames} />
+      <SearchBar itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} getAPIGames={getAPIGames} />
       {mappedGames}
       <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage + 1)}></div>
       <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage - 1)}></div>
