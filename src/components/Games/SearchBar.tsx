@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 type Option = {
   id: string;
@@ -13,8 +15,6 @@ type SearchProps = {
     categoriesSelections: string[],
     itemsPerPage: string
   ) => void;
-  mechanics: Option[];
-  categories: Option[];
 };
 
 const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
@@ -22,6 +22,9 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const [mechanicsSelections, setMechanicsSelections] = useState(['']);
   const [categoriesSelections, setCategoriesSelections] = useState(['']);
   const [itemsPerPage, setItemsPerPage] = useState('25');
+
+  const mechanics = useSelector((state: RootState) => state.meccatReducer.mechanic);
+  const categories = useSelector((state: RootState) => state.meccatReducer.category);
 
   useEffect(() => {
     mechanicsCheckboxMaker();
@@ -57,7 +60,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   };
 
   const mechanicsCheckboxMaker = () => {
-    mechanicsCheckboxes = props.mechanics.map((option: Option, ind: number) => {
+    mechanicsCheckboxes = mechanics.map((option: Option, ind: number) => {
       return (
         <div key={`mechanic${ind}`}>
           <label htmlFor={`mechanic${ind}`}>{option.name}</label>
@@ -77,7 +80,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   };
 
   const categoriesCheckboxMaker = () => {
-    categoriesCheckboxes = props.categories.map((option: Option, ind: number) => {
+    categoriesCheckboxes = categories.map((option: Option, ind: number) => {
       return (
         <div key={`category${ind}`}>
           <label htmlFor={`category${ind}`}>{option.name}</label>

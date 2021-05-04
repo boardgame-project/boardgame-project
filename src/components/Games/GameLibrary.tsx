@@ -8,17 +8,6 @@ import GameBox from './GameBox';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
-type Option = {
-  id: string;
-  name: string;
-  url: string;
-};
-
-type GameLibProps = {
-  mechanics: Option[];
-  categories: Option[];
-};
-
 type GameRatings = [
   {
     game_id: string;
@@ -33,11 +22,10 @@ type ThumbGame = {
   avgRating: number;
 };
 
-const GameLibrary: React.FC<GameLibProps> = (props: GameLibProps) => {
+const GameLibrary: React.FC = () => {
   const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
-  const { mechanics, categories } = props;
 
   useEffect(() => {
     getGameRatings();
@@ -82,7 +70,7 @@ const GameLibrary: React.FC<GameLibProps> = (props: GameLibProps) => {
   const mappedGames = searchResults.map((elem: ThumbGame, id: number) => {
     return (
       <div key={id}>
-        <GameBox mechanics={mechanics} categories={categories} thumbGame={elem}></GameBox>
+        <GameBox thumbGame={elem}></GameBox>
       </div>
     );
   });
@@ -90,7 +78,7 @@ const GameLibrary: React.FC<GameLibProps> = (props: GameLibProps) => {
   return (
     <div className="gameLibrary">
       <Hero />
-      <SearchBar mechanics={mechanics} categories={categories} getAPIGames={getAPIGames} />
+      <SearchBar getAPIGames={getAPIGames} />
       {mappedGames}
       <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage + 1)}></div>
       <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage - 1)}></div>
