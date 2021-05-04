@@ -17,10 +17,10 @@ module.exports = {
     getCategories: async (req, res) => {
         console.log('cat hit')
         let categoriesArray = []
-        axios.get(`https://api.boardgameatlas.com/api/game/categories?client_id=${CLIENT_ID}`)
+        await axios.get(`https://api.boardgameatlas.com/api/game/categories?client_id=${CLIENT_ID}`)
         .then(res => {
             console.log(res.data)
-            categoriesArray = res.data
+            categoriesArray = res.data.categories
         })
         return res.status(200).send(categoriesArray)
         }
