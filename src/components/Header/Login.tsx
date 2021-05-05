@@ -3,6 +3,7 @@ import { User } from 'customTypes';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import getUserGames from '../../redux/userGameReducer';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -55,12 +56,13 @@ const Login: React.FC = () => {
       .post<User>('/api/auth/login', { userCreds, password: loginPassword })
       .then((res) => {
         const user = res.data;
-        dispatch({ type: 'UPDATE_USER', action: user });
         setUserCreds('');
         setLoginPassword('');
+        dispatch({ type: 'UPDATE_USER', action: user });
+        dispatch(() => getUserGames)
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err.response);
         if (err.response.data === 'userCreds') {
           toast.error(
             'An account with the email or username you entered does not exist within our database. Please try again or register for an account'
