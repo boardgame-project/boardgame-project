@@ -128,7 +128,6 @@ const apiLogic = async (): Promise<UserGame[]> => {
       year_published: matched.year_published
     };
   });
-  console.log(userGames);
   return userGames;
 };
 
