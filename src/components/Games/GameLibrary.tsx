@@ -43,7 +43,6 @@ const GameLibrary: React.FC = () => {
     // 
     .then((res) => {
       const apiGames: ThumbGame[] = res.data.games;
-      console.log(res.data.games);
       apiGames.forEach((game, ind) => {
         gRatings.forEach((rating) => {
           game.id === rating.game_id
