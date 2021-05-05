@@ -9,6 +9,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const [categoriesSelections, setCategoriesSelections] = useState<string[]>([]);
   const [mechanicsCheckboxes, setMechanicsCheckboxes] = useState([<></>]);
   const [categoriesCheckboxes, setCategoriesCheckboxes] = useState([<></>]);
+  const [itemsPerPage, setItemsPerPage] = useState<string>('25');
 
   const mechanics = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categories = useSelector((state: RootState) => state.meccatReducer.category);
@@ -17,6 +18,11 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
     mechanicsCheckboxMaker();
     categoriesCheckboxMaker();
   }, [mechanics, categories]);
+
+  useEffect(() => {
+    console.log(itemsPerPage, 'fucntionCall');
+    props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
+  }, [itemsPerPage]);
 
   const checkToggler = (type: string, value: string) => {
     switch (type) {
@@ -58,7 +64,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
             value={option.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               checkToggler('mechanics', e.target.value);
-              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections);
+              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
             }}></input>
         </div>
       );
@@ -77,7 +83,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
             value={option.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               checkToggler('category', e.target.value);
-              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections);
+              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
             }}></input>
         </div>
       );
@@ -91,6 +97,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
         <form
           onSubmit={(e: React.SyntheticEvent) => {
             e.preventDefault();
+            props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
           }}>
           <label htmlFor="titleDescriptionSearch">Search</label>
           <input
@@ -102,11 +109,9 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
           <button>Search</button>
           <select
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              console.log(e.target.value);
-              props.setItemsPerPage(e.target.value);
-              props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections);
+              setItemsPerPage(e.target.value);
             }}
-            value={props.itemsPerPage}>
+            value={itemsPerPage}>
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="75">75</option>

@@ -12,7 +12,7 @@ declare module 'customTypes' {
   };
 
   export type ThumbGame = {
-    game_id: string;
+    id: string;
     name: string;
     thumb_url: string;
     avgRating: number;
@@ -31,7 +31,11 @@ declare module 'customTypes' {
   };
 
   export type GameDispProps = {
-    thumbGame: ThumbGame;
+    location: {
+      state: {
+        thumbGame: ThumbGame;
+      };
+    };
   };
 
   export type GameBoxProps = {
@@ -39,9 +43,12 @@ declare module 'customTypes' {
   };
 
   export type SearchProps = {
-    getAPIGames: (searchEntry: string, mechanicsSelections: string[], categoriesSelections: string[]) => void;
-    itemsPerPage: string;
-    setItemsPerPage: (itemSelection: string) => void;
+    getAPIGames: (
+      searchEntry: string,
+      mechanicsSelections: string[],
+      categoriesSelections: string[],
+      itemsPerPage: string
+    ) => void;
   };
 
   export type Player = {

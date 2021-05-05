@@ -10,12 +10,15 @@ import { GameRatings, ThumbGame } from 'customTypes';
 const { REACT_APP_CLIENT_ID } = process.env;
 
 const GameLibrary: React.FC = () => {
-  const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [gRatings, setGameRatings] = useState<GameRatings>([
+    {
+      game_id: '',
+      average_rating: 0
+    }
+  ]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
-  const [itemsPerPage, setItemsPerPage] = useState<string>('25');
 
-  console.log('rerender', itemsPerPage);
   useEffect(() => {
     getGameRatings();
   }, []);
@@ -30,28 +33,27 @@ const GameLibrary: React.FC = () => {
   const getAPIGames = async (
     searchEntry: string,
     mechanicsSelections: string[],
-    categoriesSelections: string[]
+    categoriesSelections: string[],
+    itemsPerPage: string
   ): Promise<void> => {
+    console.log(itemsPerPage, 'axios');
     const skip = Number.parseInt(itemsPerPage) * currentPage;
-    await axios
-      .get(
-        `https://api.boardgameatlas.com/api/search?fuzzy_match=true&name=${encodeURI(
-          searchEntry
-        )}&mechanics=${mechanicsSelections.join(',')}&categories=${categoriesSelections.join(
-          ','
-        )}&limit=${itemsPerPage}&skip=${skip.toString()}&fields=game_id,name,thumb_url&client_id=${REACT_APP_CLIENT_ID}`
-      )
-      .then((res) => {
-        const apiGames: ThumbGame[] = res.data.games;
-        apiGames.forEach((game, ind) => {
-          gRatings.forEach((rating) => {
-            if (game.game_id === rating.game_id) {
-              apiGames[ind].avgRating = rating.average_rating;
-            }
-          });
+    //prettier-ignore
+    await axios.get(`https://api.boardgameatlas.com/api/search?fuzzy_match=true${searchEntry ? `&name=${encodeURI(searchEntry)}` : ''}${mechanicsSelections.length !== 0 ? `&mechanics=${mechanicsSelections.join(',')}` : ''}${categoriesSelections.length !== 0 ? `&categories=${categoriesSelections.join(',')}` : ''}${skip !== 0 ? `&skip=${skip.toString()}` : ''}&limit=${itemsPerPage}&fields=id,name,thumb_url&client_id=${REACT_APP_CLIENT_ID}`)
+    // 
+    .then((res) => {
+      const apiGames: ThumbGame[] = res.data.games;
+      console.log(res.data.games);
+      apiGames.forEach((game, ind) => {
+        gRatings.forEach((rating) => {
+          game.id === rating.game_id
+            ? (apiGames[ind].avgRating = rating.average_rating)
+            : (apiGames[ind].avgRating = -1);
         });
-        setSearchResults(apiGames);
       });
+      console.dir(apiGames)
+      return setSearchResults(apiGames);
+    });
   };
 
   const mappedGames = searchResults.map((elem: ThumbGame, id: number) => {
@@ -65,7 +67,7 @@ const GameLibrary: React.FC = () => {
   return (
     <div className="gameLibrary">
       <Hero />
-      <SearchBar itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} getAPIGames={getAPIGames} />
+      <SearchBar getAPIGames={getAPIGames} />
       {mappedGames}
       <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage + 1)}></div>
       <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage - 1)}></div>
