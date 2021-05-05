@@ -2,10 +2,11 @@ import axios from 'axios';
 import { User } from 'customTypes';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { getUserGames } from '../../redux/userGameReducer';
 
-const Login: React.FC = () => {
+const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const [username, setUsername] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
@@ -32,9 +33,9 @@ const Login: React.FC = () => {
         setLastName('');
         setEmail('');
         setPassword('');
+        props.history.push('/');
       })
       .catch((err) => {
-        console.log(err.response.data);
         if (err.response.data === 'email') {
           toast.error(
             'An account with the email you entered already exists in our database. Please log in using your email and password or create a new account using a different email.'
@@ -60,9 +61,9 @@ const Login: React.FC = () => {
         setLoginPassword('');
         dispatch({ type: 'UPDATE_USER', action: user });
         dispatch(getUserGames());
+        props.history.push('/');
       })
       .catch((err) => {
-        console.log(err.response);
         if (err.response.data === 'userCreds') {
           toast.error(
             'An account with the email or username you entered does not exist within our database. Please try again or register for an account'

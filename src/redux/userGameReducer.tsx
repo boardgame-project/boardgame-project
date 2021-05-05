@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import axios from 'axios';
-
 const { REACT_APP_CLIENT_ID } = process.env;
 
 export interface DBGame {
@@ -42,9 +41,25 @@ export interface GameState {
 }
 
 const initialState: GameState = {
-  userGames: []
+  userGames: [
+    {
+      game_id: '',
+      play_count: 0,
+      rating: 0,
+      review: '',
+      thumb_url: '',
+      description: '',
+      mechanics: '',
+      category: '',
+      min_age: 0,
+      min_players: 0,
+      max_players: 0,
+      year_published: 0
+    }
+  ]
 };
 
+const CLEAR_GAMES = 'CLEAR_GAMES';
 const UPDATE_USER_GAMES = 'UPDATE_USER_GAMES';
 
 const apiLogic = async (): Promise<UserGame[]> => {
@@ -66,7 +81,7 @@ const apiLogic = async (): Promise<UserGame[]> => {
       `https://api.boardgameatlas.com/api/search?ids=${userGameIds.join(',')}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
     )
     .then((res) => {
-      return res.data;
+      return res.data.games;
     })
     .catch((err) => console.log(err));
 
@@ -113,29 +128,43 @@ const apiLogic = async (): Promise<UserGame[]> => {
       year_published: matched.year_published
     };
   });
+  console.log(userGames);
   return userGames;
 };
 
-type getUserGames = () => Actiontype;
-
-export const getUserGames: getUserGames = () => {
+export const getUserGames = (): PromiseActionType => {
   const userGames = apiLogic();
+  console.log(userGames);
   return {
     type: UPDATE_USER_GAMES,
     payload: userGames
   };
 };
 
-type Actiontype = { type: 'UPDATE_USER_GAMES'; payload: Promise<UserGame[]> } | { type: 'CLEAR_GAMES' };
+type PromiseActionType = {
+  type: 'UPDATE_USER_GAMES';
+  payload: Promise<UserGame[]>;
+};
+
+type Actiontype =
+  | {
+      type: 'UPDATE_USER_GAMES';
+      payload: UserGame[];
+    }
+  | { type: 'CLEAR_GAMES'; payload: [] };
 
 export default function userGameReducer(state = initialState, action: Actiontype): GameState {
   switch (action.type) {
-    case 'UPDATE_USER_GAMES':
-      return {
-        ...state,
-        ...action.payload
-      };
-    case 'CLEAR_GAMES':
+    case UPDATE_USER_GAMES + '_PENDING':
+      console.log('pending');
+      return state;
+    case UPDATE_USER_GAMES + '_FULFILLED':
+      console.log('fulfilled');
+      return { ...state, ...{ userGames: action.payload } };
+    case UPDATE_USER_GAMES + '_REJECTED':
+      console.log('rejected');
+      return state;
+    case CLEAR_GAMES:
       return initialState;
     default:
       return state;

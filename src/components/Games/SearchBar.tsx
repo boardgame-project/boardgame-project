@@ -20,7 +20,6 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   }, [mechanics, categories]);
 
   useEffect(() => {
-    console.log(itemsPerPage, 'fucntionCall');
     props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
   }, [itemsPerPage]);
 
