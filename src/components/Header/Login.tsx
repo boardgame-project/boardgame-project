@@ -3,7 +3,7 @@ import { User } from 'customTypes';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import getUserGames from '../../redux/userGameReducer';
+import { getUserGames } from '../../redux/userGameReducer';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -59,7 +59,7 @@ const Login: React.FC = () => {
         setUserCreds('');
         setLoginPassword('');
         dispatch({ type: 'UPDATE_USER', action: user });
-        dispatch(() => getUserGames)
+        dispatch(getUserGames());
       })
       .catch((err) => {
         console.log(err.response);
