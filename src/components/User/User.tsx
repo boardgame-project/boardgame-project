@@ -3,15 +3,15 @@ import { useSelector } from 'react-redux';
 import ShelfItem from './ShelfItem';
 import { RootState } from '../../redux/store';
 import axios from 'axios';
-import { GameState } from '../../redux/userGameReducer';
+import { UserGame } from '../../redux/userGameReducer';
 
 const User: React.FC = () => {
     // const [userGames, setUserGames] = useState([]);
 
-    const username = useSelector((state: RootState) => state.userReducer.username);
+    const user = useSelector((state: RootState) => state.userReducer);
     const [playCount, setPlayCount] = useState(0);
 
-    const userGames = useSelector ((state: RootState) => state.userGameReducer)
+    const userGames = useSelector ((state: RootState) => state.userGameReducer.userGames)
     console.log(userGames)
 
     useEffect((): void => {
@@ -36,7 +36,7 @@ const User: React.FC = () => {
         });
     };
 
-    const mappedUserGames = userGames.map((elem: GameState, id: number) => {
+    const mappedUserGames = userGames.map((elem: UserGame, id: number) => {
         return (
             <div key={id}>
                 <ShelfItem {...elem}></ShelfItem>
@@ -47,7 +47,7 @@ const User: React.FC = () => {
     return (
         <div>
             <section className="userProfile">
-                <p>{username}</p>
+                <p>{user.username}</p>
                 <p>playcount: {playCount}</p>
                 {/* <div>graph of top 5 plays</div> */}
             </section>
