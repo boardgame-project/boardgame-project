@@ -1,55 +1,65 @@
 .header {
-    height: 93px;
-    width: 100vw;
-    background-color: $base-color;
-    overflow: hidden;
+  height: 93px;
+  width: 100vw;
+  background-color: $base-color;
+  overflow: hidden;
+  li {
+    color: $text-color;
+  }
+  a {
+    color: $text-color;
+    cursor: pointer;
+  }
+  a:hover {
+    color: $heighlight-color;
+  }
 }
 
 .hexContainer {
-    display: inline-block;
-    margin-left: 55px;
-    margin-top: 35px;
-    transition: 800ms ease-in-out;
-    cursor: pointer;
+  display: inline-block;
+  margin-left: 55px;
+  margin-top: 35px;
+  transition: 800ms ease-in-out;
+  cursor: pointer;
 }
 
 @mixin hexagon {
-    width: 39.5px;
-    height: 21px;
-    background: transparent;
-    border: 1.75px solid $text-color;
-    border-radius: 1px;
-    position: absolute;
-    transition: 800ms ease-in-out;
+  width: 39.5px;
+  height: 21px;
+  background: transparent;
+  border: 1.75px solid $text-color;
+  border-radius: 1px;
+  position: absolute;
+  transition: 800ms ease-in-out;
 }
 
 .hexagon1 {
-    @include hexagon();
+  @include hexagon();
 }
 
 .hexagon2 {
-    @include hexagon();
-    transform: rotate(60deg);
+  @include hexagon();
+  transform: rotate(60deg);
 }
 
 .hexagon3 {
-    @include hexagon();
-    transform: rotate(120deg);
+  @include hexagon();
+  transform: rotate(120deg);
 }
 
 .hexContainer:hover .hexagon1 {
-    transition: 800ms ease-in-out;
-    transform: rotate(180deg);
+  transition: 800ms ease-in-out;
+  transform: rotate(180deg);
 }
 
 .hexContainer:hover .hexagon2 {
-    transition: 800ms ease-in-out;
-    transform: rotate(300deg);
+  transition: 800ms ease-in-out;
+  transform: rotate(300deg);
 }
 
 .hexContainer:hover .hexagon3 {
-    transition: 800ms ease-in-out;
-    transform: rotate(600deg);
+  transition: 800ms ease-in-out;
+  transform: rotate(600deg);
 }
 
 // #navContainer {
@@ -59,93 +69,93 @@
 // }
 
 #menuToggle {
-    display: block;
-    position: absolute;
-    top: 40px;
-    right: 60px;
-    z-index: 1;
-    -webkit-user-select: none;
-    user-select: none;
+  display: block;
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #menuToggle .navLink {
-    color: $text-color;
-    text-decoration: none;
-    transition: color 0.5s ease;
+  color: $text-color;
+  text-decoration: none;
+  transition: color 0.5s ease;
 }
 
 #menuToggle .navLink:hover {
-    color: $heighlight-color;
+  color: $heighlight-color;
 }
 
 #menuToggle input {
-    display: block;
-    width: 40px;
-    height: 32px;
-    position: absolute;
-    top: -7px;
-    left: -5px;
-    cursor: pointer;
-    opacity: 0;
-    z-index: 2;
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 2;
 }
 
 #menuToggle span {
-    display: block;
-    width: 33px;
-    height: 2px;
-    margin-bottom: 5px;
-    position: relative;
-    background: $text-color;
-    border-radius: 1px;
-    z-index: 1;
-    transform-origin: 4px 0px;
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
-        opacity 0.55s ease;
+  display: block;
+  width: 33px;
+  height: 2px;
+  margin-bottom: 5px;
+  position: relative;
+  background: $text-color;
+  border-radius: 1px;
+  z-index: 1;
+  transform-origin: 4px 0px;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    opacity 0.55s ease;
 }
 
 #menuToggle span:first-child {
-    transform-origin: 0% 0%;
+  transform-origin: 0% 0%;
 }
 
 #menuToggle span:nth-last-child(2) {
-    transform-origin: 0% 100%;
+  transform-origin: 0% 100%;
 }
 
 #menuToggle input:checked ~ span {
-    opacity: 1;
-    transform: rotate(45deg) translate(-2px, -3.5px);
-    background: $text-color;
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -3.5px);
+  background: $text-color;
 }
 
 #menuToggle input:checked ~ span:nth-last-child(3) {
-    opacity: 0;
-    transform: rotate(0deg) scale(0.2, 0.2);
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
 }
 
 #menuToggle input:checked ~ span:nth-last-child(2) {
-    transform: rotate(-45deg) translate(0, 2px);
+  transform: rotate(-45deg) translate(0, 2px);
 }
 
 #menu {
-    position: absolute;
-    width: 98px;
-    margin: -100px 0 0 -65px;
-    padding: 30px;
-    padding-top: 125px;
-    background: $secondary-color;
-    list-style-type: none;
-    -webkit-font-smoothing: antialiased;
-    transform-origin: 0% 0%;
-    transform: translate(0, -100%);
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  position: absolute;
+  width: 98px;
+  margin: -100px 0 0 -65px;
+  padding: 30px;
+  padding-top: 125px;
+  background: $secondary-color;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: 0% 0%;
+  transform: translate(0, -100%);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
 #menu li {
-    padding: 10px 0;
-    font-size: 20px;
+  padding: 10px 0;
+  font-size: 20px;
 }
 
 #menuToggle input:checked ~ ul {
-    transform: none;
+  transform: none;
 }

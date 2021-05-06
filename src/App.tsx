@@ -9,6 +9,7 @@ import Header from './components/Header/Header';
 import routes from './routes';
 import './reset.css';
 
+
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
