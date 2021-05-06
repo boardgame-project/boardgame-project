@@ -15,7 +15,9 @@ const ItemDisplay: React.FC<UserReview> = (): JSX.Element => {
     const postReview = () => {
       axios
         .put(`/api/usergame/review`, { userID: 7, gameID: '0Z20rVZ9GQ', review: `${review}` })
-        .then((res) => {})
+        .then((res) => {
+          console.log(res.data);
+        })
         .catch((err) => console.log(err));
     };
     postReview();
