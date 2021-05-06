@@ -1,29 +1,34 @@
-// import React, { useState, useEffect } from 'react';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ShelfItem from './ShelfItem';
 import { RootState } from '../../redux/store';
 import axios from 'axios';
+import { GameState } from '../../redux/userGameReducer';
 
 const User: React.FC = () => {
-    const [userGames, setUserGames] = useState([]);
+    // const [userGames, setUserGames] = useState([]);
 
     const username = useSelector((state: RootState) => state.userReducer.username);
     const [playCount, setPlayCount] = useState(0);
 
+    const userGames = useSelector ((state: RootState) => state.userGameReducer)
+    console.log(userGames)
+
     useEffect((): void => {
-        getUserGames();
+        // getUserGames();
         getPlayerStats();
     }, []);
 
-    const getUserGames = () => {
-        axios
-            .get('/api/usergame')
-            .then((res) => {
-                setUserGames(res.data);
-            })
-            .catch((err) => console.log(err));
-    };
+    // const getUserGames = () => {
+    //     axios
+    //         .get('/api/usergame')
+    //         .then((res) => {
+    //             setUserGames(res.data);
+    //             console.log(userGames)
+    //         })
+    //         .catch((err) => console.log(err));
+    // };
+
 
     const getPlayerStats = () => {
         axios.get('/api/player/playcount/:id').then((res) => {
@@ -31,7 +36,7 @@ const User: React.FC = () => {
         });
     };
 
-    const mappedUserGames = userGames.map((elem, id) => {
+    const mappedUserGames = userGames.map((elem: GameState, id: number) => {
         return (
             <div key={id}>
                 <ShelfItem {...elem}></ShelfItem>
