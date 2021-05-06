@@ -2,9 +2,8 @@ import React from 'react';
 // import {Link} from 'react-router-dom';
 import { UserGame } from '../../redux/userGameReducer';
 
-
-
 const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
+
   // console.log(props)
   
 
@@ -24,4 +23,4 @@ const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
     </section>)
 }
 
-export default ShelfItem
+export default ShelfItem;
