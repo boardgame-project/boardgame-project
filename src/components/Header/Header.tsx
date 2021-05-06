@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 
-const Header: React.FC = () => {
+const Header: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const user_id = useSelector((state: RootState) => state.userReducer.user_id);
 
   const [checkBox, setCheckBox] = useState(false)
@@ -26,6 +27,8 @@ const Header: React.FC = () => {
       .delete('/api/auth/logout')
       .then(() => {
         dispatch({ type: 'LOGOUT_USER' });
+        props.history.push('/')
+
       })
       .catch((err) => console.log(err));
   };
@@ -83,7 +86,7 @@ const Header: React.FC = () => {
             </li>
               {user_id ?
               <li>
-                <a onClick={() => {logoutUser; toggleCheckBox}}>logout</a>
+                <a onClick={() => {logoutUser(); toggleCheckBox()}}>logout</a>
               </li>
               :
               <li>
@@ -99,4 +102,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);
