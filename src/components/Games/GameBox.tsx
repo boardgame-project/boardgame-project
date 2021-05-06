@@ -1,6 +1,7 @@
 import { GameBoxProps } from 'customTypes';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Rating from '../StyledComponents/Rating';
 
 const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
   const { id, name, thumb_url, avgRating } = props.thumbGame;
@@ -15,7 +16,7 @@ const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
         }}>
         <img src={thumb_url} />
         <h3>{name}</h3>
-        <h4>{avgRating === -1 ? 'Not Reviewed' : avgRating}</h4>
+        {avgRating === -1 ? <h4>Not Yet Reviewed</h4> : <Rating rating={avgRating} />}
       </Link>
     </div>
   );

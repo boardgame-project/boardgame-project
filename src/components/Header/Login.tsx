@@ -57,7 +57,6 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       .post<User>('/api/auth/login', { userCreds, password: loginPassword })
       .then((res) => {
         const user = res.data;
-        console.log(user)
         setUserCreds('');
         setLoginPassword('');
         dispatch({ type: 'UPDATE_USER', payload: user });
