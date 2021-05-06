@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, {  FormEvent, useState, useEffect } from 'react';
 // import { UserReview } from 'customTypes';
 
-
 type UserReview = {
   userID?: number;
   gameID?: string;
@@ -18,12 +17,7 @@ const [review, setReview] = useState([] as any)
         console.log(res.data)
       }).catch(err => console.log(err))
     }
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    postReview();
-    getReview();
-  }
-    const getReview = (): void => {
+  const getReview = (): void => {
     axios
       .get(`/api/player/reviews/7`)
       .then((res) => {
@@ -33,46 +27,43 @@ const [review, setReview] = useState([] as any)
       })
       .catch((err) => console.log(err));
   };
-    useEffect((): void => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    postReview();
+    // getReview();
+  }
+  useEffect((): void => {
     getReview();
       console.log('Re-Rendering!')
   },[]);
-  // const mappedReviews = Object.keys(review).map(function(reviewIndex){
-  //   const newReview = review[reviewIndex]
-  //   return newReview
-  // })
-
-  const mappedReviews = Object.values(review).map((elem: typeof review, game_id: number) => {
+    const mappedReviews = Object.values(review).map((elem: typeof review, game_id: number) => {
+      if (elem.review == "") {
+        return (
+          <div key={game_id}>No Review Here
+          <button>Add Review</button>
+          </div>
+        
+        );
+      } else if (elem.review) {
     return (
       <div key={game_id}>
         <p>{elem.review}</p>
+        <button>Change Review</button>
       </div>
     );
+      }
   });
-
   return (
   <div>
     <form
-      onSubmit={handleSubmit}
-    >
-      {/* <label>User Id</label>
-        <input
-          onChange={(e) => {
-            setUserId(parseInt(e.currentTarget.value));
-          }}
-          type="number"
-          name="user_id"
-          placeholder="User ID"
-        /> */}
+      onSubmit={handleSubmit}>
       <label htmlFor="reviews-box" >Reviews:</label>
       <textarea
       onChange={(e) =>
       setReview(e.target.value)}
       wrap="hard"
       name="review"
-      placeholder="write review here"
-      />
-      <button>Enter</button>
+      placeholder="write review here"/>
       </form>
       {mappedReviews}
   </div>
