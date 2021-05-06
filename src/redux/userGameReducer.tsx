@@ -83,15 +83,15 @@ const apiLogic = async (): Promise<UserGame[]> => {
     const matched: APIGame = apiGames.reduce(
       (acc: APIGame, apiElem: APIGame): APIGame => {
         if (dbElem.game_id === apiElem.id) {
-          (acc.id = apiElem.id),
-            (acc.image_url = apiElem.image_url),
-            (acc.description = apiElem.description),
-            (acc.mechanics = apiElem.mechanics),
-            (acc.categories = apiElem.categories),
-            (acc.min_age = apiElem.min_age),
-            (acc.min_players = apiElem.min_players),
-            (acc.max_players = apiElem.max_players),
-            (acc.year_published = apiElem.year_published);
+          acc.id = apiElem.id;
+          acc.image_url = apiElem.image_url;
+          acc.description = apiElem.description;
+          acc.mechanics = apiElem.mechanics;
+          acc.categories = apiElem.categories;
+          acc.min_age = apiElem.min_age;
+          acc.min_players = apiElem.min_players;
+          acc.max_players = apiElem.max_players;
+          acc.year_published = apiElem.year_published;
         }
         return acc;
       },
