@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,8 @@ import { RootState } from '../../redux/store';
 
 const Header: React.FC = () => {
   const user_id = useSelector((state: RootState) => state.userReducer.user_id);
+
+  const [checkBox, setCheckBox] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -27,6 +29,10 @@ const Header: React.FC = () => {
       })
       .catch((err) => console.log(err));
   };
+  
+  const toggleCheckBox = (): void => {
+    setCheckBox(!checkBox)
+  }
 
   return (
     <div className="header">
@@ -42,7 +48,7 @@ const Header: React.FC = () => {
 
       <nav id="navContainer">
         <div id="menuToggle">
-          <input type="checkbox" />
+          <input type="checkbox" id='checkbox' checked ={checkBox} onClick={toggleCheckBox} />
 
           <span></span>
           <span></span>
@@ -50,36 +56,42 @@ const Header: React.FC = () => {
 
           <ul id="menu">
             <li>
-              <Link className="navLink" to="/">
+              <Link onClick={toggleCheckBox} className="navLink" to="/">
                 home
               </Link>
             </li>
+            {user_id ? 
             <li>
-              <Link className="navLink" to="/user">
+              <Link onClick={toggleCheckBox} className="navLink" to="/user">
                 profile
               </Link>
             </li>
+            : ''
+            }
+            {user_id ?
             <li>
-              <Link className="navLink" to="/account">
+              <Link onClick={toggleCheckBox} className="navLink" to="/account">
                 account
               </Link>
             </li>
+            : ''
+            }
             <li>
-              <Link className="navLink" to="/game">
+              <Link onClick={toggleCheckBox} className="navLink" to="/game">
                 games
               </Link>
             </li>
-            {user_id ? (
+              {user_id ?
               <li>
-                <a onClick={logoutUser}>logout</a>
+                <a onClick={() => {logoutUser; toggleCheckBox}}>logout</a>
               </li>
-            ) : (
+              :
               <li>
-                <Link className="navLink" to="/auth">
+                <Link onClick={toggleCheckBox} className="navLink" to="/auth">
                   login
                 </Link>
               </li>
-            )}
+}
           </ul>
         </div>
       </nav>
