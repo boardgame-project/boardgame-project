@@ -8,8 +8,6 @@ type UserReview = {
 }
 
 const ItemDisplay: React.FC<UserReview> = (): JSX.Element => {
-  // const [userID, setUserID] = useState<number>(0);
-  // const [gameID, setGameID] = useState<string>('');
   const [review, setReview] = useState('')
 
   
@@ -23,9 +21,6 @@ const ItemDisplay: React.FC<UserReview> = (): JSX.Element => {
     }
     postReview();
   }
-  // useEffect(() => {
-  //   postReview();
-  // }, [setReview])
 
 
   return (
