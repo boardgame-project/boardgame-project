@@ -74,8 +74,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     }
     axios
       .put(`api/user/${param}`, body)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         setIsEditingUsername(false);
         setIsEditingEmail(false);
         setIsEditingPassword(false);

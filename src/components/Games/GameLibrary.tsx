@@ -36,7 +36,6 @@ const GameLibrary: React.FC = () => {
     categoriesSelections: string[],
     itemsPerPage: string
   ): Promise<void> => {
-    console.log(itemsPerPage, 'axios');
     const skip = Number.parseInt(itemsPerPage) * currentPage;
     //prettier-ignore
     await axios.get(`https://api.boardgameatlas.com/api/search?fuzzy_match=true${searchEntry ? `&name=${encodeURI(searchEntry)}` : ''}${mechanicsSelections.length !== 0 ? `&mechanics=${mechanicsSelections.join(',')}` : ''}${categoriesSelections.length !== 0 ? `&categories=${categoriesSelections.join(',')}` : ''}${skip !== 0 ? `&skip=${skip.toString()}` : ''}&limit=${itemsPerPage}&fields=id,name,thumb_url&client_id=${REACT_APP_CLIENT_ID}`)
@@ -50,7 +49,6 @@ const GameLibrary: React.FC = () => {
             : (apiGames[ind].avgRating = -1);
         });
       });
-      console.dir(apiGames)
       return setSearchResults(apiGames);
     });
   };

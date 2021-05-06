@@ -8,7 +8,6 @@ const LeaderBoard: React.FC<Player> = (): JSX.Element => {
       .get('/api/player/leaderboard')
       .then((res) => {
         const leaderboardArray = res.data;
-        console.log(res.data);
         setRow(leaderboardArray);
       })
       .catch((err) => console.log(err));
