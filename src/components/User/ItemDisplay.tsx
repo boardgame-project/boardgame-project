@@ -1,33 +1,69 @@
 import axios from 'axios';
-import React, {  FormEvent, useState } from 'react';
+import React, {  FormEvent, useState, useEffect } from 'react';
+// import { UserReview } from 'customTypes';
+
 
 type UserReview = {
   userID?: number;
   gameID?: string;
-  review?: string,
+  review?: string;
 }
 
 const ItemDisplay: React.FC<UserReview> = (): JSX.Element => {
-  const [review, setReview] = useState('')
-
+const [review, setReview] = useState([] as any)
   
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const postReview = () => {
+  const postReview = () => {
       axios.put(`/api/usergame/review`, { userID: 7, gameID: '0Z20rVZ9GQ', review: `${review}` })
       .then(res => {
         console.log(res.data)
       }).catch(err => console.log(err))
     }
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     postReview();
+    getReview();
   }
+    const getReview = (): void => {
+    axios
+      .get(`/api/player/reviews/7`)
+      .then((res) => {
+        console.log(res.data)
+        const reviewsArray = res.data;
+        setReview(reviewsArray);
+      })
+      .catch((err) => console.log(err));
+  };
+    useEffect((): void => {
+    getReview();
+      console.log('Re-Rendering!')
+  },[]);
+  // const mappedReviews = Object.keys(review).map(function(reviewIndex){
+  //   const newReview = review[reviewIndex]
+  //   return newReview
+  // })
 
+  const mappedReviews = Object.values(review).map((elem: typeof review, game_id: number) => {
+    return (
+      <div key={game_id}>
+        <p>{elem.review}</p>
+      </div>
+    );
+  });
 
   return (
   <div>
     <form
       onSubmit={handleSubmit}
     >
+      {/* <label>User Id</label>
+        <input
+          onChange={(e) => {
+            setUserId(parseInt(e.currentTarget.value));
+          }}
+          type="number"
+          name="user_id"
+          placeholder="User ID"
+        /> */}
       <label htmlFor="reviews-box" >Reviews:</label>
       <textarea
       onChange={(e) =>
@@ -38,6 +74,7 @@ const ItemDisplay: React.FC<UserReview> = (): JSX.Element => {
       />
       <button>Enter</button>
       </form>
+      {mappedReviews}
   </div>
   )
 }

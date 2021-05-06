@@ -1,5 +1,4 @@
 import React from 'react';
-import Reviews from '../Games/Reviews';
 import ItemDisplay from './ItemDisplay';
 
 const Testing: React.FC = () => {
@@ -8,7 +7,7 @@ const Testing: React.FC = () => {
   
   <div>
     <ItemDisplay />
-    <Reviews />
+
   </div>
   )
 }

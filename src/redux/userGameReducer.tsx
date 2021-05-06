@@ -1,7 +1,7 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import axios from 'axios';
 import { DBGame } from 'customTypes';
+import dotenv from 'dotenv';
+dotenv.config();
 const { REACT_APP_CLIENT_ID } = process.env;
 
 export interface APIGame {

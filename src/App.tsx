@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -8,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import routes from './routes';
 import './reset.css';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
