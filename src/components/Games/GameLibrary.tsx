@@ -49,7 +49,6 @@ const GameLibrary: React.FC = () => {
             : (apiGames[ind].avgRating = -1);
         });
       });
-      console.dir(apiGames)
       return setSearchResults(apiGames);
     });
   };

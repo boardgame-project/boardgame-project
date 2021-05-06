@@ -62,9 +62,18 @@ declare module 'customTypes' {
     email: string;
     username: string;
     password: string;
-  };
+  }
 
   export type UserReview = {
     review?: string;
+  };
+
+  export type DBGame = {
+    id: number;
+    user_id: number;
+    game_id: string;
+    play_count: number;
+    rating: number;
+    review: string;
   };
 }
