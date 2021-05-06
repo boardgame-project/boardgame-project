@@ -17,7 +17,7 @@ const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
         }}>
         <img src={thumb_url} />
         <h3>{name}</h3>
-        <Rating rating={avgRating} />
+        {avgRating === -1 ? <h4>Not Yet Reviewed</h4> : <Rating rating={avgRating} />}
       </Link>
     </div>
   );

@@ -79,7 +79,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
       <div className="game-info-container">
         <h1 className="game-name">{name}</h1>
         <div className="game-info">{HTMLReactParser(descriptionState)}</div>
-        <Rating rating={avgRating} />
+        {avgRating === -1 ? <h4>Not Yet Reviewed</h4> : <Rating rating={avgRating} />}
       </div>
       <img src={imageUrlState} className="game-images" alt={name} />
       <p>{yearPublishedState}</p>
