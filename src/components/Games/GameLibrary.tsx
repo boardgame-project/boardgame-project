@@ -25,7 +25,6 @@ const GameLibrary: React.FC = () => {
     await axios.get('/api/game/ratings').then((res) => {
       const ratingsArray: GameRatings = res.data;
       setGameRatings(ratingsArray);
-      // console.log(ratingsArray);
     });
   };
 

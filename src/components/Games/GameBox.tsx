@@ -5,7 +5,6 @@ import Rating from '../StyledComponents/Rating';
 
 const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
   const { id, name, thumb_url, avgRating } = props.thumbGame;
-  console.log(avgRating);
   return (
     <div className="gameBox">
       <Link
