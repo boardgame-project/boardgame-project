@@ -28,7 +28,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       .post<User>('/api/auth/register', { username, first_name: firstName, last_name: lastName, email, password })
       .then((res) => {
         const user = res.data;
-        dispatch({ type: 'UPDATE_USER', action: user });
+        dispatch({ type: 'UPDATE_USER', payload: user });
         setFirstName('');
         setLastName('');
         setEmail('');
@@ -59,7 +59,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         const user = res.data;
         setUserCreds('');
         setLoginPassword('');
-        dispatch({ type: 'UPDATE_USER', action: user });
+        dispatch({ type: 'UPDATE_USER', payload: user });
         dispatch(getUserGames());
         props.history.push('/');
       })

@@ -1,21 +1,26 @@
 import React from 'react';
 // import {Link} from 'react-router-dom';
-// import { UserGame } from '../../redux/userGameReducer';
+import { UserGame } from '../../redux/userGameReducer';
 
+const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
 
-
-const ShelfItem: React.FC = (): JSX.Element => {
+  // console.log(props)
   
-  // id, name, thumb_url, play_count, description, mechanics, categories, rating, review, min_age, min_players, max_players, year_published  
 
   return (
-    <div className='shelfItemBox'>
-      {/* <Link to={`/usergame/${id}`}>
-        <img src={thumb_url}/>
-        <p>{name}</p>
-      </Link> */}
-
-    </div>)
+    <section className='shelfItemBox'>
+      <div className='nameFlex'>
+        <h3>{props.name}</h3>
+      </div>
+      <div className='shelfItemFlex'>
+      <img src={props.image_url} />
+      <div className='stats'>
+        <h4>play stats</h4>
+        <p>play count: {props.play_count}</p>
+        <p>rating: {props.rating}</p>
+      </div>
+      </div>
+    </section>)
 }
 
-export default ShelfItem
+export default ShelfItem;

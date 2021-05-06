@@ -76,4 +76,8 @@ declare module 'customTypes' {
     rating: number;
     review: string;
   };
+  export type ReviewProps = {
+    game_id: string;
+  };
 }
+

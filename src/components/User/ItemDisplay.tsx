@@ -1,6 +1,5 @@
 import axios from 'axios';
-import React, {   useState, useEffect } from 'react';
-// import { UserReview } from 'customTypes';
+import React, {   FormEvent, useState, useEffect } from 'react';
 
 type UserReview = {
   userID?: number;
@@ -68,8 +67,8 @@ const [review, setReview] = useState([] as any)
       placeholder="write review here"/>
       {mappedReviews}
       </form>
-  </div>
-  )
-}
+      )
+
+};
 
 export default ItemDisplay;
