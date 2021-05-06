@@ -25,7 +25,20 @@ const GameLibrary: React.FC = () => {
     await axios.get('/api/game/ratings').then((res) => {
       const ratingsArray: GameRatings = res.data;
       setGameRatings(ratingsArray);
+      // console.log(ratingsArray);
     });
+  };
+
+  const associateReviews = (apiGames: ThumbGame[]) => {
+    const output = apiGames;
+    output.forEach((game: ThumbGame, ind: number) => {
+      gRatings.forEach((rating) => {
+        game.id === rating.game_id
+          ? (apiGames[ind].avgRating = rating.average_rating)
+          : (apiGames[ind].avgRating = apiGames[ind].avgRating);
+      });
+    });
+    setSearchResults(output);
   };
 
   const getAPIGames = async (
@@ -39,15 +52,15 @@ const GameLibrary: React.FC = () => {
     await axios.get(`https://api.boardgameatlas.com/api/search?fuzzy_match=true${searchEntry ? `&name=${encodeURI(searchEntry)}` : ''}${mechanicsSelections.length !== 0 ? `&mechanics=${mechanicsSelections.join(',')}` : ''}${categoriesSelections.length !== 0 ? `&categories=${categoriesSelections.join(',')}` : ''}${skip !== 0 ? `&skip=${skip.toString()}` : ''}&limit=${itemsPerPage}&fields=id,name,thumb_url&client_id=${REACT_APP_CLIENT_ID}`)
     // 
     .then((res) => {
+      res.data.games.forEach(
+        (
+          el: { id: string; name: string; thumb_url: string },
+          ind: number,
+          array: { id: string; name: string; thumb_url: string }[]
+        ) => (array[ind] = { ...el, ...{ avgRating: -1 } })
+      );
       const apiGames: ThumbGame[] = res.data.games;
-      apiGames.forEach((game, ind) => {
-        gRatings.forEach((rating) => {
-          game.id === rating.game_id
-            ? (apiGames[ind].avgRating = rating.average_rating)
-            : (apiGames[ind].avgRating = -1);
-        });
-      });
-      return setSearchResults(apiGames);
+      associateReviews(apiGames)
     });
   };
 

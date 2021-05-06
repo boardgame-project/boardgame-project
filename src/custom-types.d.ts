@@ -77,5 +77,7 @@ declare module 'customTypes' {
     review: string;
   };
 
-  export type reviewProps = {};
+  export type ReviewProps = {
+    game_id: string;
+  };
 }

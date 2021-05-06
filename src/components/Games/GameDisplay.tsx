@@ -5,6 +5,7 @@ import { RootState } from '../../redux/store';
 import { GameDispProps, Option } from 'customTypes';
 import HTMLReactParser from 'html-react-parser';
 import Reviews from './Reviews';
+import Rating from '../StyledComponents/Rating';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
@@ -78,9 +79,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
       <div className="game-info-container">
         <h1 className="game-name">{name}</h1>
         <div className="game-info">{HTMLReactParser(descriptionState)}</div>
-        <div className="game-rating">Average Rating:{avgRating === -1 ? 'Not Reviewed' : avgRating}</div>
+        <Rating rating={avgRating} />
       </div>
-      {/* <div className="game-reviews">{props.reviews}</div> */}
       <img src={imageUrlState} className="game-images" alt={name} />
       <p>{yearPublishedState}</p>
       <p>{categoriesState}</p>
@@ -88,7 +88,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
       <p>{minPlayersState}</p>
       <p>{maxPlayersState}</p>
       <p>{minAgeState}</p>
-      <Reviews />
+      <Reviews game_id={id} />
     </div>
   );
 };

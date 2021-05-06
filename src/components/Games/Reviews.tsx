@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Review } from 'customTypes';
+import { Review, ReviewProps } from 'customTypes';
 
-const Reviews: React.FC<> = (props): JSX.Element => {
+const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
   const [review, setReview] = useState([]);
+  const game_id = props.game_id;
 
-  const getReview = (): void => {
-    axios
-      .get(`/api/player/reviews/${userId}`)
-      .then((res) => {
-        const reviewsArray = res.data;
-        setReview(reviewsArray);
-      })
-      .catch((err) => console.log(err));
-  };
   const getGameReview = (): void => {
     axios
-      .get(`/api/game/reviews/${gameId}`)
+      .get(`/api/game/reviews/${game_id}`)
       .then((res) => {
         const reviewsArray = res.data;
         setReview(reviewsArray);
@@ -25,27 +17,23 @@ const Reviews: React.FC<> = (props): JSX.Element => {
   };
 
   useEffect((): void => {
-    getReview();
-  }, [userId]);
-  useEffect((): void => {
     getGameReview();
-  }, [gameId]);
+  }, []);
 
   const mappedReviews = review.map((elem: Review, id: number) => {
     return (
-      <div key={id}>
-        <>
-        <p>{elem.review}</p>
-      </div>
+      <article key={id}>
+        <h4>{elem.username}</h4>
+        <div>{elem.rating}</div>
+        <div>{elem.review}</div>
+      </article>
     );
   });
 
   return (
     <div>
-      Reviews:
-      <form>
-        {mappedReviews}
-      </form>
+      {mappedReviews.length ? <h2>Reviews:</h2> : ''}
+      {mappedReviews}
     </div>
   );
 };
