@@ -15,7 +15,8 @@ const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
         }}>
         <img src={thumb_url} />
         <h3>{name}</h3>
-        <div className="hexagons" style={{ --rating: avgRating === -1 ? 0 : avgRating, aria-label:`${avgRating === -1 ? 'Not Reviewed' : avgRating}/5`}}></div>
+        {avgRating}
+        {/* <div className="hexagons" style={{ --rating: avgRating === -1 ? 0 : avgRating, aria-label:`${avgRating === -1 ? 'Not Reviewed' : avgRating}/5`}}></div> */}
       </Link>
     </div>
   );

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { GameDispProps, Option } from 'customTypes';
 import HTMLReactParser from 'html-react-parser';
+import Reviews from './Reviews';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
@@ -23,15 +24,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
   useEffect((): void => {
-    // getGameReviews();
     getGameDetails();
   });
-
-  // const getGameReviews = (): void => {
-  //     axios.get(`/api/game/review/:${id}`).then((res) => {
-  //         setReviews(res.data);
-  //     });
-  // };
 
   const getGameDetails = async (): Promise<void> => {
     await axios
@@ -94,7 +88,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
       <p>{minPlayersState}</p>
       <p>{maxPlayersState}</p>
       <p>{minAgeState}</p>
-      {/* <Reviews reviews={reviewsState} /> */}
+      <Reviews />
     </div>
   );
 };
