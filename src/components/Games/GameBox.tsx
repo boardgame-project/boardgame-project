@@ -1,25 +1,21 @@
+import { GameBoxProps } from 'customTypes';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-type ThumbGame = {
-  game_id: string;
-  name: string;
-  thumb_url: string;
-  avgRating: number;
-};
-
-type GameBoxProps = {
-  thumbGame: ThumbGame;
-};
-
 const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
-  const { game_id, name, thumb_url, avgRating } = props.thumbGame;
+  const { id, name, thumb_url, avgRating } = props.thumbGame;
   return (
     <div className="gameBox">
-      <Link to={`/game/${game_id}`}>
+      <Link
+        to={{
+          pathname: `/game/${id}`,
+          state: {
+            thumbGame: props.thumbGame
+          }
+        }}>
         <img src={thumb_url} />
         <h3>{name}</h3>
-        <h4>{avgRating}</h4>
+        <h4>{avgRating === -1 ? 'Not Reviewed' : avgRating}</h4>
       </Link>
     </div>
   );

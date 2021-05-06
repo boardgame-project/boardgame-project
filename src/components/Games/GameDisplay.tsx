@@ -2,31 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-// import Reviews from './Reviews';
-import dotenv from 'dotenv';
-dotenv.config();
+import { GameDispProps, Option } from 'customTypes';
+import HTMLReactParser from 'html-react-parser';
+
 const { REACT_APP_CLIENT_ID } = process.env;
-
-// type Review = {
-//     username: string;
-//     rating: number;
-//     review: string;
-// };
-type Option = {
-  id: string;
-  name: string;
-  url: string;
-};
-type ThumbGame = {
-  game_id: string;
-  name: string;
-  thumb_url: string;
-  avgRating: number;
-};
-
-type GameDispProps = {
-  thumbGame: ThumbGame;
-};
 
 const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
   // const [reviewsState, setReviews] = useState<Review[]>([]);
@@ -39,7 +18,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [descriptionState, setDescription] = useState('');
   const [imageUrlState, setImageUrl] = useState('');
 
-  const { game_id, name, avgRating } = props.thumbGame;
+  const { id, name, avgRating } = props.location.state.thumbGame;
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
@@ -49,7 +28,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   });
 
   // const getGameReviews = (): void => {
-  //     axios.get(`/api/game/review/:${game_id}`).then((res) => {
+  //     axios.get(`/api/game/review/:${id}`).then((res) => {
   //         setReviews(res.data);
   //     });
   // };
@@ -57,7 +36,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const getGameDetails = async (): Promise<void> => {
     await axios
       .get(
-        `https://api.boardgameatlas.com/api/search?ids=${game_id}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
+        `https://api.boardgameatlas.com/api/search?ids=${id}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
       )
       .then((res) => {
         const {
@@ -91,13 +70,12 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
         categoriesProcessed.forEach((searchResCat: { id: string; url: string }, ind: number) => {
           categoriesLib.forEach((catLib: Option) => {
             if (catLib.id === searchResCat.id) {
-              mechanicsProcessed[ind] = catLib.name;
+              categoriesProcessed[ind] = catLib.name;
             }
           });
         });
-
-        setMechanics(mechanicsProcessed);
-        setCategories(categoriesProcessed);
+        setMechanics(mechanicsProcessed.join(','));
+        setCategories(categoriesProcessed.join(','));
       });
   };
 
@@ -105,8 +83,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
     <div className="game-display-page">
       <div className="game-info-container">
         <h1 className="game-name">{name}</h1>
-        <p className="game-info">{descriptionState}</p>
-        <div className="game-rating">Average Rating:{avgRating}</div>
+        <div className="game-info">{HTMLReactParser(descriptionState)}</div>
+        <div className="game-rating">Average Rating:{avgRating === -1 ? 'Not Reviewed' : avgRating}</div>
       </div>
       {/* <div className="game-reviews">{props.reviews}</div> */}
       <img src={imageUrlState} className="game-images" alt={name} />

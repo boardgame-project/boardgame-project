@@ -2,6 +2,7 @@ module.exports = {
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   plugins: [
     "@typescript-eslint",
+    "@emotion",
     "prettier"
   ],
   extends: [
@@ -17,6 +18,7 @@ module.exports = {
     },
   },
   rules: {
+    "@emotion/jsx-import":"error"
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },

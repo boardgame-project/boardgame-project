@@ -42,4 +42,4 @@ const ItemDisplay: React.FC<UserReview> = (): JSX.Element => {
   )
 }
 
-export default ItemDisplay
+export default ItemDisplay;

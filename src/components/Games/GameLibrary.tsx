@@ -3,28 +3,18 @@ import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
-import dotenv from 'dotenv';
-dotenv.config();
+import { GameRatings, ThumbGame } from 'customTypes';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
-type GameRatings = [
-  {
-    game_id: string;
-    average_rating: number;
-  }
-];
-
-type ThumbGame = {
-  game_id: string;
-  name: string;
-  thumb_url: string;
-  avgRating: number;
-};
-
 const GameLibrary: React.FC = () => {
-  const [gRatings, setGameRatings] = useState<GameRatings>([{ game_id: '', average_rating: 0 }]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [gRatings, setGameRatings] = useState<GameRatings>([
+    {
+      game_id: '',
+      average_rating: 0
+    }
+  ]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
 
   useEffect(() => {
@@ -34,7 +24,6 @@ const GameLibrary: React.FC = () => {
   const getGameRatings = async (): Promise<void> => {
     await axios.get('/api/game/ratings').then((res) => {
       const ratingsArray: GameRatings = res.data;
-      console.log(res.data);
       setGameRatings(ratingsArray);
     });
   };
@@ -46,25 +35,20 @@ const GameLibrary: React.FC = () => {
     itemsPerPage: string
   ): Promise<void> => {
     const skip = Number.parseInt(itemsPerPage) * currentPage;
-    await axios
-      .get(
-        `https://api.boardgameatlas.com/api/search?fuzzy_match=true&name=${encodeURI(
-          searchEntry
-        )}&mechanics=${mechanicsSelections.join(',')}&categories=${categoriesSelections.join(
-          ','
-        )}&limit=${itemsPerPage}&skip=${skip.toString()}&fields=game_id,name,thumb_url&client_id=${REACT_APP_CLIENT_ID}`
-      )
-      .then((res) => {
-        const apiGames: ThumbGame[] = res.data.games;
-        apiGames.forEach((game, ind) => {
-          gRatings.forEach((rating) => {
-            if (game.game_id === rating.game_id) {
-              apiGames[ind].avgRating = rating.average_rating;
-            }
-          });
+    //prettier-ignore
+    await axios.get(`https://api.boardgameatlas.com/api/search?fuzzy_match=true${searchEntry ? `&name=${encodeURI(searchEntry)}` : ''}${mechanicsSelections.length !== 0 ? `&mechanics=${mechanicsSelections.join(',')}` : ''}${categoriesSelections.length !== 0 ? `&categories=${categoriesSelections.join(',')}` : ''}${skip !== 0 ? `&skip=${skip.toString()}` : ''}&limit=${itemsPerPage}&fields=id,name,thumb_url&client_id=${REACT_APP_CLIENT_ID}`)
+    // 
+    .then((res) => {
+      const apiGames: ThumbGame[] = res.data.games;
+      apiGames.forEach((game, ind) => {
+        gRatings.forEach((rating) => {
+          game.id === rating.game_id
+            ? (apiGames[ind].avgRating = rating.average_rating)
+            : (apiGames[ind].avgRating = -1);
         });
-        setSearchResults(apiGames);
       });
+      return setSearchResults(apiGames);
+    });
   };
 
   const mappedGames = searchResults.map((elem: ThumbGame, id: number) => {
