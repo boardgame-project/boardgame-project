@@ -20,7 +20,6 @@ const User: React.FC = () => {
         axios
             .get('/api/usergame')
             .then((res) => {
-                // console.log(res.data)
                 setUserGames(res.data);
             })
             .catch((err) => console.log(err));
