@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {  FormEvent, useState, useEffect } from 'react';
+import React, {   useState, useEffect } from 'react';
 // import { UserReview } from 'customTypes';
 
 type UserReview = {
@@ -27,7 +27,7 @@ const [review, setReview] = useState([] as any)
       })
       .catch((err) => console.log(err));
   };
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     postReview();
     // getReview();
@@ -39,33 +39,35 @@ const [review, setReview] = useState([] as any)
     const mappedReviews = Object.values(review).map((elem: typeof review, game_id: number) => {
       if (elem.review == "") {
         return (
-          <div key={game_id}>No Review Here
+          <div key={game_id}>
+          <div>No Review Here</div>
           <button>Add Review</button>
           </div>
         
         );
-      } else if (elem.review) {
+      }
+      if (elem.review) {
     return (
-      <div key={game_id}>
+        <div key={game_id}>
         <p>{elem.review}</p>
         <button>Change Review</button>
-      </div>
+        </div>
     );
       }
   });
   return (
-  <div>
-    <form
-      onSubmit={handleSubmit}>
-      <label htmlFor="reviews-box" >Reviews:</label>
+  <div
+    onSubmit={handleSubmit}>
+    <form>
+      <label htmlFor="reviews-box">Reviews:</label>
       <textarea
       onChange={(e) =>
-      setReview(e.target.value)}
+      setReview(e.currentTarget.value)}
       wrap="hard"
       name="review"
       placeholder="write review here"/>
-      </form>
       {mappedReviews}
+      </form>
   </div>
   )
 }
