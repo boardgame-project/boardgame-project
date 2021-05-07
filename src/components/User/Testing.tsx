@@ -1,15 +1,8 @@
 import React from 'react';
-import ItemDisplay from './ItemDisplay';
+// import ItemDisplay from './ItemDisplay';
 
 const Testing: React.FC = () => {
- 
-  return (
-  
-  <div>
-    <ItemDisplay />
+  return <div></div>;
+};
 
-  </div>
-  )
-}
-
-export default Testing
+export default Testing;
