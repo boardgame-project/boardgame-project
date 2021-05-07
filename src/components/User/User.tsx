@@ -12,7 +12,7 @@ const User: React.FC = () => {
     const [playCount, setPlayCount] = useState(0);
 
     const userGames = useSelector ((state: RootState) => state.userGameReducer.userGames)
-    console.log(userGames)
+    // console.log(userGames)
 
     useEffect((): void => {
         // getUserGames();
