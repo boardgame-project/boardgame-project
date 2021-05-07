@@ -6,6 +6,7 @@ const { REACT_APP_CLIENT_ID } = process.env;
 
 export interface APIGame {
   id: string;
+  name: string;
   image_url: string;
   description: string;
   mechanics: string;
@@ -18,6 +19,7 @@ export interface APIGame {
 
 export interface UserGame {
   game_id: string;
+  name: string;
   play_count: number;
   rating: number;
   review: string;
@@ -39,6 +41,7 @@ const initialState: GameState = {
   userGames: [
     {
       game_id: '',
+      name: '',
       play_count: 0,
       rating: 0,
       review: '',
@@ -72,7 +75,7 @@ const apiLogic = async (): Promise<UserGame[]> => {
   const apiGames: APIGame[] = await axios
     .get(
       //prettier-ignore
-      `https://api.boardgameatlas.com/api/search?ids=${userGameIds.join(',')}&fields=id,year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
+      `https://api.boardgameatlas.com/api/search?ids=${userGameIds.join(',')}&fields=id,name,year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
     )
     .then((res) => {
       return res.data.games;
@@ -84,6 +87,7 @@ const apiLogic = async (): Promise<UserGame[]> => {
       (acc: APIGame, apiElem: APIGame): APIGame => {
         if (dbElem.game_id === apiElem.id) {
           acc.id = apiElem.id;
+          acc.name = apiElem.name;
           acc.image_url = apiElem.image_url;
           acc.description = apiElem.description;
           acc.mechanics = apiElem.mechanics;
@@ -97,6 +101,7 @@ const apiLogic = async (): Promise<UserGame[]> => {
       },
       {
         id: '',
+        name: '',
         image_url: '',
         description: '',
         mechanics: '',
@@ -110,6 +115,7 @@ const apiLogic = async (): Promise<UserGame[]> => {
 
     return {
       game_id: matched.id,
+      name: matched.name,
       play_count: dbElem.play_count,
       rating: dbElem.rating,
       review: dbElem.review,

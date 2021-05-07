@@ -6,12 +6,12 @@ import userReducer from './userReducer';
 import userGameReducer from './userGameReducer';
 import meccatReducer from './meccatReducer';
 
-import { UserGame } from './userGameReducer';
+import { GameState } from './userGameReducer';
 import { User } from './userReducer';
 import { MecCatState } from './meccatReducer';
 export interface RootState {
   userReducer: User;
-  userGameReducer: UserGame;
+  userGameReducer: GameState;
   meccatReducer: MecCatState;
 }
 
