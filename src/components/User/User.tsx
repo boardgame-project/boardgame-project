@@ -47,8 +47,8 @@ const User: React.FC = () => {
     return (
         <div>
             <section className="userProfile">
-                <p>{user.username}</p>
-                <p>playcount: {playCount}</p>
+                <h2>{user.username}</h2>
+                <h4>playcount: {playCount}</h4>
                 {/* <div>graph of top 5 plays</div> */}
             </section>
             <div className="shelf">{mappedUserGames}</div>

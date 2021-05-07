@@ -5,10 +5,11 @@ const Rating = styled.div`
   font-size: 14pt;
   font-family: Times;
   line-height: 1;
+  position: relative;
 
   &::after {
    content: '⬡⬡⬡⬡⬡';
-   position: relative; 
+   position: absolute;
    left:0px;
    letter-spacing: 3px;
   }

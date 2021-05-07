@@ -1,6 +1,4 @@
-@mixin border {
-  border: 1px solid $text-color;
-}
+@import '../1-helpers/mixins';
 
 .shelfItemBox {
   display: relative;
@@ -86,9 +84,34 @@
   h4 {
     font-family: $font-heading;
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
   }
   p {
     margin-bottom: 10px;
+  }
+}
+
+.rating {
+  p {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+@media (min-width: $bp-mobile) {
+  .shelfItemBox {
+    width: 350px;
+    margin: 20px auto;
+  }
+}
+
+@media (min-width: $bp-tablet) {
+  .shelf {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+  .shelfItemBox {
+    width: 400px;
   }
 }
