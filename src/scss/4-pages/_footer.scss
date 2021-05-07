@@ -3,7 +3,7 @@
   padding-top: 20px;
   text-align: center;
   background: $secondary-color;
-  height: 20vh;
+  height: 135px;
   h3 {
     font-family: $font-heading;
     font-size: 1.5rem;
@@ -15,6 +15,11 @@
   }
   a {
     cursor: pointer;
+    text-decoration: none;
+    color: $text-color;
+  }
+  a:hover {
+    color: $heighlight-color;
   }
 }
 
