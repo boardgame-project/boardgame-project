@@ -129,9 +129,9 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
         </form>
       </div>
       <div id="checkboxContainer">
-        <h3> Mechanics</h3>
+        <h5> Mechanics</h5>
         <form id="mechanicsCheckboxes">{mechanicsCheckboxes}</form>
-        <h3>Categories</h3>
+        <h5>Categories</h5>
         <form id="categoriesCheckboxes">{categoriesCheckboxes}</form>
       </div>
     </aside>
