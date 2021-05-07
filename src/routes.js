@@ -9,12 +9,12 @@ import { Route, Switch } from 'react-router-dom';
 
 export default (
   <Switch>
-    <Route exact path='/' component={GameLibrary} />
-    <Route path='/auth' component={Login} />
-    <Route path='/user' component={User} />
-    <Route path='/game/:id' component={GameDisplay} />
-    <Route path='/game' component={GameLibrary} />
-    <Route path='/account' component={MyAccount} />
-    <Route path='/usergame/:id' component={ItemDisplay}/>
+    <Route exact path="/" component={GameLibrary} />
+    <Route path="/auth" component={Login} />
+    <Route path="/user" component={User} />
+    <Route path="/game/:id" component={GameDisplay} />
+    <Route path="/game" component={GameLibrary} />
+    <Route path="/account" component={MyAccount} />
+    <Route path="/usergame/:id" component={ItemDisplay} />
   </Switch>
-)
+);
