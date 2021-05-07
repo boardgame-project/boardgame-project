@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   return (
     <div className='footer'>
         <div>
-            <h3>TopTable Games</h3>
+            <h4>TopTable Games</h4>
             <p><a href='https://www.linkedin.com/in/carlos-chavez-141926208/' rel="noreferrer" target='_blank'>Carlos Chavez</a> | <a href='https://www.linkedin.com/in/david-j-koser/' rel="noreferrer" target='_blank'>David Koser</a> | <a href='https://www.linkedin.com/in/richard-miller-wimmer/' rel="noreferrer" target='_blank'>Richard Miller Wimmer</a></p>
         </div>
         <div>

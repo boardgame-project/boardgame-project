@@ -1,68 +1,66 @@
 .heroContainer {
-    position: relative;
-    width: 100vw;
-    height: 40vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  width: 100vw;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .heroText {
-    background: rgba(255, 255, 255, 0.3);
-    text-align: center;
-    display: inline-block;
-    position: relative;
-    padding: 20px;
-    margin: 15px;
-    border: 1px solid $text-color;
-    border-radius: 2px;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    -moz-backdrop-filter: blur(3px);
+  background: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  padding: 20px;
+  margin: 15px;
+  border: 1px solid $text-color;
+  border-radius: 2px;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  -moz-backdrop-filter: blur(3px);
 
-    h1 {
-        font-family: $font-heading;
-        font-size: 3.75rem;
-        color: $text-color;
-    }
-    p {
-        font-family: $font-main;
-        font-size: 1rem;
-        color: $text-color;
-    }
+  h1 {
+    font-family: $font-heading;
+    color: $text-color;
+  }
+  p {
+    font-family: $font-main;
+    font-size: 1.2rem;
+    color: $text-color;
+  }
 }
 .heroPic {
-    position: absolute;
-    width: 100%;
-    height: 40vh;
-    z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 40vh;
+  z-index: -1;
 }
 .heroPic::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url(https://media.timeout.com/images/105627949/image.jpg);
-    background-repeat: no repeat;
-    background-size: cover;
-    background-position: center center;
-    // filter: brightness(60%);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(https://media.timeout.com/images/105627949/image.jpg);
+  background-repeat: no repeat;
+  background-size: cover;
+  background-position: center center;
 }
 
 @media (min-width: $bp-mobile) {
-    .heroContainer {
-        height: 60vh;
+  .heroContainer {
+    height: 60vh;
+  }
+  .heroPic {
+    height: 60vh;
+  }
+  .heroText {
+    h1 {
+      font-size: 4.8rem;
     }
-    .heroPic {
-        height: 60vh;
+    p {
+      font-size: 1.3rem;
     }
-    .heroText {
-        h1 {
-            font-size: 4.75rem;
-        }
-        p {
-            font-size: 1.3rem;
-        }
-    }
+  }
 }
