@@ -17,6 +17,7 @@
     justify-content: center;
   }
   h3 {
+    color: $text-color;
     display: inline-block;
     text-align: center;
     font-family: $font-heading;
@@ -28,6 +29,7 @@
   p {
     font-family: $font-main;
     font-size: 0.8rem;
+    color: $text-color;
   }
 }
 
@@ -101,7 +103,7 @@
 @media (min-width: $bp-mobile) {
   .shelfItemBox {
     width: 350px;
-    margin: 20px auto;
+    margin: 20px;
   }
 }
 
@@ -109,7 +111,7 @@
   .shelf {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
   }
   .shelfItemBox {
     width: 400px;

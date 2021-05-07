@@ -45,12 +45,17 @@ const User: React.FC = () => {
     });
 
     return (
-        <div>
+        <div className='flexProfile'>
+            <aside className='sticky'>
             <section className="userProfile">
-                <h2>{user.username}</h2>
-                <h4>playcount: {playCount}</h4>
+                <div className='userFlex'>
+                    <h2>{user.username}</h2>
+                    <h4>playcount: {playCount}</h4>
+                </div>
                 {/* <div>graph of top 5 plays</div> */}
+                <img src='https://via.placeholder.com/150'/>
             </section>
+            </aside>
             <div className="shelf">{mappedUserGames}</div>
         </div>
     );

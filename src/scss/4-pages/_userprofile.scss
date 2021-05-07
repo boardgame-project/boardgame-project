@@ -1,11 +1,69 @@
+@import '../1-helpers/mixins';
+
 .userProfile {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 0 0;
   h2 {
     font-family: $font-heading;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    color: $text-color;
+    padding-right: 10px;
+    // color: black;
   }
   h4 {
     font-family: $font-main;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    color: $text-color;
+  }
+  img {
+    width: 100px;
+    object-fit: contain;
+  }
+}
+
+@media (min-width: $bp-mobile) {
+  .userProfile {
+    h2 {
+      font-size: 2.4rem;
+    }
+    h4 {
+      font-size: 1.4rem;
+    }
+    img {
+      width: 150px;
+    }
+  }
+}
+
+@media (min-width: $bp-tablet) {
+  .userProfile {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: 350px;
+    margin: 20px 20px 0 30px;
+    text-align: center;
+    @include border();
+    h2 {
+      padding: 10px;
+    }
+    h4 {
+      padding: 0 10px 10px 10px;
+    }
+    img {
+      margin-top: 30px;
+    }
+  }
+  .sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10px;
+    height: 350px;
+  }
+  .flexProfile {
+    display: flex;
+    flex-flow: row nowrap;
   }
 }
