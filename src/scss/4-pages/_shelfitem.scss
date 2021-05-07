@@ -32,6 +32,11 @@
     color: $text-color;
   }
 }
+.shelf {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
 
 .shelfItemFlex {
   display: flex;
