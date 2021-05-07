@@ -38,6 +38,14 @@ declare module 'customTypes' {
     };
   };
 
+  export type UserGameProps = {
+    location: {
+      state: {
+        userGame: UserGame;
+      };
+    };
+  };
+
   export type GameBoxProps = {
     thumbGame: ThumbGame;
   };
@@ -76,8 +84,12 @@ declare module 'customTypes' {
     rating: number;
     review: string;
   };
-
   export type ReviewProps = {
     game_id: string;
+  };
+  export type UserReview = {
+    userID?: number;
+    gameID?: string;
+    review?: string;
   };
 }

@@ -10,7 +10,6 @@ import routes from './routes';
 import './reset.css';
 import Footer from './components/Header/footer';
 
-
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
