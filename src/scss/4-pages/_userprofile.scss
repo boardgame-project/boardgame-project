@@ -1,19 +1,21 @@
 @import '../1-helpers/mixins';
 
+.flexProfile {
+  min-height: 70vh;
+}
 .userProfile {
   display: flex;
   justify-content: center;
   padding: 20px 0 0 0;
   h2 {
     font-family: $font-heading;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: $text-color;
     padding-right: 10px;
-    // color: black;
   }
   h4 {
     font-family: $font-main;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: $text-color;
   }
   img {
@@ -25,10 +27,10 @@
 @media (min-width: $bp-mobile) {
   .userProfile {
     h2 {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
     }
     h4 {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
     img {
       width: 150px;

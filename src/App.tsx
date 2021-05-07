@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import routes from './routes';
 import './reset.css';
+import Footer from './components/Header/footer';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ const App: React.FC = () => {
     <div className="App">
       <Header />
       {routes}
+      <Footer />
     </div>
   );
 };

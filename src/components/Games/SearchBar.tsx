@@ -2,6 +2,7 @@ import { SearchProps, Option } from 'customTypes';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import Button from '../StyledComponents/Button';
 
 const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const [searchEntry, setSearchEntry] = useState('');
@@ -56,7 +57,6 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
     const output = mechanics.map((option: Option, ind: number) => {
       return (
         <div key={`mechanic${ind}`}>
-          <label htmlFor={`mechanic${ind}`}>{option.name}</label>
           <input
             type="checkbox"
             id={`mechanic${ind}`}
@@ -65,6 +65,9 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
               checkToggler('mechanics', e.target.value);
               props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
             }}></input>
+          <label className="checkLabel" htmlFor={`mechanic${ind}`}>
+            {option.name}
+          </label>
         </div>
       );
     });
@@ -75,7 +78,6 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
     const output = categories.map((option: Option, ind: number) => {
       return (
         <div key={`category${ind}`}>
-          <label htmlFor={`category${ind}`}>{option.name}</label>
           <input
             type="checkbox"
             id={`category${ind}`}
@@ -84,6 +86,9 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
               checkToggler('category', e.target.value);
               props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
             }}></input>
+          <label className="checkLabel" htmlFor={`category${ind}`}>
+            {option.name}
+          </label>
         </div>
       );
     });
@@ -94,19 +99,24 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
     <aside id="searchComponentContainer">
       <div id="searchbarContainer">
         <form
+          id="searchForm"
           onSubmit={(e: React.SyntheticEvent) => {
             e.preventDefault();
             props.getAPIGames(searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
+            setSearchEntry('');
           }}>
-          <label htmlFor="titleDescriptionSearch">Search</label>
+          <label id="titleDescriptionLabel" htmlFor="titleDescriptionSearch">
+            Search
+          </label>
           <input
             id="titleDescriptionSearch"
             type="text"
             value={searchEntry}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchEntry(e.target.value)}
             placeholder="game title"></input>
-          <button>Search</button>
+          <Button>Search</Button>
           <select
+            id="itemsPerPageSelector"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               setItemsPerPage(e.target.value);
             }}
@@ -119,7 +129,9 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
         </form>
       </div>
       <div id="checkboxContainer">
+        <h5> Mechanics</h5>
         <form id="mechanicsCheckboxes">{mechanicsCheckboxes}</form>
+        <h5>Categories</h5>
         <form id="categoriesCheckboxes">{categoriesCheckboxes}</form>
       </div>
     </aside>

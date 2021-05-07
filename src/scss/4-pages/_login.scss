@@ -1,54 +1,55 @@
 .loginContainer {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    h3 {
-        font-family: $font-heading;
-        font-size: 1.5rem;
-    }
-    label {
-        font-family: $font-main;
-    }
-    input {
-        margin: 5px;
-    }
-    button {
-        margin-top: 5px;
-    }
+  display: flex;
+  min-height: 60.5vh;
+  padding-top: 15px;
+  flex-flow: column nowrap;
+  h3 {
+    font-family: $font-heading;
+    // font-size: 1.5rem;
+  }
+  label {
+    font-family: $font-main;
+  }
+  input {
+    margin: 5px;
+  }
+  button {
+    margin-top: 5px;
+  }
 }
 
 .register {
-    background: $base-color;
-    margin: 20px;
-    padding: 20px;
-    text-align: center;
+  background: $base-color;
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
 }
 
 .login {
-    background: $base-color;
-    margin: 20px;
-    padding: 20px;
-    text-align: center;
+  background: $base-color;
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
 }
 
 @media (min-width: $bp-mobile) {
-    .register {
-        margin-right: auto;
-        margin-left: auto;
-        width: 300px;
-    }
-    .login {
-        margin-left: auto;
-        margin-right: auto;
-        width: 300px;
-    }
+  .register {
+    margin-right: auto;
+    margin-left: auto;
+    width: 300px;
+  }
+  .login {
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+  }
 }
 
 @media (min-width: $bp-tablet) {
-    .login {
-        width: 350px;
-    }
-    .register {
-        width: 350px;
-    }
+  .login {
+    width: 350px;
+  }
+  .register {
+    width: 350px;
+  }
 }
