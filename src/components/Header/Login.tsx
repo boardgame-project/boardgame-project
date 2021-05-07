@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { getUserGames } from '../../redux/userGameReducer';
+import Button from '../StyledComponents/Button';
 
 const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const [username, setUsername] = useState<string>('');
@@ -103,9 +104,9 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLoginPassword(e.target.value)}
             />
             <br></br>
-            <button>login</button>
+            <Button>login</Button>
             <br></br>
-            <button onClick={toggleLogin}>need to register?</button>
+            <Button onClick={toggleLogin}>need to register?</Button>
           </form>
         ) : (
           <form
@@ -150,7 +151,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)}
             />
             <br></br>
-            <button>register</button>
+            <Button>register</Button>
           </form>
         )}
       </div>
