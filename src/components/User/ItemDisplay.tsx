@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {   FormEvent, useState, useEffect } from 'react';
+import React, {  useState, useEffect, SyntheticEvent } from 'react';
 
 type UserReview = {
   userID?: number;
@@ -9,6 +9,11 @@ type UserReview = {
 
 const ItemDisplay: React.FC<UserReview> = (): JSX.Element => {
 const [review, setReview] = useState([] as any)
+const [isReview, setIsReview] = useState<boolean>(true);
+
+const toggleButton = (): void => {
+  setIsReview(!isReview)
+}
   
   const postReview = () => {
       axios.put(`/api/usergame/review`, { userID: 7, gameID: '0Z20rVZ9GQ', review: `${review}` })
@@ -26,47 +31,43 @@ const [review, setReview] = useState([] as any)
       })
       .catch((err) => console.log(err));
   };
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     postReview();
-    // getReview();
-  }
+    }
+  
   useEffect((): void => {
     getReview();
       console.log('Re-Rendering!')
-  },[]);
+  },[isReview]);
+
     const mappedReviews = Object.values(review).map((elem: typeof review, game_id: number) => {
-      if (elem.review == "") {
-        return (
-          <div key={game_id}>
-          <div>No Review Here</div>
-          <button>Add Review</button>
-          </div>
-        
-        );
-      }
-      if (elem.review) {
+      if (elem.review !== null) {
     return (
         <div key={game_id}>
         <p>{elem.review}</p>
-        <button>Change Review</button>
         </div>
     );
+      } else {
+        return <div>No Review</div>
       }
   });
   return (
-  <div
-    onSubmit={handleSubmit}>
-    <form>
+  <div>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="reviews-box">Reviews:</label>
       <textarea
-      onChange={(e) =>
-      setReview(e.currentTarget.value)}
-      wrap="hard"
+      onChange={(e) => setReview(e.target.value)}
+      placeholder="write review here"
       name="review"
-      placeholder="write review here"/>
-      {mappedReviews}
+      />
+      {review.review? (
+     <button disabled={!review} onClick={toggleButton}>Change Review</button>) :
+     (<button disabled={!review} onClick={toggleButton}>Add Review</button>)
+      }
+      <div>{mappedReviews}</div>
       </form>
+      </div>
       )
 
 };

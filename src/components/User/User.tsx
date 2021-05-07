@@ -4,6 +4,7 @@ import ShelfItem from './ShelfItem';
 import { RootState } from '../../redux/store';
 import axios from 'axios';
 import { UserGame } from '../../redux/userGameReducer';
+import ItemDisplay from './ItemDisplay';
 
 const User: React.FC = () => {
     // const [userGames, setUserGames] = useState([]);
@@ -52,6 +53,7 @@ const User: React.FC = () => {
                 {/* <div>graph of top 5 plays</div> */}
             </section>
             <div className="shelf">{mappedUserGames}</div>
+            <ItemDisplay />
         </div>
     );
 };
