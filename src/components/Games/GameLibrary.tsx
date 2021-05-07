@@ -75,7 +75,7 @@ const GameLibrary: React.FC = () => {
     <div className="gameLibrary">
       <Hero />
       <SearchBar getAPIGames={getAPIGames} />
-      {mappedGames}
+      <main id="searchResults"> {mappedGames}</main>
       <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage + 1)}></div>
       <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage - 1)}></div>
     </div>
