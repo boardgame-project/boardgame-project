@@ -8,7 +8,7 @@ const Rating = styled.div`
 
   &::after {
    content: '⬡⬡⬡⬡⬡';
-   position: absolute; 
+   position: relative; 
    left:0px;
    letter-spacing: 3px;
   }
