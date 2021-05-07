@@ -1,11 +1,12 @@
-@mixin border {
-  border: 1px solid $text-color;
-}
+@import '../1-helpers/mixins';
 
 .shelfItemBox {
+  display: relative;
   margin: 20px;
   padding: 10px;
   background: white;
+  text-decoration: none;
+
   @include border();
   img {
     height: 140px;
@@ -16,6 +17,7 @@
     justify-content: center;
   }
   h3 {
+    color: $text-color;
     display: inline-block;
     text-align: center;
     font-family: $font-heading;
@@ -27,6 +29,7 @@
   p {
     font-family: $font-main;
     font-size: 0.8rem;
+    color: $text-color;
   }
 }
 
@@ -35,7 +38,46 @@
   flex-direction: row;
 }
 
+.linkContainer {
+  display: relative;
+}
+
+.linkContainer:hover .infoText {
+  opacity: 1;
+}
+.linkContainer:hover .shelfImage {
+  opacity: 0.4;
+}
+
+.overlay {
+  position: relative;
+}
+
+.infoText {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 150%);
+
+  text-decoration: none;
+  padding: 10px;
+  background: $base-color;
+  opacity: 0;
+  transition: 0.5ms;
+  border-radius: 1px;
+  color: $text-color;
+}
+.infoText {
+  transition: 0.5s ease;
+}
+
+.shelfImage {
+  transition: 0.5s ease;
+}
+
 .stats {
+  display: relative;
   width: 100%;
   margin: 10px 0 10px 10px;
   padding: 15px;
@@ -44,9 +86,34 @@
   h4 {
     font-family: $font-heading;
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
   }
   p {
     margin-bottom: 10px;
+  }
+}
+
+.rating {
+  p {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+@media (min-width: $bp-mobile) {
+  .shelfItemBox {
+    width: 350px;
+    margin: 20px;
+  }
+}
+
+@media (min-width: $bp-tablet) {
+  .shelf {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+  .shelfItemBox {
+    width: 400px;
   }
 }
