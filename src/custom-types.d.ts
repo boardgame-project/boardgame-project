@@ -44,6 +44,7 @@ declare module 'customTypes' {
 
   export type SearchProps = {
     getAPIGames: (
+      currentPage: number,
       searchEntry: string,
       mechanicsSelections: string[],
       categoriesSelections: string[],
