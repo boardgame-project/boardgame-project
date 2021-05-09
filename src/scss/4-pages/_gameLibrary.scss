@@ -1,0 +1,15 @@
+.gameLibrary {
+  min-width: 100vw;
+}
+#searchResAndForm {
+  display: flex;
+}
+
+@media (max-width: $bp-tablet) {
+  #searchResAndForm {
+    margin: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}

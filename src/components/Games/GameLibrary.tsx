@@ -14,7 +14,6 @@ const GameLibrary: React.FC = () => {
       average_rating: 0
     }
   ]);
-  const [currentPage, setCurrentPage] = useState(0);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
 
   useEffect(() => {
@@ -41,6 +40,7 @@ const GameLibrary: React.FC = () => {
   };
 
   const getAPIGames = async (
+    currentPage: number,
     searchEntry: string,
     mechanicsSelections: string[],
     categoriesSelections: string[],
@@ -72,12 +72,12 @@ const GameLibrary: React.FC = () => {
   });
 
   return (
-    <div className="gameLibrary">
+    <div id="gameLibrary">
       <Hero />
-      <SearchBar getAPIGames={getAPIGames} />
-      <main id="searchResults"> {mappedGames}</main>
-      <div className="willEventuallyBeForwardArrow" onClick={() => setCurrentPage(currentPage + 1)}></div>
-      <div className="willEventuallyBeBackwardArrow" onClick={() => setCurrentPage(currentPage - 1)}></div>
+      <div id="searchResAndForm">
+        <SearchBar getAPIGames={getAPIGames} />
+        <main id="searchResults"> {mappedGames}</main>
+      </div>
     </div>
   );
 };
