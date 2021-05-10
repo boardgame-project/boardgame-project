@@ -65,7 +65,7 @@ declare module 'customTypes' {
     total?: number;
   };
 
-  export interface User {
+  export type User = {
     firstName?: string;
     lastName?: string;
     email: string;
