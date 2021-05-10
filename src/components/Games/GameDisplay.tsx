@@ -19,8 +19,10 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [categoriesState, setCategories] = useState('');
   const [descriptionState, setDescription] = useState('');
   const [imageUrlState, setImageUrl] = useState('');
+  const [id] = useState(props.location.state.thumbGame.id);
+  const [name] = useState(props.location.state.thumbGame.name);
+  const [avgRating] = useState(props.location.state.thumbGame.avgRating);
 
-  const { id, name, avgRating } = props.location.state.thumbGame;
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 

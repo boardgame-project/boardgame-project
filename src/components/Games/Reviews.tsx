@@ -25,7 +25,8 @@ const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
     return (
       <article className="reviewContainer" key={id}>
         <h5>{elem.username}</h5>
-        {elem.rating === -1 ? <h6>Not Yet Reviewed</h6> : `${(<Rating rating={elem.rating} />)} ${elem.rating}/5`}
+        <Rating rating={elem.rating} />
+        <br />
         <div>{elem.review}</div>
       </article>
     );

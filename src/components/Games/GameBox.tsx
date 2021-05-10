@@ -5,6 +5,7 @@ import Rating from '../StyledComponents/Rating';
 import SearchResPic from '../StyledComponents/SearchResPic';
 
 const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
+  const;
   const { id, name, thumb_url, avgRating } = props.thumbGame;
   return (
     <div className="gameBox">
