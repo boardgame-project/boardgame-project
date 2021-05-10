@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -11,6 +9,8 @@ import './reset.css';
 import Footer from './components/Header/footer';
 import { User } from 'customTypes';
 import { getUserGames } from './redux/userGameReducer';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
