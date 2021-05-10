@@ -19,10 +19,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [categoriesState, setCategories] = useState('');
   const [descriptionState, setDescription] = useState('');
   const [imageUrlState, setImageUrl] = useState('');
-  const [id] = useState(props.location.state.thumbGame.id);
-  const [name] = useState(props.location.state.thumbGame.name);
-  const [avgRating] = useState(props.location.state.thumbGame.avgRating);
 
+  const { id, name, avgRating } = props.location.state.thumbGame;
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
@@ -36,8 +34,16 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
         `https://api.boardgameatlas.com/api/search?ids=${id}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
       )
       .then((res) => {
-        const { year_published, min_players, max_players, min_age, image_url, description, mechanics, categories } =
-          res.data.games[0];
+        const {
+          year_published,
+          min_players,
+          max_players,
+          min_age,
+          image_url,
+          description,
+          mechanics,
+          categories
+        } = res.data.games[0];
 
         setYearPublisehd(year_published);
         setMinPlayers(min_players);
@@ -70,38 +76,40 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
 
   return (
     <div className="game-display-page">
-      <img src={imageUrlState} className="game-images" alt={name} />
-      {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
-      <section className="game-info-container">
-        <h2 className="game-name">{name}</h2>
-        <p className="game-info">{HTMLReactParser(descriptionState)}</p>
-      </section>
-      <section className="game-info-row">
-        <h5>year published-</h5>
-        {` ${yearPublishedState}`}
-      </section>
-      <br />
-      <section className="game-info-container">
-        <h5>categories:</h5>
-        <div className="mecCatBox">{categoriesState.toLowerCase()}</div>
-      </section>
-      <br />
-      <section className="game-info-container">
-        <h5>mechanics:</h5>
-        <div className="mecCatBox">{mechanicsState.toLowerCase()}</div>
-      </section>
-      <section className="game-info-row">
-        <h5>min players-</h5>
-        {` ${minPlayersState}`}
-      </section>
-      <section className="game-info-row">
-        <h5>max players-</h5>
-        {` ${maxPlayersState}`}
-      </section>
-      <section className="game-info-row">
-        <h5>min age-</h5>
-        {` ${minAgeState}`}
-      </section>
+      <main className="pic-And-Game-Info">
+        <div className="image-And-Rating">
+          <img src={imageUrlState} className="game-images" alt={name} />
+          {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
+        </div>
+        <div className="game-info-container">
+          <h2 className="game-name">{name}</h2>
+          <section className="game-info-row">
+            <h5>players-</h5>
+            {` ${minPlayersState} to ${maxPlayersState}`}
+          </section>
+          <section className="game-info-row">
+            <h5>minimum age-</h5>
+            {` ${minAgeState}`}
+          </section>
+          <br />
+          <section className="game-info-column">
+            <h5>categories:</h5>
+            <div className="mecCatBox">{categoriesState.toLowerCase()}</div>
+          </section>
+          <br />
+          <section className="game-info-column">
+            <h5>mechanics:</h5>
+            <div className="mecCatBox">{mechanicsState.toLowerCase()}</div>
+          </section>
+          <section className="game-info-column">
+            <p className="game-description">{HTMLReactParser(descriptionState)}</p>
+          </section>
+          <section className="game-info-row">
+            <h5>year published-</h5>
+            {` ${yearPublishedState}`}
+          </section>
+        </div>
+      </main>
       <Reviews game_id={id} />
     </div>
   );

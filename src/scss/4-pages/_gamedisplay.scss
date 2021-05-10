@@ -1,21 +1,29 @@
 .mecCatBox,
-.game-info-container,
 .game-info-row,
-.game-info {
+.game-description,
+.game-info-container,
+.image-And-Rating {
   width: 80vw;
   margin: 10px;
-  max-width: 700px;
+  max-width: 600px;
+}
+
+.pic-And-Game-Info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .game-display-page,
 .mecCatBox,
-.game-info-container {
+.image-And-Rating,
+.game-info-container,
+.game-info-column {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
 .game-info-row {
   display: flex;
   justify-content: center;
