@@ -4,25 +4,17 @@ import ShelfItem from './ShelfItem';
 import { RootState } from '../../redux/store';
 import axios from 'axios';
 import { UserGame } from '../../redux/userGameReducer';
-import {getUser} from '../../redux/userReducer';
-
+// import {getUser} from '../../redux/userReducer';
 
 const User: React.FC = () => {
-  
   const user = useSelector((state: RootState) => state.userReducer);
   const [playCount, setPlayCount] = useState(0);
 
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
-  
 
   useEffect((): void => {
     getPlayerStats();
   }, []);
-
-  useEffect(():void => {
-    getUser();
-  }), [user];
-
 
   const getPlayerStats = () => {
     axios.get('/api/player/playcount/:id').then((res) => {
