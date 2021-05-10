@@ -39,6 +39,7 @@ module.exports = {
         if (storedUser.length !== 0) {
           if (await bcrypt.compare(password, storedUser[0].hash)) {
             const user = await db.user.getUser(userCredsFiltered)
+            console.log(user[0])
             req.session.user = user[0]
             return res.status(200).send(req.session.user);
           } else {
