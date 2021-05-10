@@ -7,12 +7,18 @@ import { UserGameProps } from 'customTypes';
 const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
   const [review, setReview] = useState([] as any);
   const user = useSelector((state: RootState) => state.userReducer);
+  const [gameId, setGameId] = useState([]);
+
+  useEffect(() => {
+    console.log(props.location.state.userGame)
+    setGameId(props.location.state.userGame.gameId)
+  })
 
   const postReview = () => {
     axios
       .put(`/api/usergame/review`, {
         userID: user.user_id,
-        gameID: props.location.state.userGame.game_id,
+        gameID: gameId,
         review: `${review}`
       })
       .then((res) => {
@@ -23,7 +29,7 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
 
   const getReview = (): void => {
     axios
-      .get(`/api/player/reviews/${user.user_id}`)
+      .get(`/api/player/reviews/${gameId}` )
       .then((res) => {
         const reviewsArray = res.data;
         console.log(reviewsArray)
