@@ -9,6 +9,8 @@ import Header from './components/Header/Header';
 import routes from './routes';
 import './reset.css';
 import Footer from './components/Header/footer';
+import { User } from 'customTypes';
+import { getUserGames } from './redux/userGameReducer';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -16,7 +18,19 @@ const App: React.FC = () => {
   useEffect((): void => {
     getMechanics();
     getCatagories();
+    getUser();
   }, []);
+
+  const getUser = (): void => {
+    axios
+      .get<User>('/api/auth/user')
+      .then((res) => {
+        const user = res.data;
+        dispatch(getUserGames());
+        dispatch({ type: 'UPDATE_USER', payload: user });
+      })
+      .catch((err) => console.log(err));
+  };
 
   const getMechanics = (): void => {
     axios
