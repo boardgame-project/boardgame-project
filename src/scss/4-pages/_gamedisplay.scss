@@ -1,0 +1,33 @@
+.mecCatBox,
+.game-info-container,
+.game-info-row,
+.game-info {
+  width: 80vw;
+  margin: 10px;
+  max-width: 700px;
+}
+
+.game-display-page,
+.mecCatBox,
+.game-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-info-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mecCatBox {
+  text-align: center;
+}
+
+.game-images {
+  max-width: 90%;
+  max-height: 90%;
+  margin: 20px;
+}

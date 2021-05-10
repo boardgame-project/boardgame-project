@@ -1,0 +1,9 @@
+.reviewContainer {
+  box-sizing: border-box;
+  @include border;
+  width: 80vw;
+  height: fit-content;
+  padding: 10px;
+  margin: 10px;
+  max-width: 700px;
+}

@@ -34,16 +34,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
         `https://api.boardgameatlas.com/api/search?ids=${id}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
       )
       .then((res) => {
-        const {
-          year_published,
-          min_players,
-          max_players,
-          min_age,
-          image_url,
-          description,
-          mechanics,
-          categories
-        } = res.data.games[0];
+        const { year_published, min_players, max_players, min_age, image_url, description, mechanics, categories } =
+          res.data.games[0];
 
         setYearPublisehd(year_published);
         setMinPlayers(min_players);
@@ -76,18 +68,38 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
 
   return (
     <div className="game-display-page">
-      <div className="game-info-container">
-        <h1 className="game-name">{name}</h1>
-        <div className="game-info">{HTMLReactParser(descriptionState)}</div>
-        {avgRating === -1 ? <h4>Not Yet Reviewed</h4> : <Rating rating={avgRating} />}
-      </div>
       <img src={imageUrlState} className="game-images" alt={name} />
-      <p>{yearPublishedState}</p>
-      <p>{categoriesState}</p>
-      <p>{mechanicsState}</p>
-      <p>{minPlayersState}</p>
-      <p>{maxPlayersState}</p>
-      <p>{minAgeState}</p>
+      {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
+      <section className="game-info-container">
+        <h2 className="game-name">{name}</h2>
+        <p className="game-info">{HTMLReactParser(descriptionState)}</p>
+      </section>
+      <section className="game-info-row">
+        <h5>year published-</h5>
+        {` ${yearPublishedState}`}
+      </section>
+      <br />
+      <section className="game-info-container">
+        <h5>categories:</h5>
+        <div className="mecCatBox">{categoriesState.toLowerCase()}</div>
+      </section>
+      <br />
+      <section className="game-info-container">
+        <h5>mechanics:</h5>
+        <div className="mecCatBox">{mechanicsState.toLowerCase()}</div>
+      </section>
+      <section className="game-info-row">
+        <h5>min players-</h5>
+        {` ${minPlayersState}`}
+      </section>
+      <section className="game-info-row">
+        <h5>max players-</h5>
+        {` ${maxPlayersState}`}
+      </section>
+      <section className="game-info-row">
+        <h5>min age-</h5>
+        {` ${minAgeState}`}
+      </section>
       <Reviews game_id={id} />
     </div>
   );
