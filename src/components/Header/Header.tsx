@@ -1,41 +1,31 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+// import { User } from 'customTypes';
 
 const Header: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const user_id = useSelector((state: RootState) => state.userReducer.user_id);
 
-  const [checkBox, setCheckBox] = useState(false)
+  const [checkBox, setCheckBox] = useState(false);
 
   const dispatch = useDispatch();
-
-  // POTENTIALLY MOVE--due to when the component mounts(was in for initail front to back check)
-  // const getUser = ():void => {
-  //   axios.get<User>('/api/auth/user')
-  //   .then(res => {
-  //     const user = res.data
-  //     dispatch({type: 'UPDATE_USER', action: user})
-  //   })
-  //   .catch(err => console.log(err))
-  // };
 
   const logoutUser = (): void => {
     axios
       .delete('/api/auth/logout')
       .then(() => {
         dispatch({ type: 'LOGOUT_USER' });
-        props.history.push('/')
-
+        props.history.push('/');
       })
       .catch((err) => console.log(err));
   };
-  
+
   const toggleCheckBox = (): void => {
-    setCheckBox(!checkBox)
-  }
+    setCheckBox(!checkBox);
+  };
 
   return (
     <div className="header">
@@ -51,7 +41,7 @@ const Header: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
       <nav id="navContainer">
         <div id="menuToggle">
-          <input type="checkbox" id='checkbox' checked ={checkBox} onClick={toggleCheckBox} />
+          <input type="checkbox" id="checkbox" checked={checkBox} onClick={toggleCheckBox} />
 
           <span></span>
           <span></span>
@@ -63,38 +53,46 @@ const Header: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                 home
               </Link>
             </li>
-            {user_id ? 
-            <li>
-              <Link onClick={toggleCheckBox} className="navLink" to="/user">
-                profile
-              </Link>
-            </li>
-            : ''
-            }
-            {user_id ?
-            <li>
-              <Link onClick={toggleCheckBox} className="navLink" to="/account">
-                account
-              </Link>
-            </li>
-            : ''
-            }
+            {user_id ? (
+              <li>
+                <Link onClick={toggleCheckBox} className="navLink" to="/user">
+                  profile
+                </Link>
+              </li>
+            ) : (
+              ''
+            )}
+            {user_id ? (
+              <li>
+                <Link onClick={toggleCheckBox} className="navLink" to="/account">
+                  account
+                </Link>
+              </li>
+            ) : (
+              ''
+            )}
             <li>
               <Link onClick={toggleCheckBox} className="navLink" to="/game">
                 games
               </Link>
             </li>
-              {user_id ?
+            {user_id ? (
               <li>
-                <a onClick={() => {logoutUser(); toggleCheckBox()}}>logout</a>
+                <a
+                  onClick={() => {
+                    logoutUser();
+                    toggleCheckBox();
+                  }}>
+                  logout
+                </a>
               </li>
-              :
+            ) : (
               <li>
                 <Link onClick={toggleCheckBox} className="navLink" to="/auth">
                   login
                 </Link>
               </li>
-}
+            )}
           </ul>
         </div>
       </nav>
