@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect, SyntheticEvent } from 'react';
+import React, { useState, useEffect, SyntheticEvent, ChangeEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { UserGameProps } from 'customTypes';
@@ -10,10 +10,9 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
 
   const user = useSelector((state: RootState) => state.userReducer);
 
-  const toggleButton = (): void => {
-    setIsReview(!isReview);
-  };
-
+  // const toggleButton = (): void => {
+  //   setIsReview(!isReview);
+  // };
   const postReview = () => {
     axios
       .put(`/api/usergame/review`, {
@@ -28,49 +27,60 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   };
   const getReview = (): void => {
     axios
-      .get(`/api/player/reviews/7`)
+      .get(`/api/player/reviews/${user.user_id}`)
       .then((res) => {
         console.log(res.data);
         const reviewsArray = res.data;
-        setReview(reviewsArray);
+        const reviewsArrayNew = JSON.stringify(reviewsArray)
+        const valuesArray = JSON.parse(reviewsArrayNew)
+        console.log(valuesArray)
+        setReview(valuesArray);
       })
       .catch((err) => console.log(err));
   };
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    setIsReview(!isReview);
     postReview();
-  };
-
-  useEffect((): void => {
     getReview();
-    console.log('Re-Rendering!');
-  }, [isReview]);
-
-  const mappedReviews = Object.values(review).map((elem: typeof review, game_id: number) => {
-    if (elem.review !== null) {
+    // setReview("");
+  };
+  
+  const mappedReviews = Object.values(review).map((elem: typeof review, index: number) => {
+    if (review !== "") {
       return (
-        <div key={game_id}>
-          <p>{elem.review}</p>
-        </div>
+          <p key={index}>{elem.review}</p>
       );
     } else {
-      return <div>No Review</div>;
+      return <div key={index}>No Review</div>;
     }
   });
+  useEffect((): void => {
+    // console.log(review);
+    getReview();
+    // return setReview("")
+  }, [setReview]);
+
+  const ReviewButton = () => {
+    if (review === '') {
+      return <button>Update Review</button>
+    } else {
+      return <button>Make Review</button>
+    }
+   };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="reviews-box">Reviews:</label>
-        <textarea onChange={(e) => setReview(e.target.value)} placeholder="write review here" name="review" />
-        {review.review ? (
-          <button disabled={!review} onClick={toggleButton}>
-            Change Review
-          </button>
-        ) : (
-          <button disabled={!review} onClick={toggleButton}>
-            Add Review
-          </button>
-        )}
+        <textarea
+        id="review"
+        value={review}
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>): void => 
+          setReview(e.target.value)} 
+        placeholder="write review here" 
+        name="review" />
+        <div>{ReviewButton()}</div>
         <div>{mappedReviews}</div>
       </form>
     </div>
