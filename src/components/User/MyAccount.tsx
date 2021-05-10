@@ -102,6 +102,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   };
 
   return (
+    <div className='myAccount'>
     <div className="myAccountContainer">
       <h2>account</h2>
       {!isEditingUsername ? (
@@ -226,6 +227,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };
