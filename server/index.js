@@ -58,7 +58,7 @@ app.put('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
 // Item Display //User Graph
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
 // Game Display
-app.get('/api/player/reviews/:id', player.getPlayerReviews);
+app.get('/api/player/reviews/:id', player.getPlayerGameReview);
 // Leaderboard
 app.get('/api/player/leaderboard', player.getAllPlayersTotalPlays);
 
