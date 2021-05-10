@@ -1,25 +1,30 @@
 import axios from 'axios';
-import React, { useState, useEffect, SyntheticEvent, ChangeEvent } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import React, { useState, useEffect, SyntheticEvent } from 'react';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../redux/store';
 import { UserGameProps } from 'customTypes';
 
 const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
-  const [review, setReview] = useState([] as any);
-  const user = useSelector((state: RootState) => state.userReducer);
-  const [gameId, setGameId] = useState([]);
+  const [review, setReview] = useState<string>('');
+  // const user = useSelector((state: RootState) => state.userReducer);
+  const [gameId, setGameId] = useState<string>();
 
+  
   useEffect(() => {
     console.log(props.location.state.userGame)
-    setGameId(props.location.state.userGame.gameId)
-  })
+    setGameId(props.location.state.userGame.game_id)
+  }, [])
+  
+  useEffect((): void => {
+    getReview();
+  }, [gameId]);
 
   const postReview = () => {
+    console.log(review)
     axios
       .put(`/api/usergame/review`, {
-        userID: user.user_id,
         gameID: gameId,
-        review: `${review}`
+        review: review
       })
       .then((res) => {
         console.log(res.data);
@@ -28,12 +33,14 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   };
 
   const getReview = (): void => {
+    console.log('getReview hit')
+    console.log(gameId)
     axios
-      .get(`/api/player/reviews/${gameId}` )
+      .get(`/api/player/reviews/${gameId}`)
       .then((res) => {
-        const reviewsArray = res.data;
-        console.log(reviewsArray)
-        setReview(reviewsArray)
+        const reviews = res.data;
+        console.log(res.data)
+        setReview(reviews)
       })
       .catch((err) => console.log(err));
       
@@ -43,14 +50,12 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
     e.preventDefault();
     postReview();
     getReview();
-    setReview({
-      review:""
-    });
+    setReview(review);
   };
   
   const mappedReviews = Object.values(review).map((elem: typeof review, index: number) => {
     if (review !== null) {
-      return <p key={index}>{elem.review}</p>
+      return <p key={index}>{elem}</p>
     } else {
       return <div key={index}>No Review</div>;
     }
@@ -64,9 +69,7 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
     }
    };
 
-  useEffect((): void => {
-    getReview();
-  }, [setReview]);
+  
 
 
   return (
@@ -75,8 +78,8 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
         <label htmlFor="reviews-box">Reviews:</label>
         <textarea
         id="review"
-        value={review.review}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>): void => 
+        value={review}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => 
           setReview(e.target.value)} 
         placeholder="write review here" 
         name="review" />
