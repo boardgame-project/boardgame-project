@@ -62,7 +62,7 @@ declare module 'customTypes' {
 
   export type Player = {
     username: string;
-    total: number;
+    total: string;
   };
 
   export type User = {

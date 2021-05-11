@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import {Player} from 'customTypes';
+import { Player } from 'customTypes';
 
 import Gold from '../../Images/TTGMedalGold.png';
 import Silver from '../../Images/TTGMedalSilver.png';
@@ -8,41 +8,51 @@ import Bronze from '../../Images/TTGMedalBronze.png';
 import Black from '../../Images/TTGMedalBlack.png';
 
 const LeaderBoard: React.FC = (): JSX.Element => {
-  const [leaders, setLeaders] = useState([]);
-  // const [first, setFirst] = useState<Player>();
-  // const [second, setSecond] = useState<Player>();
-  // const [third, setThird] = useState<Player>();
-  // const [fourth, setFourth] = useState<Player>();
-  // const [fifth, setFifth] = useState<Player>();
+  const [leaders, setLeaders] = useState<Player[]>([]);
+  const [firstUsername, setFirstUsername] = useState('');
+  const [firstTotal, setFirstTotal] = useState('');
+  const [secondUsername, setSecondUsername] = useState('');
+  const [secondTotal, setSecondTotal] = useState('');
+  const [thirdUsername, setThirdUsername] = useState('');
+  const [thirdTotal, setThirdTotal] = useState('');
+  const [fourthUsername, setFourthUsername] = useState('');
+  const [fourthTotal, setFourthTotal] = useState('');
+  const [fifthUsername, setFifthUsername] = useState('');
+  const [fifthTotal, setFifthTotal] = useState('');
 
   useEffect((): void => {
     getLeaderboard();
   }, []);
 
-  console.log(leaders);
-
-  // const first = leaders[0].username;
-  // const second = leaders[1].username;
-  // const third = leaders[2].username;
-  // const fourth = leaders[3].username;
-  // const fifth = leaders[4].username;
+  useEffect((): void => {
+    if (leaders.length > 0) {
+      setFirstUsername(leaders[0].username);
+      setFirstTotal(leaders[0].total);
+      setSecondUsername(leaders[1].username);
+      setSecondTotal(leaders[1].total);
+      setThirdUsername(leaders[2].username);
+      setThirdTotal(leaders[2].total);
+      setFourthUsername(leaders[3].username);
+      setFourthTotal(leaders[3].total);
+      setFifthUsername(leaders[4].username);
+      setFifthTotal(leaders[4].total);
+    }
+  }, [leaders]);
 
   const getLeaderboard = async (): Promise<void> => {
     await axios
       .get('/api/player/leaderboard')
       .then((res) => {
         const leaderboardArray = res.data;
-        console.log(res.data);
         setLeaders(leaderboardArray);
-        // setFirst(leaderboardArray[0])
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <section className="leaderboard">
-      <div className="boardTable">
-        <h4>Leaderboard</h4>
+      <div>
+        <h4 className="leaderHeader">Leaderboard</h4>
       </div>
       <div className="columns">
         <h5>user</h5>
@@ -51,38 +61,38 @@ const LeaderBoard: React.FC = (): JSX.Element => {
       <div className="users">
         <div className="leaderRow">
           <div className="position">
-            <img src={Gold} />
-            <p>Player One</p>
+            <img className="medals" src={Gold} />
+            <p>{firstUsername}</p>
           </div>
-          <p>234</p>
+          <p>{firstTotal}</p>
         </div>
         <div className="leaderRow">
           <div className="position">
-            <img src={Silver} />
-            <p>Player Two</p>
+            <img className="medals" src={Silver} />
+            <p>{secondUsername}</p>
           </div>
-          <p>212</p>
+          <p>{secondTotal}</p>
         </div>
         <div className="leaderRow">
           <div className="position">
-            <img src={Bronze} />
-            <p>Player Three</p>
+            <img className="medals" src={Bronze} />
+            <p>{thirdUsername}</p>
           </div>
-          <p>198</p>
+          <p>{thirdTotal}</p>
         </div>
         <div className="leaderRow">
           <div className="position">
-            <img src={Black}/>
-            <p>Player Four</p>
+            <img className="medals" src={Black} />
+            <p>{fourthUsername}</p>
           </div>
-          <p>157</p>
+          <p>{fourthTotal}</p>
         </div>
         <div className="leaderRow">
           <div className="position">
-            <img src={Black}/>
-            <p>Player Five</p>
+            <img className="medals" src={Black} />
+            <p>{fifthUsername}</p>
           </div>
-          <p>132</p>
+          <p>{fifthTotal}</p>
         </div>
       </div>
       <div className="boardScoreWrapper">

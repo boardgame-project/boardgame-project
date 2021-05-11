@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ShelfItem from './ShelfItem';
+import LeaderBoard from '../Header/LeaderBoard';
 import { RootState } from '../../redux/store';
 import axios from 'axios';
 import { UserGame } from '../../redux/userGameReducer';
@@ -39,7 +40,10 @@ const User: React.FC = () => {
             <h4>playcount: {playCount}</h4>
           </div>
           {/* <div>graph of top 5 plays</div> */}
-          <img src="https://via.placeholder.com/150" />
+          {/* <img src="https://via.placeholder.com/100" /> */}
+          <div className="userLeaderboard">
+            <LeaderBoard />
+          </div>
         </section>
       </aside>
       <div className="shelf">{mappedUserGames}</div>

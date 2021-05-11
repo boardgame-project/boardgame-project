@@ -14,8 +14,19 @@
   }
 }
 
-// .flexAside {
-//   display: flex;
-//   flex-flow: column nowrap;
-//   justify-content: center;
-// }
+.flexAside {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+@media (min-width: $bp-tablet) {
+  .gameLeaderboard {
+    height: 220px;
+    min-width: 250px;
+    margin-top: 45px;
+    margin-left: 22px;
+    margin-bottom: 40px;
+  }
+}
