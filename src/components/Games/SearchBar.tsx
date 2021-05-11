@@ -113,38 +113,36 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
 
   return (
     <aside id="searchComponentContainer">
-      <div id="searchbarContainer">
-        <form
-          id="searchForm"
-          onSubmit={(e: React.SyntheticEvent) => {
-            e.preventDefault();
-            props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-            setSearchEntry('');
-          }}>
-          <label id="titleDescriptionSearchLabel" htmlFor="titleDescriptionSearch">
-            Search
-          </label>
-          <input
-            id="titleDescriptionSearch"
-            type="text"
-            value={searchEntry}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchEntry(e.target.value)}
-            placeholder="game title"></input>
-          <Button>Search</Button>
-          <select
-            id="itemsPerPageSelector"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setItemsPerPage(e.target.value);
-            }}
-            value={itemsPerPage}>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="75">75</option>
-            <option value="100">100</option>
-          </select>
-          results/page
-        </form>
-      </div>
+      <form
+        id="searchForm"
+        onSubmit={(e: React.SyntheticEvent) => {
+          e.preventDefault();
+          props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
+          setSearchEntry('');
+        }}>
+        <label id="titleDescriptionSearchLabel" htmlFor="titleDescriptionSearch">
+          Search
+        </label>
+        <input
+          id="titleDescriptionSearch"
+          type="text"
+          value={searchEntry}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchEntry(e.target.value)}
+          placeholder="game title"></input>
+        <Button>Search</Button>
+        <select
+          id="itemsPerPageSelector"
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+            setItemsPerPage(e.target.value);
+          }}
+          value={itemsPerPage}>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="75">75</option>
+          <option value="100">100</option>
+        </select>
+        results/page
+      </form>
       <div id="checkboxContainer">
         <div id="checkboxSubContainer">
           <section className="mecCatContainer">
@@ -156,29 +154,29 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
             <form className="mecCatCheckboxes">{categoriesCheckboxes}</form>
           </section>
         </div>
-      </div>
-      <div className={scrollTrigger ? 'stickyArrows' : 'noStickyArrows'} id="arrowBox">
-        <svg
-          className={scrollTrigger ? 'pageArrowS' : 'pageArrowNS'}
-          onClick={() => (currentPage > 0 ? setCurrentPage(currentPage - 1) : null)}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24">
-          <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-        </svg>
-        <div id="currentPageIndicator">
-          Current Page = <strong>{currentPage + 1}</strong>
+        <div className={scrollTrigger ? 'stickyArrows' : 'noStickyArrows'} id="arrowBox">
+          <svg
+            className={scrollTrigger ? 'pageArrowS' : 'pageArrowNS'}
+            onClick={() => (currentPage > 0 ? setCurrentPage(currentPage - 1) : null)}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24">
+            <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+          </svg>
+          <div id="currentPageIndicator">
+            Current Page = <strong>{currentPage + 1}</strong>
+          </div>
+          <svg
+            className={scrollTrigger ? 'pageArrowS' : 'pageArrowNS'}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24">
+            <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+          </svg>
         </div>
-        <svg
-          className={scrollTrigger ? 'pageArrowS' : 'pageArrowNS'}
-          onClick={() => setCurrentPage(currentPage + 1)}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24">
-          <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-        </svg>
       </div>
     </aside>
   );

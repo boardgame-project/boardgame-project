@@ -82,7 +82,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
           {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
         </div>
         <div className="game-info-container">
-          <h2 className="game-name">{name}</h2>
+          <h3 className="game-name">{name}</h3>
           <section className="game-info-row">
             <h5>players-</h5>
             {` ${minPlayersState} to ${maxPlayersState}`}
