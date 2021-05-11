@@ -1,8 +1,9 @@
 .header {
-  height: 93px;
-  width: 100vw;
+  height: 90px;
+  min-width: 100vw;
   background-color: $base-color;
   overflow: hidden;
+  flex: 0 0 90px;
   li {
     color: $text-color;
   }

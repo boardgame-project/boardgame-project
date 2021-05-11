@@ -4,6 +4,8 @@
   text-align: center;
   background: $secondary-color;
   height: 135px;
+  min-width: 100vw;
+  flex: 0 0 135px;
   h4 {
     font-family: $font-heading;
     margin-bottom: 10px;

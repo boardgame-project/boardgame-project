@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Review, ReviewProps } from 'customTypes';
+import Rating from '../StyledComponents/Rating';
 
 const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
   const [review, setReview] = useState([]);
@@ -22,9 +23,10 @@ const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
 
   const mappedReviews = review.map((elem: Review, id: number) => {
     return (
-      <article key={id}>
-        <h4>{elem.username}</h4>
-        <div>{elem.rating}</div>
+      <article className="reviewContainer" key={id}>
+        <h5>{elem.username}</h5>
+        <Rating rating={elem.rating} />
+        <br />
         <div>{elem.review}</div>
       </article>
     );
@@ -32,7 +34,7 @@ const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
 
   return (
     <div>
-      {mappedReviews.length ? <h2>Reviews:</h2> : ''}
+      {mappedReviews.length ? <h4>Reviews:</h4> : ''}
       {mappedReviews}
     </div>
   );

@@ -5,3 +5,18 @@ strong {
 em {
   font-style: italic;
 }
+
+p,
+article,
+div {
+  font-family: $font-main;
+}
+
+.App {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+}

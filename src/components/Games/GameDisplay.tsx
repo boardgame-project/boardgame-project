@@ -76,18 +76,40 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
 
   return (
     <div className="game-display-page">
-      <div className="game-info-container">
-        <h1 className="game-name">{name}</h1>
-        <div className="game-info">{HTMLReactParser(descriptionState)}</div>
-        {avgRating === -1 ? <h4>Not Yet Reviewed</h4> : <Rating rating={avgRating} />}
-      </div>
-      <img src={imageUrlState} className="game-images" alt={name} />
-      <p>{yearPublishedState}</p>
-      <p>{categoriesState}</p>
-      <p>{mechanicsState}</p>
-      <p>{minPlayersState}</p>
-      <p>{maxPlayersState}</p>
-      <p>{minAgeState}</p>
+      <main className="pic-And-Game-Info">
+        <div className="image-And-Rating">
+          <img src={imageUrlState} className="game-images" alt={name} />
+          {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
+        </div>
+        <div className="game-info-container">
+          <h3 className="game-name">{name}</h3>
+          <section className="game-info-row">
+            <h5>players-</h5>
+            {` ${minPlayersState} to ${maxPlayersState}`}
+          </section>
+          <section className="game-info-row">
+            <h5>minimum age-</h5>
+            {` ${minAgeState}`}
+          </section>
+          <br />
+          <section className="game-info-column">
+            <h5>categories:</h5>
+            <div className="mecCatBox">{categoriesState.toLowerCase()}</div>
+          </section>
+          <br />
+          <section className="game-info-column">
+            <h5>mechanics:</h5>
+            <div className="mecCatBox">{mechanicsState.toLowerCase()}</div>
+          </section>
+          <section className="game-info-column">
+            <p className="game-description">{HTMLReactParser(descriptionState)}</p>
+          </section>
+          <section className="game-info-row">
+            <h5>year published-</h5>
+            {` ${yearPublishedState}`}
+          </section>
+        </div>
+      </main>
       <Reviews game_id={id} />
     </div>
   );

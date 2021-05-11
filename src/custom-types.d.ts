@@ -6,9 +6,9 @@ declare module 'customTypes' {
   };
 
   export type Review = {
-    username?: string;
-    rating?: string;
-    review?: string[] | null;
+    username: string;
+    rating: number;
+    review: string[] | null;
   };
 
   export type ThumbGame = {
