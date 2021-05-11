@@ -22,7 +22,7 @@ module.exports = {
   getPlayerGameReview: async (req, res) => {
     try {
       const db = req.app.get('db');
-      const userID = req.session.user_id
+      const userID = req.session.user.user_id
       console.log(userID)
       const gameID = req.params.id
       console.log(gameID)
