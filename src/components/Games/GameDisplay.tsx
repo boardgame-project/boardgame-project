@@ -34,7 +34,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   useEffect((): void => {
     getGameDetails();
     determineGameAdded();
-  }, []);
+  }, [mechanicsLib, categoriesLib]);
 
   const determineGameAdded = () => {
     const found = userGames.reduce((accum: number, el: UserGame) => (el.game_id === id ? ++accum : accum), 0);
@@ -84,8 +84,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
             }
           });
         });
-        setMechanics(mechanicsProcessed.join(','));
-        setCategories(categoriesProcessed.join(','));
+        setMechanics(mechanicsProcessed.join(', '));
+        setCategories(categoriesProcessed.join(', '));
       });
   };
 
