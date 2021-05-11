@@ -1,0 +1,45 @@
+.leaderboard {
+  background: $secondary-color;
+  padding: 10px 10px 0 10px;
+  margin-bottom: 10px;
+  width: 230px;
+  @include border();
+  h4 {
+    // text-align: center;
+    // margin: 0 auto;
+    color: $text-color;
+  }
+  h5 {
+    font-size: 1.2rem;
+    color: $text-color;
+  }
+  p {
+    font-family: $font-main;
+  }
+  img {
+    height: 20px;
+    margin-top: -4px;
+    margin-right: 4px;
+  }
+  .columns {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+  .leaderRow {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  .position {
+    display: flex;
+  }
+}
+
+@media (min-width: $bp-tablet) {
+  .leaderboard {
+    height: 220px;
+    min-width: 230px;
+  }
+}

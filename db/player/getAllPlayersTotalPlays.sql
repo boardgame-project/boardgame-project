@@ -13,5 +13,5 @@ GROUP BY
   username
 ORDER BY
   total DESC
-LIMIT 10;
+LIMIT 5;
 
