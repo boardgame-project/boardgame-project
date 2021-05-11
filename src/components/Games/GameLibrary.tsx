@@ -76,10 +76,12 @@ const GameLibrary: React.FC = () => {
     <div id="gameLibrary">
       <Hero />
       <div id="searchResAndForm">
-        {/* <div className='flexAside'> */}
-          <Leaderboard />
+        <div className="flexAside">
+          <div className="gameLeaderboard">
+            <Leaderboard />
+          </div>
           <SearchBar getAPIGames={getAPIGames} />
-        {/* </div> */}
+        </div>
         <main id="searchResults"> {mappedGames}</main>
       </div>
     </div>

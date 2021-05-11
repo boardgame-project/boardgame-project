@@ -5,7 +5,7 @@ import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { UserGameProps } from 'customTypes';
 
 const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
-  const [review, setReview] = useState<string>('');
+  const [review, setReview] = useState([] as any);
   // const user = useSelector((state: RootState) => state.userReducer);
   const [gameId, setGameId] = useState<string>();
 
@@ -50,26 +50,26 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
     e.preventDefault();
     postReview();
     getReview();
-    setReview(review);
+    setReview({
+      review:""
+    });
   };
   
   const mappedReviews = Object.values(review).map((elem: typeof review, index: number) => {
     if (review !== null) {
-      return <p key={index}>{elem}</p>
+      return <p key={index}>{elem.review}</p>
     } else {
       return <div key={index}>No Review</div>;
     }
   });
 
   const ReviewButton = () => {
-    if (review == null) {
+    if (review.review === "") {
       return <button>Update Review</button>
-    } else {
+    } else if (review.review == null) {
       return <button>Make Review</button>
     }
    };
-
-  
 
 
   return (
@@ -78,7 +78,7 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
         <label htmlFor="reviews-box">Reviews:</label>
         <textarea
         id="review"
-        value={review}
+        value={review.review}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => 
           setReview(e.target.value)} 
         placeholder="write review here" 
