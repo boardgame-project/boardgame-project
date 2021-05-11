@@ -1,90 +1,89 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import React, { useState, useEffect, SyntheticEvent } from 'react';
 // import { useSelector } from 'react-redux';
 // import { RootState } from '../../redux/store';
 import { UserGameProps } from 'customTypes';
+import Button from '../StyledComponents/Button';
+import HTMLReactParser from 'html-react-parser';
 
 const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
-  const [review, setReview] = useState([] as any);
   // const user = useSelector((state: RootState) => state.userReducer);
-  const [gameId, setGameId] = useState<string>();
+  const [gameID] = useState(props.location.state.userGame.game_id);
+  const [yearPublished] = useState(props.location.state.userGame.year_published);
+  const [minPlayers] = useState(props.location.state.userGame.min_players);
+  const [maxPlayer] = useState(props.location.state.userGame.max_players);
+  const [minAge] = useState(props.location.state.userGame.min_age);
+  // const [mechanics, setMechanics] = useState(props.location.state.userGame.mechanics);
+  // const [categories, setCategories] = useState(props.location.state.userGame.categories);
+  const [description] = useState(props.location.state.userGame.description);
+  const [imageUrl] = useState(props.location.state.userGame.image_url);
+  const [name] = useState(props.location.state.userGame.name);
+  const [playCount] = useState(props.location.state.userGame.play_count);
+  const [rating] = useState(props.location.state.userGame.rating);
+  const [addEdit, setAddEdit] = useState(false);
+  const [input, setInput] = useState<string>('');
+  const [editing, setEditing] = useState(false);
 
-  
-  useEffect(() => {
-    console.log(props.location.state.userGame)
-    setGameId(props.location.state.userGame.game_id)
-  }, [])
-  
   useEffect((): void => {
     getReview();
-  }, [gameId]);
+  }, []);
 
   const postReview = () => {
-    console.log(review)
-    axios
-      .put(`/api/usergame/review`, {
-        gameID: gameId,
-        review: review
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+    axios.put(`/api/usergame/review`, { gameID, review: input });
   };
 
   const getReview = (): void => {
-    console.log('getReview hit')
-    console.log(gameId)
     axios
-      .get(`/api/player/reviews/${gameId}`)
-      .then((res) => {
-        const reviews = res.data;
-        console.log(res.data)
-        setReview(reviews)
+      .get(`/api/player/reviews/${gameID}`)
+      .then((res: AxiosResponse<[{ review: string }]>) => {
+        setInput(res.data[0].review);
+        res.data[0].review ? setAddEdit(true) : setAddEdit(false);
       })
       .catch((err) => console.log(err));
-      
   };
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const toggleEditing = (e: SyntheticEvent) => {
     e.preventDefault();
-    postReview();
-    getReview();
-    setReview({
-      review:""
-    });
-  };
-  
-  const mappedReviews = Object.values(review).map((elem: typeof review, index: number) => {
-    if (review !== null) {
-      return <p key={index}>{elem.review}</p>
+    if (editing) {
+      setEditing(false);
+      postReview();
+      getReview();
     } else {
-      return <div key={index}>No Review</div>;
+      setEditing(true);
     }
-  });
-
-  const ReviewButton = () => {
-    if (review.review === "") {
-      return <button>Update Review</button>
-    } else if (review.review == null) {
-      return <button>Make Review</button>
-    }
-   };
-
+  };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <section>
+        <h2>{name}</h2>
+        <img src={imageUrl} />
+        <p>Year Published:{yearPublished}</p>
+        <p>Minimun Player:{minPlayers}</p>
+        <p>Maximum Age:{maxPlayer}</p>
+        <p>Minimum Age:{minAge}</p>
+        {HTMLReactParser(description)}
+        {/* <p>{mechanics}</p>
+        <p>{categories}</p> */}
+        <p>Play Count:{playCount}</p>
+        <p>Your Rating:{rating}</p>
+      </section>
+      <form onSubmit={toggleEditing}>
         <label htmlFor="reviews-box">Reviews:</label>
         <textarea
-        id="review"
-        value={review.review}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => 
-          setReview(e.target.value)} 
-        placeholder="write review here" 
-        name="review" />
-        <div>{ReviewButton()}</div>
-        <div>{mappedReviews}</div>
+          id="review"
+          value={input}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => setInput(e.target.value)}
+          placeholder="write review here"
+          name="review"
+          disabled={!editing}
+          className={!editing ? 'deactivated' : ''}
+        />
+        <div>
+          <Button onClick={(e) => toggleEditing(e)}>
+            {editing ? 'submit' : addEdit ? 'edit review' : 'add review'}
+          </Button>
+        </div>
       </form>
     </div>
   );
