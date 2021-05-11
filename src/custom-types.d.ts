@@ -8,7 +8,7 @@ declare module 'customTypes' {
   export type Review = {
     username: string;
     rating: number;
-    review: string[] | null;
+    review: string | null;
   };
 
   export type ThumbGame = {
@@ -71,7 +71,7 @@ declare module 'customTypes' {
     email: string;
     username: string;
     password: string;
-  }
+  };
 
   export type UserReview = {
     review?: string;

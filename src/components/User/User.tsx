@@ -12,13 +12,14 @@ const User: React.FC = () => {
   const [playCount, setPlayCount] = useState(0);
 
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
+  const userID = useSelector((state: RootState) => state.userReducer.user_id);
 
   useEffect((): void => {
     getPlayerStats();
   }, []);
 
   const getPlayerStats = () => {
-    axios.get('/api/player/playcount/:id').then((res) => {
+    axios.get(`/api/player/playcount/${userID}`).then((res) => {
       setPlayCount(res.data.sum);
     });
   };
