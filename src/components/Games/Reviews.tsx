@@ -22,14 +22,18 @@ const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
   }, []);
 
   const mappedReviews = review.map((elem: Review, id: number) => {
-    return (
-      <article className="reviewContainer" key={id}>
-        <h5>{elem.username}</h5>
-        <Rating rating={elem.rating} />
-        <br />
-        <div>{elem.review}</div>
-      </article>
-    );
+    if (elem.rating || elem.review) {
+      return (
+        <article className="reviewContainer" key={id}>
+          <h5>{elem.username}</h5>
+          <Rating rating={elem.rating} />
+          <br />
+          <div>{elem.review}</div>
+        </article>
+      );
+    } else {
+      return null;
+    }
   });
 
   return (

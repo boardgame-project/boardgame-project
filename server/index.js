@@ -40,7 +40,7 @@ app.get('/api/game/plays/:id', game.totalPlays);
 
 //UserGame endpopints
 // Add User Game will appear on the search page
-app.post('/api/usergame/add/:id', authMiddleware.authorize, userGames.addUserGame);
+app.post('/api/usergame/:id', authMiddleware.authorize, userGames.addUserGame);
 app.get('/api/usergame', authMiddleware.authorize, userGames.getUserGames);
 // app.get('/api/usergame/:id', authMiddleware.authorize, userGames.getUserGame);
 // Item display 
