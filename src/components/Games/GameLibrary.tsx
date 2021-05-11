@@ -3,6 +3,7 @@ import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
+import Leaderboard from '../Header/LeaderBoard';
 import { GameRatings, ThumbGame } from 'customTypes';
 
 const { REACT_APP_CLIENT_ID } = process.env;
@@ -75,7 +76,10 @@ const GameLibrary: React.FC = () => {
     <div id="gameLibrary">
       <Hero />
       <div id="searchResAndForm">
-        <SearchBar getAPIGames={getAPIGames} />
+        {/* <div className='flexAside'> */}
+          <Leaderboard />
+          <SearchBar getAPIGames={getAPIGames} />
+        {/* </div> */}
         <main id="searchResults"> {mappedGames}</main>
       </div>
     </div>
