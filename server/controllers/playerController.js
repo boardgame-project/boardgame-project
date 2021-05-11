@@ -2,11 +2,11 @@ module.exports = {
   getPlayerTotalPlays: async (req, res) => {
     try {
       const db = req.app.get('db');
-      const userID = req.params.id
-      const plays = await db.player.getPlayerTotalPlays(userID)
-      return res.status(200).send(plays[0])
+      const userID = req.params.id;
+      const plays = await db.player.getPlayerTotalPlays(userID);
+      return res.status(200).send(plays[0]);
     } catch (err) {
-      return res.sendStatus(500)
+      return res.sendStatus(500);
     }
   },
   // getPlayerReviews: async (req, res) => {
@@ -29,16 +29,16 @@ module.exports = {
       const reviews = await db.player.getPlayerGameReview(userID, gameID)
       return res.status(200).send(reviews)
     } catch (err) {
-      return res.sendStatus(500)
+      return res.sendStatus(500);
     }
   },
   getAllPlayersTotalPlays: async (req, res) => {
     try {
       const db = req.app.get('db');
-      const leaderboard = await db.player.getAllPlayersTotalPlays()
-      return res.status(200).send(leaderboard)
+      const leaderboard = await db.player.getAllPlayersTotalPlays();
+      return res.status(200).send(leaderboard);
     } catch (err) {
-      return res.sendStatus(500)
+      return res.sendStatus(500);
     }
   }
-}
+};
