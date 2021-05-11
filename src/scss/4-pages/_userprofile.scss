@@ -5,6 +5,7 @@
 }
 .userProfile {
   display: flex;
+  flex-flow: column nowrap;
   justify-content: center;
   padding: 20px 0 0 0;
   h2 {
@@ -17,10 +18,10 @@
     font-family: $font-main;
     font-size: 1rem;
     color: $text-color;
+    margin-bottom: 20px;
   }
-  img {
-    width: 100px;
-    object-fit: contain;
+  .userLeaderboard {
+    padding: 10px;
   }
 }
 
@@ -31,9 +32,6 @@
     }
     h4 {
       font-size: 1.2rem;
-    }
-    img {
-      width: 150px;
     }
   }
 }
