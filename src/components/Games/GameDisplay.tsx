@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { GameDispProps, Option } from 'customTypes';
+import { GameDispProps } from 'customTypes';
 import HTMLReactParser from 'html-react-parser';
 import Reviews from './Reviews';
 import Rating from '../StyledComponents/Rating';
 import Button from '../StyledComponents/Button';
 import { UserGame, getUserGames } from '../../redux/userGameReducer';
+import mechCatProcessor from '../mechCatProccessor';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
@@ -24,10 +25,11 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [inList, setInList] = useState(false);
 
   const { id, name, avgRating } = props.location.state.thumbGame;
-  const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
-  const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
   const email = useSelector((state: RootState) => state.userReducer.email);
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
+
+  const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
+  const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
   const dispatch = useDispatch();
 
@@ -67,25 +69,15 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
         setImageUrl(image_url);
         setDescription(description);
 
-        const mechanicsProcessed = mechanics;
-        const categoriesProcessed = categories;
+        const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
+          mechanics,
+          categories,
+          mechanicsLib,
+          categoriesLib
+        );
 
-        mechanicsProcessed.forEach((searchResMec: { id: string; url: string }, ind: number) => {
-          mechanicsLib.forEach((mecLib: Option) => {
-            if (mecLib.id === searchResMec.id) {
-              mechanicsProcessed[ind] = mecLib.name;
-            }
-          });
-        });
-        categoriesProcessed.forEach((searchResCat: { id: string; url: string }, ind: number) => {
-          categoriesLib.forEach((catLib: Option) => {
-            if (catLib.id === searchResCat.id) {
-              categoriesProcessed[ind] = catLib.name;
-            }
-          });
-        });
-        setMechanics(mechanicsProcessed.join(','));
-        setCategories(categoriesProcessed.join(','));
+        setMechanics(mechanicsProcessed);
+        setCategories(categoriesProcessed);
       });
   };
 
