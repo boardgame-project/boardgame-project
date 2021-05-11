@@ -15,6 +15,8 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [minAge] = useState(props.location.state.userGame.min_age);
   // const [mechanics, setMechanics] = useState(props.location.state.userGame.mechanics);
   // const [categories, setCategories] = useState(props.location.state.userGame.categories);
+
+
   const [description] = useState(props.location.state.userGame.description);
   const [imageUrl] = useState(props.location.state.userGame.image_url);
   const [name] = useState(props.location.state.userGame.name);
@@ -24,9 +26,21 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
+
   useEffect((): void => {
     getReview();
   }, []);
+
+  const increasePlayCount = () => {
+    axios.put(`/api/usergame/inccount/${gameID}`)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err))
+  }
+  const decreasePlayCount = () => {
+    axios.put(`/api/usergame/deccount/${gameID}`)
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  }
 
   const postReview = () => {
     axios.put(`/api/usergame/review`, { gameID, review: input });
@@ -54,22 +68,16 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   };
 
   return (
-    <div>
-      <section>
-        <h2>{name}</h2>
-        <img src={imageUrl} />
-        <p>Year Published:{yearPublished}</p>
-        <p>Minimun Player:{minPlayers}</p>
-        <p>Maximum Age:{maxPlayer}</p>
-        <p>Minimum Age:{minAge}</p>
-        {HTMLReactParser(description)}
-        {/* <p>{mechanics}</p>
-        <p>{categories}</p> */}
-        <p>Play Count:{playCount}</p>
-        <p>Your Rating:{rating}</p>
-      </section>
-      <form onSubmit={toggleEditing}>
-        <label htmlFor="reviews-box">Reviews:</label>
+    <div className="game-display-page">
+      <section className="image-And-Rating">
+        <img className="game-images" src={imageUrl} />
+        <br />
+        <div>
+      <Button onClick={() => increasePlayCount()}>+</Button>
+      Game Played!
+      <Button onClick={() => decreasePlayCount()}>-</Button> 
+      </div>
+      <br />
         <textarea
           id="review"
           value={input}
@@ -79,12 +87,29 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
           disabled={!editing}
           className={!editing ? 'deactivated' : ''}
         />
-        <div>
+        <br />
           <Button onClick={(e) => toggleEditing(e)}>
             {editing ? 'submit' : addEdit ? 'edit review' : 'add review'}
           </Button>
-        </div>
+      
+        <br />
+        <h2>{name}</h2>
+        <p className="game-info-row"><h5>players-</h5>
+            {` ${minPlayers} to ${maxPlayer}`}</p>
+        <p className="game-info-row"><h5>Minimum Age</h5> -{minAge}</p>
+        <p className="game-info-container" >
+        {HTMLReactParser(description)}
+        </p>
+        {/* <p>{mechanics}</p>
+        <p>{categories}</p> */}
+        <p className="game-info-container"><h5>Year Published:</h5> {yearPublished}</p>
+        <p className="game-info-container"><h5>Play Count:</h5>{playCount}</p>
+        <p className="game-info-container"><h5>Your Rating:</h5>{rating}</p>
+      </section>
+      <form onSubmit={toggleEditing}>
+        <label htmlFor="game-info-container">Reviews:</label>
       </form>
+      <br />
     </div>
   );
 };
