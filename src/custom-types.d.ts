@@ -5,6 +5,11 @@ declare module 'customTypes' {
     url: string;
   };
 
+  export type OptionNoName = {
+    id: string;
+    url: string;
+  };
+
   export type Review = {
     username: string;
     rating: number;
