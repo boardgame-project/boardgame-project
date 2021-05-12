@@ -1,0 +1,50 @@
+.playCountContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#counterBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  margin-top: 10px;
+}
+
+.addRemPlay,
+.addRemRating {
+  height: 35px;
+  width: 35px;
+  padding: 0px;
+}
+
+#playCtNum {
+  font-size: 1.3rem;
+}
+
+#ratingReviewContainer {
+  @include border;
+  padding: 5px;
+  height: 150px;
+}
+
+#ratingChanger {
+  margin-bottom: 10px;
+}
+
+#review {
+  max-width: 700px;
+  width: 80vw;
+  font-weight: bold;
+  resize: none;
+  overflow: scroll;
+  outline: none;
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-color: white;
+}
