@@ -2,6 +2,8 @@
 
 .shelfItemBox {
   height: 200px;
+  width: 80vw;
+  min-width: 260px;
   display: relative;
   margin: 20px;
   padding: 10px;
@@ -10,7 +12,8 @@
 
   @include border();
   img {
-    height: 140px;
+    margin-top: 10px;
+    height: 110px;
     object-fit: cover;
   }
   .nameFlex {
@@ -45,7 +48,8 @@
 
 .shelfItemFlex {
   display: flex;
-  flex-direction: row;
+  flex-flow: row nowrap;
+  justify-content: center;
 }
 
 .linkContainer {
