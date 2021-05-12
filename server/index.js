@@ -8,6 +8,7 @@ const game = require('./controllers/gameController');
 const player = require('./controllers/playerController');
 const userGames = require('./controllers/userGamesController');
 const userInfo = require('./controllers/userInfoController');
+const passwordReset = require('./controllers/passwordReset');
 
 const app = express();
 
@@ -54,6 +55,9 @@ app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 app.put('/api/user/:editType', authMiddleware.authorize, userInfo.editInfo);
 app.put('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
 
+// Password Reset Endpoints
+app.put('/api/pwdReset/req', passwordReset.resetPwdEmail);
+app.put ('/api/pwdReset/submit', passwordReset.processReset);
 // //Player endpoints
 // Item Display //User Graph
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);

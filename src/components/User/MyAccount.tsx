@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { RootState } from '../../redux/store';
 import { RouteComponentProps } from 'react-router-dom';
 import Button from '../StyledComponents/Button';
+import { User } from 'customTypes';
 
 const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const [isEditingUsername, setIsEditingUsername] = useState<boolean>(false);
@@ -28,7 +29,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const captureCurrentUser = (): void => {
     setUsername(user.username);
     setEmail(user.email);
-    setPassword(password);
+    setPassword('this is a fake password');
     setFirstName(user.first_name);
     setLastName(user.last_name);
   };
@@ -74,12 +75,16 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     }
     axios
       .put(`api/user/${param}`, body)
-      .then(() => {
+      .then((res: AxiosResponse<User>) => {
         setIsEditingUsername(false);
         setIsEditingEmail(false);
         setIsEditingPassword(false);
         setIsEditingFirstName(false);
         setIsEditingLastName(false);
+        setUsername(res.data.username);
+        setEmail(res.data.email);
+        setFirstName(res.data.firstName ? res.data.firstName : '');
+        setLastName(res.data.lastName ? res.data.lastName : '');
       })
       .catch((err) => console.log(err));
   };

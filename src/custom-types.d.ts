@@ -75,7 +75,6 @@ declare module 'customTypes' {
     lastName?: string;
     email: string;
     username: string;
-    password: string;
   };
 
   export type UserReview = {

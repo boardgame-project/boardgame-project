@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { GMAIL_ADDRESS, GMAIL_PASSWORD } = process.env;
+const { ADDRESS, PASSWORD } = process.env;
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs')
 
@@ -9,32 +9,40 @@ module.exports = {
     if (req.body.email === '') {
       res.sendStatus(400);
     } else {
-      const rtvdCreds = await db.user.getUser(req.body.userCreds.toLowerCase().replace(/\s/g, ""))
+      const rtvdCreds = await db.user.getUser(req.body.email.toLowerCase().replace(/\s/g, ""))
       if (rtvdCreds.length > 0) {
         let expDate = new Date(Date.now() + (1000 * 60 * 60 * 24))
         const token = crypto.randomBytes(16).toString('hex')
-        db.updateUser.pwdReset(rtvdCreds[0].user_id, token, expDate)
+        db.pwdReset.pwdReset(rtvdCreds[0].user_id, token, expDate)
 
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
-            user: `${GMAIL_ADDRESS}`,
-            pass: `${GMAIL_PASSWORD}`
+            user: `${ADDRESS}`,
+            pass: `${PASSWORD}`
           }
         });
 
         const mailOptions = {
-          from: '${GMAIL_ADDRESS]',
+          from: '${ADDRESS]',
           to: `${rtvdCreds[0].email}`,
           subject: 'Password Reset',
           html:
-            `<h1 style='font-size: 18pt'>Hello,<h1>
-          <main>
-            <p  style='font-size: 14pt'>You, or someone with access to your account, has requested a password reset with TopTableGames.net.</p>            
-            <p  style='font-size: 14pt'>If this request was not made by you, please reset your password immediately using the "Reset Password" link on our login page.</p>
-            <p  style='font-size: 14pt'>Otherwise, please click on the following link within 24 hours to reset your password.</p>
-          </main>
-          <a href="https://TopTableGames.net/#/restetPwd/${token}"> Reset Password </a>`
+            `<div style='background: #f0f0f0; height: 50px; width: 100%;'> </div>
+            <body>
+              <div style='padding: 20px 50px;'>
+                <h1 style='font-size: 20pt; font-family: Tahoma; font-weight: 400'>Hello,<h1>
+                <main>
+                  <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>You, or someone with access to your account, has requested a password reset with TopTableGames.net.</p>            
+                  <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>If this request was not made by you, please reset your password immediately using the "Reset Password" link on our login page.</p>
+                  <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>Otherwise, please click on the following link within 24 hours to reset your password.</p>
+                  <a style='font-size: 18pt; font-family: Tahoma; font-weight: 400;'href="https://localhost:3000/restetPwd/${token}"> Reset Password </a>
+                  <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>Thank you, TopTable Games</p>
+                </main>
+  
+              </div>
+            </body>
+            <div style='background: #bebdbd; height: 50px; width:100%;  margin-top: 20px;'> <h3 style='text-align: center; padding-top: 12px;'>TopTable Games</h3> </div>`
         }
 
         transporter.sendMail(mailOptions, (err, res) => {
@@ -55,7 +63,7 @@ module.exports = {
     if (req.params.token) {
       const userCreds = await db.updateUser.getCredsByResetToken(req.params.token)
       if (userCreds.length > 0) {
-        if (userCreds[0].reset_password_expiration.getTime() >= Date.now()) {
+        if (userCreds[0].reset_expiration.getTime() >= Date.now()) {
           const { newPassword } = req.body;
           try {
             const salt = await bcrypt.genSalt(10);
