@@ -8,8 +8,8 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const [searchEntry, setSearchEntry] = useState('');
   const [mechanicsSelections, setMechanicsSelections] = useState<string[]>([]);
   const [categoriesSelections, setCategoriesSelections] = useState<string[]>([]);
-  const [mechanicsCheckboxes, setMechanicsCheckboxes] = useState([<></>]);
-  const [categoriesCheckboxes, setCategoriesCheckboxes] = useState([<></>]);
+  const [mechanicsCheckboxes, setMechanicsCheckboxes] = useState<React.ReactNodeArray>();
+  const [categoriesCheckboxes, setCategoriesCheckboxes] = useState<React.ReactNodeArray>();
   const [itemsPerPage, setItemsPerPage] = useState<string>('25');
   const [currentPage, setCurrentPage] = useState(0);
   const [scrollTrigger, setScrollTrigger] = useState(false);
@@ -24,21 +24,20 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
 
   useEffect(() => {
     props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-  }, [itemsPerPage]);
+  }, [itemsPerPage, currentPage]);
+
+  const trackScroll: () => void = () => {
+    if (window.scrollY > 900) {
+      setScrollTrigger(true);
+    } else {
+      setScrollTrigger(false);
+    }
+  };
 
   useEffect(() => {
-    props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-  }, [currentPage]);
-
-  useEffect(() => {
-    document.addEventListener('scroll', () => {
-      if (window.scrollY > 900) {
-        setScrollTrigger(true);
-      } else {
-        setScrollTrigger(false);
-      }
-    });
-  }, []);
+    document.addEventListener('scroll', trackScroll);
+    return () => document.removeEventListener('scroll', trackScroll);
+  });
 
   const checkToggler = (type: string, value: string) => {
     switch (type) {
@@ -72,10 +71,9 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const mechanicsCheckboxMaker = () => {
     const output = mechanics.map((option: Option, ind: number) => {
       return (
-        <div className="checkboxDiv" key={`mechanic${ind}`}>
+        <div className="checkboxDiv" key={`div${option.id}`}>
           <input
             type="checkbox"
-            id={`mechanic${ind}`}
             value={option.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               checkToggler('mechanics', e.target.value);
@@ -93,7 +91,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   const categoriesCheckboxMaker = () => {
     const output = categories.map((option: Option, ind: number) => {
       return (
-        <div className="checkboxDiv" key={`category${ind}`}>
+        <div className="checkboxDiv" key={`div${option.id}`}>
           <input
             type="checkbox"
             id={`category${ind}`}
@@ -150,7 +148,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
             <form className="mecCatCheckboxes">{mechanicsCheckboxes}</form>
           </section>
           <section className="mecCatContainer">
-            <h6>Categories</h6>
+            <h6> Categories</h6>
             <form className="mecCatCheckboxes">{categoriesCheckboxes}</form>
           </section>
         </div>

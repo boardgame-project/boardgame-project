@@ -38,7 +38,7 @@ const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
 
   return (
     <div>
-      {mappedReviews.length ? <h4>Reviews:</h4> : ''}
+      {mappedReviews[0] ? <h4>Reviews:</h4> : ''}
       {mappedReviews}
     </div>
   );

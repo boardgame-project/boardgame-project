@@ -1,7 +1,9 @@
 @import '../1-helpers/mixins';
 
 .shelfItemBox {
-  height: 200px;
+  height: 220px;
+  width: 80vw;
+  min-width: 280px;
   display: relative;
   margin: 20px;
   padding: 10px;
@@ -10,7 +12,8 @@
 
   @include border();
   img {
-    height: 140px;
+    margin-top: 10px;
+    height: 110px;
     object-fit: cover;
   }
   .nameFlex {
@@ -45,7 +48,8 @@
 
 .shelfItemFlex {
   display: flex;
-  flex-direction: row;
+  flex-flow: row nowrap;
+  justify-content: center;
 }
 
 .linkContainer {
@@ -83,12 +87,15 @@
 }
 
 .shelfImage {
+  max-width: 100%;
+  object-fit: contain;
   transition: 0.5s ease;
 }
 
 .stats {
   display: relative;
-  width: 100%;
+  max-width: 45%;
+  max-height: 100%;
   margin: 10px 0 10px 10px;
   padding: 15px;
   @include border();
