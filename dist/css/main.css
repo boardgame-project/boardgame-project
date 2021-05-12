@@ -149,8 +149,6 @@ table {
 
 .userData {
   border-top: 1px solid silver;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   background-color: white;
   padding: 5%;
   margin: 5%;

@@ -4,7 +4,6 @@
   position: fixed;
   padding: 4px;
   width: 320px;
-  box-sizing: border-box;
   color: #fff;
 }
 .Toastify__toast-container--top-left {
@@ -57,7 +56,6 @@
 .Toastify__toast {
   position: relative;
   min-height: 64px;
-  box-sizing: border-box;
   margin-bottom: 1rem;
   padding: 8px;
   border-radius: 4px;

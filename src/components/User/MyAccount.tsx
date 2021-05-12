@@ -102,132 +102,135 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   };
 
   return (
-    <div className='myAccount'>
-    <div className="myAccountContainer">
-      <h2>account</h2>
-      {!isEditingUsername ? (
-        <section>
-          <p>username: {username}</p>
-          <Button onClick={toggleEditUsername}>edit</Button>
-        </section>
-      ) : (
-        <form>
-          <p>username:</p>
-          <input
-            value={username}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}
-          />
-          <Button onClick={(): void => saveChanges('username')}>save</Button>
-          <Button
-            onClick={(): void => {
-              cancelChanges();
-              toggleEditUsername();
-            }}>
-            &#10005;
-          </Button>
-        </form>
-      )}
-      {!isEditingEmail ? (
-        <section>
-          <p>email: {email}</p>
-          <Button onClick={toggleEditEmail}>edit</Button>
-        </section>
-      ) : (
-        <form>
-          <p>email:</p>
-          <input value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)} />
-          <Button onClick={(): void => saveChanges('email')}>save</Button>
-          <Button
-            onClick={(): void => {
-              cancelChanges();
-              toggleEditEmail();
-            }}>
-            &#10005;
-          </Button>
-        </form>
-      )}
-      {!isEditingPassword ? (
-        <section>
-          <p>password: {password}</p>
-          <Button onClick={toggleEditPassword}>edit</Button>
-        </section>
-      ) : (
-        <form>
-          <p>password:</p>
-          <input
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
-          />
-          <Button onClick={(): void => saveChanges('password')}>save</Button>
-          <Button
-            onClick={(): void => {
-              cancelChanges();
-              toggleEditPassword();
-            }}>
-            &#10005;
-          </Button>
-        </form>
-      )}
-      {!isEditingFirstName ? (
-        <section>
-          <p>first name: {firstName}</p>
-          <Button onClick={toggleEditFirstName}>edit</Button>
-        </section>
-      ) : (
-        <form>
-          <p>first name:</p>
-          <input
-            value={firstName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
-          />
-          <Button onClick={(): void => saveChanges('firstname')}>save</Button>
-          <Button
-            onClick={(): void => {
-              cancelChanges();
-              toggleEditFirstName();
-            }}>
-            &#10005;
-          </Button>
-        </form>
-      )}
-      {!isEditingLastName ? (
-        <section>
-          <p>last name: {lastName}</p>
-          <Button onClick={toggleEditLastName}>edit</Button>
-        </section>
-      ) : (
-        <form>
-          <p>last name:</p>
-          <input
-            value={lastName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}
-          />
-          <Button onClick={(): void => saveChanges('lastname')}>save</Button>
-          <Button
-            onClick={(): void => {
-              cancelChanges();
-              toggleEditLastName();
-            }}>
-            &#10005;
-          </Button>
-        </form>
-      )}
-      {!isDeleting ? (
-        <div>
-          <Button className="deletebtn" onClick={toggleDelete}>
-            delete
-          </Button>
-        </div>
-      ) : (
-        <div className="confirmDelete">
-          <p className="confirmDeleteText">Are you sure you want to delete your account?</p>
-          <div className="btnGroup">
-            <Button onClick={confirmDelete}>confirm</Button>
-            <Button onClick={toggleDelete}>&#10005;</Button>
+    <div className="myAccount">
+      <div className="myAccountContainer">
+        <h2>account</h2>
+        {!isEditingUsername ? (
+          <section>
+            <p>username: {username}</p>
+            <Button onClick={toggleEditUsername}>edit</Button>
+          </section>
+        ) : (
+          <form>
+            <p>username:</p>
+            <input
+              value={username}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}
+            />
+            <Button onClick={(): void => saveChanges('username')}>save</Button>
+            <Button
+              onClick={(): void => {
+                cancelChanges();
+                toggleEditUsername();
+              }}>
+              &#10005;
+            </Button>
+          </form>
+        )}
+        {!isEditingEmail ? (
+          <section>
+            <p>email: {email}</p>
+            <Button onClick={toggleEditEmail}>edit</Button>
+          </section>
+        ) : (
+          <form>
+            <p>email:</p>
+            <input
+              value={email}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}
+            />
+            <Button onClick={(): void => saveChanges('email')}>save</Button>
+            <Button
+              onClick={(): void => {
+                cancelChanges();
+                toggleEditEmail();
+              }}>
+              &#10005;
+            </Button>
+          </form>
+        )}
+        {!isEditingPassword ? (
+          <section>
+            <p>password: {password}</p>
+            <Button onClick={toggleEditPassword}>edit</Button>
+          </section>
+        ) : (
+          <form>
+            <p>password:</p>
+            <input
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
+            />
+            <Button onClick={(): void => saveChanges('password')}>save</Button>
+            <Button
+              onClick={(): void => {
+                cancelChanges();
+                toggleEditPassword();
+              }}>
+              &#10005;
+            </Button>
+          </form>
+        )}
+        {!isEditingFirstName ? (
+          <section>
+            <p>first name: {firstName}</p>
+            <Button onClick={toggleEditFirstName}>edit</Button>
+          </section>
+        ) : (
+          <form>
+            <p>first name:</p>
+            <input
+              value={firstName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
+            />
+            <Button onClick={(): void => saveChanges('firstname')}>save</Button>
+            <Button
+              onClick={(): void => {
+                cancelChanges();
+                toggleEditFirstName();
+              }}>
+              &#10005;
+            </Button>
+          </form>
+        )}
+        {!isEditingLastName ? (
+          <section>
+            <p>last name: {lastName}</p>
+            <Button onClick={toggleEditLastName}>edit</Button>
+          </section>
+        ) : (
+          <form>
+            <p>last name:</p>
+            <input
+              value={lastName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}
+            />
+            <Button onClick={(): void => saveChanges('lastname')}>save</Button>
+            <Button
+              onClick={(): void => {
+                cancelChanges();
+                toggleEditLastName();
+              }}>
+              &#10005;
+            </Button>
+          </form>
+        )}
+        {!isDeleting ? (
+          <>
+            <Button className="deletebtn" onClick={toggleDelete}>
+              delete
+            </Button>
+          </>
+        ) : (
+          <div className="confirmDelete">
+            <p className="confirmDeleteText">Are you sure you want to delete your account?</p>
+            <div className="btnGroup">
+              <Button onClick={confirmDelete}>confirm</Button>
+              <Button onClick={toggleDelete}>&#10005;</Button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 };

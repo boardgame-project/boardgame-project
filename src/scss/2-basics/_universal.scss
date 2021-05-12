@@ -1,3 +1,8 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 strong {
   font-weight: bold;
 }
@@ -8,7 +13,8 @@ em {
 
 p,
 article,
-div {
+div,
+textarea {
   font-family: $font-main;
 }
 
