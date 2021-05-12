@@ -115,7 +115,6 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
         </section>
       </section>
       <form onSubmit={toggleEditing}>
-        <label htmlFor="game-info-container">Reviews:</label>
       </form>
       <br />
     </div>
