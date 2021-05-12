@@ -1,10 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import { UserGameProps } from 'customTypes';
 import Button from '../StyledComponents/Button';
 import HTMLReactParser from 'html-react-parser';
+import mechCatProcessor from '../mechCatProccessor';
 
 const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
   // const user = useSelector((state: RootState) => state.userReducer);
@@ -13,10 +14,10 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [minPlayers] = useState(props.location.state.userGame.min_players);
   const [maxPlayer] = useState(props.location.state.userGame.max_players);
   const [minAge] = useState(props.location.state.userGame.min_age);
-  // const [mechanics, setMechanics] = useState(props.location.state.userGame.mechanics);
-  // const [categories, setCategories] = useState(props.location.state.userGame.categories);
-
-
+  const [mechanics] = useState(props.location.state.userGame.mechanics);
+  const [categories] = useState(props.location.state.userGame.categories);
+  const [mechanicsProc, setMechanicsProc] = useState('');
+  const [categoriesProc, setCategoriesProc] = useState('');
   const [description] = useState(props.location.state.userGame.description);
   const [imageUrl] = useState(props.location.state.userGame.image_url);
   const [name] = useState(props.location.state.userGame.name);
@@ -26,21 +27,33 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
+  const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
+  const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
   useEffect((): void => {
     getReview();
+    const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
+      mechanics,
+      categories,
+      mechanicsLib,
+      categoriesLib
+    );
+    setMechanicsProc(mechanicsProcessed);
+    setCategoriesProc(categoriesProcessed);
   }, []);
 
   const increasePlayCount = () => {
-    axios.put(`/api/usergame/inccount/${gameID}`)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err))
-  }
+    axios
+      .put(`/api/usergame/inccount/${gameID}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   const decreasePlayCount = () => {
-    axios.put(`/api/usergame/deccount/${gameID}`)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-  }
+    axios
+      .put(`/api/usergame/deccount/${gameID}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   const postReview = () => {
     axios.put(`/api/usergame/review`, { gameID, review: input });
@@ -73,11 +86,11 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
         <img className="game-images" src={imageUrl} />
         <br />
         <div>
-      <Button onClick={() => increasePlayCount()}>+</Button>
-      Game Played!
-      <Button onClick={() => decreasePlayCount()}>-</Button> 
-      </div>
-      <br />
+          <Button onClick={() => increasePlayCount()}>+</Button>
+          Game Played!
+          <Button onClick={() => decreasePlayCount()}>-</Button>
+        </div>
+        <br />
         <textarea
           id="review"
           value={input}
@@ -88,23 +101,31 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
           className={!editing ? 'deactivated' : ''}
         />
         <br />
-          <Button onClick={(e) => toggleEditing(e)}>
-            {editing ? 'submit' : addEdit ? 'edit review' : 'add review'}
-          </Button>
-      
+        <Button onClick={(e) => toggleEditing(e)}>{editing ? 'submit' : addEdit ? 'edit review' : 'add review'}</Button>
+
         <br />
         <h2>{name}</h2>
-        <p className="game-info-row"><h5>players-</h5>
-            {` ${minPlayers} to ${maxPlayer}`}</p>
-        <p className="game-info-row"><h5>Minimum Age</h5> -{minAge}</p>
-        <p className="game-info-container" >
-        {HTMLReactParser(description)}
+        <p className="game-info-row">
+          <h5>players-</h5>
+          {` ${minPlayers} to ${maxPlayer}`}
         </p>
+        <p className="game-info-row">
+          <h5>Minimum Age</h5> -{minAge}
+        </p>
+        <p className="game-info-container">{HTMLReactParser(description)}</p>
         {/* <p>{mechanics}</p>
         <p>{categories}</p> */}
-        <p className="game-info-container"><h5>Year Published:</h5> {yearPublished}</p>
-        <p className="game-info-container"><h5>Play Count:</h5>{playCount}</p>
-        <p className="game-info-container"><h5>Your Rating:</h5>{rating}</p>
+        <p className="game-info-container">
+          <h5>Year Published:</h5> {yearPublished}
+        </p>
+        <p className="game-info-container">
+          <h5>Play Count:</h5>
+          {playCount}
+        </p>
+        <p className="game-info-container">
+          <h5>Your Rating:</h5>
+          {rating}
+        </p>
       </section>
       <form onSubmit={toggleEditing}>
         <label htmlFor="game-info-container">Reviews:</label>
