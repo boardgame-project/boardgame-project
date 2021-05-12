@@ -14,16 +14,10 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [minPlayers] = useState(props.location.state.userGame.min_players);
   const [maxPlayer] = useState(props.location.state.userGame.max_players);
   const [minAge] = useState(props.location.state.userGame.min_age);
-<<<<<<< HEAD
   const [mechanics] = useState(props.location.state.userGame.mechanics);
   const [categories] = useState(props.location.state.userGame.categories);
   const [mechanicsProc, setMechanicsProc] = useState('');
   const [categoriesProc, setCategoriesProc] = useState('');
-=======
-  // const [mechanics, setMechanics] = useState(props.location.state.userGame.mechanics);
-  // const [categories, setCategories] = useState(props.location.state.userGame.categories);
-
->>>>>>> main
   const [description] = useState(props.location.state.userGame.description);
   const [imageUrl] = useState(props.location.state.userGame.image_url);
   const [name] = useState(props.location.state.userGame.name);
@@ -33,12 +27,9 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
-<<<<<<< HEAD
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
-=======
->>>>>>> main
   useEffect((): void => {
     getReview();
     const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
