@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
             </Link>
         </div>
     </div>
-  )
+  ) 
 }
 
 export default Footer;
