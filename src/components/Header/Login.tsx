@@ -3,7 +3,7 @@ import { User } from 'customTypes';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 import { getUserGames } from '../../redux/userGameReducer';
 import Button from '../StyledComponents/Button';
 
@@ -80,7 +80,13 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        draggable={true}
+        draggablePercent={80}
+        autoClose={6000}
+        position={toast.POSITION.TOP_CENTER}
+        transition={Slide}
+      />
       <div className="loginContainer">
         {isLogin ? (
           <form
