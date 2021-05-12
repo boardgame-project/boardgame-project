@@ -167,6 +167,8 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
           <h5>Year Published:</h5> {yearPublished}
         </section>
       </section>
+      <form onSubmit={toggleEditing}>
+      </form>
       <br />
     </div>
   );
