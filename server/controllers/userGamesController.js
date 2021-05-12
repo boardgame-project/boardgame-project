@@ -56,7 +56,7 @@ module.exports = {
       const gameID = req.body.gameID;
       const rating = req.body.rating;
       await db.userGames.updateRating(userID, gameID, rating);
-      return res.sendStatus(200);
+      return res.status(200).send({ rating });
     } catch (err) {
       return res.sendStatus(500)
     }
