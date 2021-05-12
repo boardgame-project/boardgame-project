@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import { RootState } from '../../redux/store';
 import { RouteComponentProps } from 'react-router-dom';
@@ -22,6 +22,8 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   const user = useSelector((state: RootState) => state.userReducer);
 
+  const dispatch = useDispatch();
+
   useEffect((): void => {
     captureCurrentUser();
   }, []);
@@ -29,7 +31,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const captureCurrentUser = (): void => {
     setUsername(user.username);
     setEmail(user.email);
-    setPassword('this is a fake password');
+    setPassword('fake password');
     setFirstName(user.first_name);
     setLastName(user.last_name);
   };
@@ -76,15 +78,17 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     axios
       .put(`api/user/${param}`, body)
       .then((res: AxiosResponse<User>) => {
+        const user = res.data;
+        dispatch({ type: 'UPDATE_USER', payload: user });
+        // setUsername(res.data.username);
+        // setEmail(res.data.email);
+        // setFirstName(res.data.firstName ? res.data.firstName : '');
+        // setLastName(res.data.lastName ? res.data.lastName : '');
         setIsEditingUsername(false);
         setIsEditingEmail(false);
         setIsEditingPassword(false);
         setIsEditingFirstName(false);
         setIsEditingLastName(false);
-        setUsername(res.data.username);
-        setEmail(res.data.email);
-        setFirstName(res.data.firstName ? res.data.firstName : '');
-        setLastName(res.data.lastName ? res.data.lastName : '');
       })
       .catch((err) => console.log(err));
   };
@@ -163,6 +167,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
           <form>
             <p>password:</p>
             <input
+              type="password"
               value={password}
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
             />
