@@ -15,6 +15,8 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const [password, setPassword] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
   const [userCreds, setUserCreds] = useState<string>('');
+  const [resetDisabler, setResetDisabler] = useState(true);
+  const [resetEmail, setResetEmail] = useState('');
 
   const [isLogin, setIslogin] = useState<boolean>(true);
 
@@ -78,6 +80,18 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       });
   };
 
+  const submitResetReq = () => {
+    setResetEmail('');
+    axios
+      .put('/api/pwdReset/req', { email: resetEmail })
+      .then(() => toast.success('Please check your email for a reset link.'))
+      .catch(() => {
+        toast.error(
+          'We did not find a user with the username or email provided. Please register for an account using the "need to register?" button.'
+        );
+      });
+  };
+
   return (
     <>
       <ToastContainer
@@ -88,78 +102,96 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         transition={Slide}
       />
       <div className="loginContainer">
-        {isLogin ? (
-          <form
-            onSubmit={(e: React.SyntheticEvent) => {
-              e.preventDefault();
-              login();
-            }}
-            className="login">
-            <h3>login</h3>
-            <label htmlFor="loginEmail">email:</label>
-            <input
-              id="loginEmail"
-              value={userCreds}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUserCreds(e.target.value)}
-            />
-            <br></br>
-            <label htmlFor="loginPassword">password:</label>
-            <input
-              id="loginPassword"
-              value={loginPassword}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLoginPassword(e.target.value)}
-            />
-            <br></br>
-            <Button>login</Button>
-            <br></br>
-            <Button onClick={toggleLogin}>need to register?</Button>
-          </form>
-        ) : (
-          <form
-            onSubmit={(e: React.SyntheticEvent) => {
-              e.preventDefault();
-              register();
-            }}
-            className="register">
-            <h3>register</h3>
-            <label htmlFor="username">username:</label>
-            <input
-              id="username"
-              value={username}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}
-            />
-            <br></br>
-            <label htmlFor="firstName">first name:</label>
-            <input
-              id="firstName"
-              value={firstName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
-            />
-            <br></br>
-            <label htmlFor="lastName">last name:</label>
-            <input
-              id="lastName"
-              value={lastName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}
-            />
-            <br></br>
-            <label htmlFor="email">email:</label>
-            <input
-              id="email"
-              value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}
-            />
-            <br></br>
-            <label htmlFor="password">password:</label>
-            <input
-              id="password"
-              value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)}
-            />
-            <br></br>
-            <Button>register</Button>
-          </form>
-        )}
+        <div className="login">
+          {isLogin ? (
+            <form
+              onSubmit={(e: React.SyntheticEvent) => {
+                e.preventDefault();
+                login();
+              }}>
+              <h3>login</h3>
+              <label htmlFor="loginEmail">email:</label>
+              <input
+                id="loginEmail"
+                value={userCreds}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUserCreds(e.target.value)}
+              />
+              <br></br>
+              <label htmlFor="loginPassword">password:</label>
+              <input
+                id="loginPassword"
+                value={loginPassword}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLoginPassword(e.target.value)}
+              />
+              <br></br>
+              <Button>login</Button>
+              <br />
+              <Button onClick={toggleLogin}>need to register?</Button>
+            </form>
+          ) : (
+            <form
+              onSubmit={(e: React.SyntheticEvent) => {
+                e.preventDefault();
+                register();
+              }}
+              className="register">
+              <h3>register</h3>
+              <label htmlFor="username">username:</label>
+              <input
+                id="username"
+                value={username}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}
+              />
+              <br></br>
+              <label htmlFor="firstName">first name:</label>
+              <input
+                id="firstName"
+                value={firstName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
+              />
+              <br></br>
+              <label htmlFor="lastName">last name:</label>
+              <input
+                id="lastName"
+                value={lastName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}
+              />
+              <br></br>
+              <label htmlFor="email">email:</label>
+              <input
+                id="email"
+                value={email}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}
+              />
+              <br></br>
+              <label htmlFor="password">password:</label>
+              <input
+                id="password"
+                value={password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)}
+              />
+              <br></br>
+              <Button>register</Button>
+            </form>
+          )}
+          {resetDisabler ? (
+            <span style={{ cursor: 'pointer' }} onClick={() => setResetDisabler(!resetDisabler)}>
+              reset password
+            </span>
+          ) : (
+            <>
+              <input
+                value={resetEmail}
+                id="passwordResetRequest"
+                placeholder="email"
+                disabled={resetDisabler}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setResetEmail(e.target.value)}></input>
+              <br />
+              <Button onClick={() => submitResetReq()}>request reset</Button>
+              <Button onClick={() => setResetDisabler(!resetDisabler)}>cancel</Button>
+            </>
+          )}
+        </div>
       </div>
     </>
   );
