@@ -9,7 +9,7 @@
   padding: 10px 15px 15px 15px;
   display: flex;
   flex-direction: column;
-  height: 260px;
+  height: fit-content;
   h2 {
     font-family: $font-heading;
     font-size: 2rem;
@@ -34,7 +34,7 @@
   }
   button {
     padding: 4px 4px;
-    margin: 0 0 2px 2px;
+    margin: 0 0 2px 5px;
   }
   section {
     display: flex;
@@ -46,12 +46,8 @@
     align-items: baseline;
   }
   .deletebtn {
-    width: auto;
-    height: auto;
-    margin-top: 20px;
-    position: absolute;
-    right: 15px;
-    bottom: 10px;
+    width: 50px;
+    margin-left: auto;
   }
   .confirmDelete {
     margin: 20px 0 15px 0;
@@ -60,10 +56,12 @@
   }
   .confirmDeleteText {
     white-space: break-spaces;
+    max-width: 150px;
   }
   .btnGroup {
-    min-width: 82px;
-    margin-right: 0;
+    min-width: 90px;
+    width: 90px;
+    margin-left: 10px;
   }
 }
 
@@ -74,9 +72,6 @@
     padding: 30px;
     h2 {
       margin-bottom: 20px;
-    }
-    .deletebtn {
-      margin-right: 15px;
     }
   }
 }
