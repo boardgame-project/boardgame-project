@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 const Button = styled.button`
-    box-sizing: border-box;
     background: #bebdbd;
     color: #2b2b2b;
     display: relative;

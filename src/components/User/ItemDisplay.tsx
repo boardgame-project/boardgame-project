@@ -14,10 +14,16 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [minPlayers] = useState(props.location.state.userGame.min_players);
   const [maxPlayer] = useState(props.location.state.userGame.max_players);
   const [minAge] = useState(props.location.state.userGame.min_age);
+<<<<<<< HEAD
   const [mechanics] = useState(props.location.state.userGame.mechanics);
   const [categories] = useState(props.location.state.userGame.categories);
   const [mechanicsProc, setMechanicsProc] = useState('');
   const [categoriesProc, setCategoriesProc] = useState('');
+=======
+  // const [mechanics, setMechanics] = useState(props.location.state.userGame.mechanics);
+  // const [categories, setCategories] = useState(props.location.state.userGame.categories);
+
+>>>>>>> main
   const [description] = useState(props.location.state.userGame.description);
   const [imageUrl] = useState(props.location.state.userGame.image_url);
   const [name] = useState(props.location.state.userGame.name);
@@ -27,9 +33,12 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
+<<<<<<< HEAD
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
+=======
+>>>>>>> main
   useEffect((): void => {
     getReview();
     const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
@@ -62,8 +71,8 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const getReview = (): void => {
     axios
       .get(`/api/player/reviews/${gameID}`)
-      .then((res: AxiosResponse<[{ review: string }]>) => {
-        setInput(res.data[0].review);
+      .then((res: AxiosResponse<[{ review: string | null }]>) => {
+        setInput(res.data[0].review ? res.data[0].review : '');
         res.data[0].review ? setAddEdit(true) : setAddEdit(false);
       })
       .catch((err) => console.log(err));
@@ -105,27 +114,27 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
 
         <br />
         <h2>{name}</h2>
-        <p className="game-info-row">
+        <section className="game-info-row">
           <h5>players-</h5>
           {` ${minPlayers} to ${maxPlayer}`}
-        </p>
-        <p className="game-info-row">
+        </section>
+        <section className="game-info-row">
           <h5>Minimum Age</h5> -{minAge}
-        </p>
-        <p className="game-info-container">{HTMLReactParser(description)}</p>
-        {/* <p>{mechanics}</p>
-        <p>{categories}</p> */}
-        <p className="game-info-container">
+        </section>
+        <section className="game-info-container">{HTMLReactParser(description)}</section>
+        {/* <section>{mechanics}</section>
+        <section>{categories}</section> */}
+        <section className="game-info-container">
           <h5>Year Published:</h5> {yearPublished}
-        </p>
-        <p className="game-info-container">
+        </section>
+        <section className="game-info-container">
           <h5>Play Count:</h5>
           {playCount}
-        </p>
-        <p className="game-info-container">
+        </section>
+        <section className="game-info-container">
           <h5>Your Rating:</h5>
           {rating}
-        </p>
+        </section>
       </section>
       <form onSubmit={toggleEditing}>
         <label htmlFor="game-info-container">Reviews:</label>

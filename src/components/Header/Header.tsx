@@ -41,7 +41,7 @@ const Header: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
       <nav id="navContainer">
         <div id="menuToggle">
-          <input type="checkbox" id="checkbox" checked={checkBox} onClick={toggleCheckBox} />
+          <input type="checkbox" id="checkbox" checked={checkBox} onChange={toggleCheckBox} />
 
           <span></span>
           <span></span>
