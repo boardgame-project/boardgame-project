@@ -51,7 +51,6 @@
 
 #titleDescriptionSearch {
   font-size: 16pt;
-  box-sizing: border-box;
   margin: 10px 10px 10px 10px;
   height: 35px;
   width: 90%;
@@ -90,7 +89,6 @@
 }
 
 .mecCatCheckboxes {
-  box-sizing: border-box;
   height: 35vh;
   width: 100%;
   overflow-y: scroll;
@@ -107,21 +105,18 @@
 }
 @media (max-height: 700px) {
   .mecCatCheckboxes {
-    box-sizing: border-box;
     height: 25vh;
   }
 }
 
 @media (max-height: 550px) {
   .mecCatCheckboxes {
-    box-sizing: border-box;
     height: 20vh;
   }
 }
 
 @media (max-height: 450px) {
   .mecCatCheckboxes {
-    box-sizing: border-box;
     height: 10vh;
   }
 }

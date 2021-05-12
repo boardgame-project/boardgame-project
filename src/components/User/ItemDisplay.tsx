@@ -16,7 +16,6 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   // const [mechanics, setMechanics] = useState(props.location.state.userGame.mechanics);
   // const [categories, setCategories] = useState(props.location.state.userGame.categories);
 
-
   const [description] = useState(props.location.state.userGame.description);
   const [imageUrl] = useState(props.location.state.userGame.image_url);
   const [name] = useState(props.location.state.userGame.name);
@@ -26,21 +25,22 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
-
   useEffect((): void => {
     getReview();
   }, []);
 
   const increasePlayCount = () => {
-    axios.put(`/api/usergame/inccount/${gameID}`)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err))
-  }
+    axios
+      .put(`/api/usergame/inccount/${gameID}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   const decreasePlayCount = () => {
-    axios.put(`/api/usergame/deccount/${gameID}`)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-  }
+    axios
+      .put(`/api/usergame/deccount/${gameID}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   const postReview = () => {
     axios.put(`/api/usergame/review`, { gameID, review: input });
@@ -49,8 +49,8 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const getReview = (): void => {
     axios
       .get(`/api/player/reviews/${gameID}`)
-      .then((res: AxiosResponse<[{ review: string }]>) => {
-        setInput(res.data[0].review);
+      .then((res: AxiosResponse<[{ review: string | null }]>) => {
+        setInput(res.data[0].review ? res.data[0].review : '');
         res.data[0].review ? setAddEdit(true) : setAddEdit(false);
       })
       .catch((err) => console.log(err));
@@ -73,11 +73,11 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
         <img className="game-images" src={imageUrl} />
         <br />
         <div>
-      <Button onClick={() => increasePlayCount()}>+</Button>
-      Game Played!
-      <Button onClick={() => decreasePlayCount()}>-</Button> 
-      </div>
-      <br />
+          <Button onClick={() => increasePlayCount()}>+</Button>
+          Game Played!
+          <Button onClick={() => decreasePlayCount()}>-</Button>
+        </div>
+        <br />
         <textarea
           id="review"
           value={input}
@@ -88,23 +88,31 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
           className={!editing ? 'deactivated' : ''}
         />
         <br />
-          <Button onClick={(e) => toggleEditing(e)}>
-            {editing ? 'submit' : addEdit ? 'edit review' : 'add review'}
-          </Button>
-      
+        <Button onClick={(e) => toggleEditing(e)}>{editing ? 'submit' : addEdit ? 'edit review' : 'add review'}</Button>
+
         <br />
         <h2>{name}</h2>
-        <p className="game-info-row"><h5>players-</h5>
-            {` ${minPlayers} to ${maxPlayer}`}</p>
-        <p className="game-info-row"><h5>Minimum Age</h5> -{minAge}</p>
-        <p className="game-info-container" >
-        {HTMLReactParser(description)}
-        </p>
-        {/* <p>{mechanics}</p>
-        <p>{categories}</p> */}
-        <p className="game-info-container"><h5>Year Published:</h5> {yearPublished}</p>
-        <p className="game-info-container"><h5>Play Count:</h5>{playCount}</p>
-        <p className="game-info-container"><h5>Your Rating:</h5>{rating}</p>
+        <section className="game-info-row">
+          <h5>players-</h5>
+          {` ${minPlayers} to ${maxPlayer}`}
+        </section>
+        <section className="game-info-row">
+          <h5>Minimum Age</h5> -{minAge}
+        </section>
+        <section className="game-info-container">{HTMLReactParser(description)}</section>
+        {/* <section>{mechanics}</section>
+        <section>{categories}</section> */}
+        <section className="game-info-container">
+          <h5>Year Published:</h5> {yearPublished}
+        </section>
+        <section className="game-info-container">
+          <h5>Play Count:</h5>
+          {playCount}
+        </section>
+        <section className="game-info-container">
+          <h5>Your Rating:</h5>
+          {rating}
+        </section>
       </section>
       <form onSubmit={toggleEditing}>
         <label htmlFor="game-info-container">Reviews:</label>

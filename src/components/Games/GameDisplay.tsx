@@ -132,7 +132,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
             <div className="mecCatBox">{mechanicsState.toLowerCase()}</div>
           </section>
           <section className="game-info-column">
-            <p className="game-description">{HTMLReactParser(descriptionState)}</p>
+            <article className="game-description">{HTMLReactParser(descriptionState)}</article>
           </section>
           <section className="game-info-row">
             <h5>year published-</h5>

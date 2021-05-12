@@ -15,6 +15,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect((): void => {
+    console.log(document.cookie);
     getMechanics();
     getCatagories();
     getUser();
