@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -6,6 +6,7 @@ import { UserGameProps } from 'customTypes';
 import Button from '../StyledComponents/Button';
 import HTMLReactParser from 'html-react-parser';
 import mechCatProcessor from '../mechCatProccessor';
+import Rating from '../StyledComponents/Rating';
 
 const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
   // const user = useSelector((state: RootState) => state.userReducer);
@@ -21,8 +22,8 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const [description] = useState(props.location.state.userGame.description);
   const [imageUrl] = useState(props.location.state.userGame.image_url);
   const [name] = useState(props.location.state.userGame.name);
-  const [playCount] = useState(props.location.state.userGame.play_count);
-  const [rating] = useState(props.location.state.userGame.rating);
+  const [playCount, setPlayCount] = useState(props.location.state.userGame.play_count);
+  const [rating, setRating] = useState(props.location.state.userGame.rating);
   const [addEdit, setAddEdit] = useState(false);
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState(false);
@@ -45,16 +46,38 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
   const increasePlayCount = () => {
     axios
       .put(`/api/usergame/inccount/${gameID}`)
-      .then((res) => console.log(res))
+      .then((res) => setPlayCount(res.data.play_count))
       .catch((err) => console.log(err));
   };
   const decreasePlayCount = () => {
     axios
       .put(`/api/usergame/deccount/${gameID}`)
-      .then((res) => console.log(res))
+      .then((res) => setPlayCount(res.data.play_count))
       .catch((err) => console.log(err));
   };
-
+  // {
+  //   rating;
+  // }
+  const modRating = (type: string) => {
+    switch (type) {
+      case 'inc':
+        return axios
+          .put('/api/usergame/rating', { gameID, rating: rating + 1 })
+          .then((res: AxiosResponse<{ rating: string }>) => {
+            setRating(res.data.rating);
+          })
+          .catch((err: AxiosError) => console.log(err));
+      case 'dec':
+        return axios
+          .put('/api/usergame/rating', { gameID, rating: rating - 1 })
+          .then((res: AxiosResponse<{ rating: string }>) => {
+            setRating(res.data.rating);
+          })
+          .catch((err: AxiosError) => console.log(err));
+      default:
+        break;
+    }
+  };
   const postReview = () => {
     axios.put(`/api/usergame/review`, { gameID, review: input });
   };
@@ -85,21 +108,40 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
       <section className="image-And-Rating">
         <img className="game-images" src={imageUrl} />
         <br />
-        <div>
-          <Button onClick={() => increasePlayCount()}>+</Button>
-          Game Played!
-          <Button onClick={() => decreasePlayCount()}>-</Button>
-        </div>
+        <section className="playCountContainer">
+          <h4>Play Count:</h4>
+          <div id="counterBox">
+            <Button className="addRemPlay" onClick={() => decreasePlayCount()}>
+              -
+            </Button>
+            <div id="playCtNum">{playCount} </div>
+            <Button className="addRemPlay" onClick={() => increasePlayCount()}>
+              +
+            </Button>
+          </div>
+        </section>
         <br />
-        <textarea
-          id="review"
-          value={input}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => setInput(e.target.value)}
-          placeholder="write review here"
-          name="review"
-          disabled={!editing}
-          className={!editing ? 'deactivated' : ''}
-        />
+        <div id="ratingReviewContainer">
+          <div id="ratingChanger">
+            <Button className="addRemRating" onClick={() => modRating('dec')}>
+              -
+            </Button>
+            <Rating rating={rating} />
+            <Button className="addRemRating" onClick={() => modRating('inc')}>
+              +
+            </Button>
+          </div>
+          <textarea
+            className="input"
+            role="textbox"
+            rows={5}
+            id="review"
+            value={input}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => setInput(e.target.value)}
+            placeholder="write review here"
+            name="review"
+            disabled={!editing}></textarea>
+        </div>
         <br />
         <Button onClick={(e) => toggleEditing(e)}>{editing ? 'submit' : addEdit ? 'edit review' : 'add review'}</Button>
 
@@ -113,23 +155,18 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
           <h5>Minimum Age</h5> -{minAge}
         </section>
         <section className="game-info-container">{HTMLReactParser(description)}</section>
-        {/* <section>{mechanics}</section>
-        <section>{categories}</section> */}
+        <section>
+          <h5>Mechanics</h5>
+          {mechanicsProc}
+        </section>
+        <section>
+          <h5>Categories</h5>
+          {categoriesProc}
+        </section>
         <section className="game-info-container">
           <h5>Year Published:</h5> {yearPublished}
         </section>
-        <section className="game-info-container">
-          <h5>Play Count:</h5>
-          {playCount}
-        </section>
-        <section className="game-info-container">
-          <h5>Your Rating:</h5>
-          {rating}
-        </section>
       </section>
-      <form onSubmit={toggleEditing}>
-        <label htmlFor="game-info-container">Reviews:</label>
-      </form>
       <br />
     </div>
   );
