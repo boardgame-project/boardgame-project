@@ -119,6 +119,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               <br></br>
               <label htmlFor="loginPassword">password:</label>
               <input
+                type="password"
                 id="loginPassword"
                 value={loginPassword}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLoginPassword(e.target.value)}
@@ -133,8 +134,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               onSubmit={(e: React.SyntheticEvent) => {
                 e.preventDefault();
                 register();
-              }}
-              className="register">
+              }}>
               <h3>register</h3>
               <label htmlFor="username">username:</label>
               <input
