@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect((): void => {
-    console.log(document.cookie);
+    // console.log(document.cookie);
     getMechanics();
     getCatagories();
     getUser();
@@ -25,6 +25,7 @@ const App: React.FC = () => {
     axios
       .get<User>('/api/auth/user')
       .then((res) => {
+        console.log('getUser in App');
         const user = res.data;
         dispatch(getUserGames());
         dispatch({ type: 'UPDATE_USER', payload: user });

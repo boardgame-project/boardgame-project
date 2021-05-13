@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import { RootState } from '../../redux/store';
 import { RouteComponentProps } from 'react-router-dom';
@@ -7,6 +7,8 @@ import Button from '../StyledComponents/Button';
 import { User } from 'customTypes';
 
 const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
+  const user = useSelector((state: RootState) => state.userReducer);
+
   const [isEditingUsername, setIsEditingUsername] = useState<boolean>(false);
   const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
   const [isEditingPassword, setIsEditingPassword] = useState<boolean>(false);
@@ -14,27 +16,30 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const [isEditingLastName, setIsEditingLastName] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-  const [username, setUsername] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
+  const [username, setUsername] = useState<string>(user.username);
+  const [email, setEmail] = useState<string>(user.email);
+  const [password, setPassword] = useState<string>('some password');
+  const [firstName, setFirstName] = useState<string>(user.first_name);
+  const [lastName, setLastName] = useState<string>(user.last_name);
 
-  const user = useSelector((state: RootState) => state.userReducer);
+  // console.log(username);
+  // console.log(email);
+  // console.log(firstName);
+  // console.log(lastName);
 
   const dispatch = useDispatch();
 
-  useEffect((): void => {
-    captureCurrentUser();
-  }, []);
+  // useEffect((): void => {
+  //   captureCurrentUser();
+  // }, []);
 
-  const captureCurrentUser = (): void => {
-    setUsername(user.username);
-    setEmail(user.email);
-    setPassword('fake password');
-    setFirstName(user.first_name);
-    setLastName(user.last_name);
-  };
+  // const captureCurrentUser = (): void => {
+  //   setUsername(user.username);
+  //   setEmail(user.email);
+  //   // setPassword('fake password');
+  //   setFirstName(user.first_name);
+  //   setLastName(user.last_name);
+  // };
 
   const toggleEditUsername = (): void => {
     setIsEditingUsername(!isEditingUsername);
@@ -54,6 +59,14 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   const toggleDelete = (): void => {
     setIsDeleting(!isDeleting);
+  };
+
+  const setEditing = (): void => {
+    setIsEditingUsername(false);
+    setIsEditingEmail(false);
+    setIsEditingPassword(false);
+    setIsEditingFirstName(false);
+    setIsEditingLastName(false);
   };
 
   const saveChanges = (param: string): void => {
@@ -80,15 +93,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
       .then((res: AxiosResponse<User>) => {
         const user = res.data;
         dispatch({ type: 'UPDATE_USER', payload: user });
-        // setUsername(res.data.username);
-        // setEmail(res.data.email);
-        // setFirstName(res.data.firstName ? res.data.firstName : '');
-        // setLastName(res.data.lastName ? res.data.lastName : '');
-        setIsEditingUsername(false);
-        setIsEditingEmail(false);
-        setIsEditingPassword(false);
-        setIsEditingFirstName(false);
-        setIsEditingLastName(false);
+        setEditing();
       })
       .catch((err) => console.log(err));
   };
@@ -120,7 +125,10 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
             <Button onClick={toggleEditUsername}>edit</Button>
           </section>
         ) : (
-          <form>
+          <form
+            onSubmit={(e: React.SyntheticEvent) => {
+              e.preventDefault();
+            }}>
             <p>username:</p>
             <input
               value={username}
@@ -142,7 +150,10 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
             <Button onClick={toggleEditEmail}>edit</Button>
           </section>
         ) : (
-          <form>
+          <form
+            onSubmit={(e: React.SyntheticEvent) => {
+              e.preventDefault();
+            }}>
             <p>email:</p>
             <input
               value={email}
@@ -164,7 +175,10 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
             <Button onClick={toggleEditPassword}>edit</Button>
           </section>
         ) : (
-          <form>
+          <form
+            onSubmit={(e: React.SyntheticEvent) => {
+              e.preventDefault();
+            }}>
             <p>password:</p>
             <input
               type="password"
@@ -187,7 +201,10 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
             <Button onClick={toggleEditFirstName}>edit</Button>
           </section>
         ) : (
-          <form>
+          <form
+            onSubmit={(e: React.SyntheticEvent) => {
+              e.preventDefault();
+            }}>
             <p>first name:</p>
             <input
               value={firstName}
@@ -209,7 +226,10 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
             <Button onClick={toggleEditLastName}>edit</Button>
           </section>
         ) : (
-          <form>
+          <form
+            onSubmit={(e: React.SyntheticEvent) => {
+              e.preventDefault();
+            }}>
             <p>last name:</p>
             <input
               value={lastName}
