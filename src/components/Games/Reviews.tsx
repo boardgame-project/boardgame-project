@@ -25,10 +25,10 @@ const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
     if (elem.rating || elem.review) {
       return (
         <article className="reviewContainer" key={id}>
-          <h5>{elem.username}</h5>
           <Rating rating={elem.rating} />
+          <h5 className="usernameHeader">{elem.username}</h5>
           <br />
-          <div>{elem.review}</div>
+          <div className="reviewBox">{elem.review}</div>
         </article>
       );
     } else {
@@ -37,10 +37,10 @@ const Reviews: React.FC<ReviewProps> = (props: ReviewProps) => {
   });
 
   return (
-    <div>
+    <>
       {mappedReviews[0] ? <h4>Reviews:</h4> : ''}
       {mappedReviews}
-    </div>
+    </>
   );
 };
 

@@ -35,8 +35,11 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
 
   useEffect((): void => {
     getGameDetails();
-    determineGameAdded();
   }, []);
+
+  useEffect((): void => {
+    determineGameAdded();
+  }, [userGames]);
 
   const determineGameAdded = () => {
     const found = userGames.reduce((accum: number, el: UserGame) => (el.game_id === id ? ++accum : accum), 0);
@@ -112,30 +115,30 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
           </Button>
         </div>
         <div className="game-info-container">
-          <h3 className="game-name">{name}</h3>
+          <h2 className="game-name">{name}</h2>
           <section className="game-info-row">
-            <h5>players-</h5>
+            <h4>players-</h4>
             {` ${minPlayersState} to ${maxPlayersState}`}
           </section>
           <section className="game-info-row">
-            <h5>minimum age-</h5>
+            <h4>minimum age-</h4>
             {` ${minAgeState}`}
           </section>
           <br />
           <section className="game-info-column">
-            <h5>categories:</h5>
+            <h4>categories:</h4>
             <div className="mecCatBox">{categoriesState.toLowerCase()}</div>
           </section>
           <br />
           <section className="game-info-column">
-            <h5>mechanics:</h5>
+            <h4>mechanics:</h4>
             <div className="mecCatBox">{mechanicsState.toLowerCase()}</div>
           </section>
           <section className="game-info-column">
             <article className="game-description">{HTMLReactParser(descriptionState)}</article>
           </section>
           <section className="game-info-row">
-            <h5>year published-</h5>
+            <h4>year published-</h4>
             {` ${yearPublishedState}`}
           </section>
         </div>

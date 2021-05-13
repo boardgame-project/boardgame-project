@@ -19,8 +19,11 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
 
   useEffect(() => {
     mechanicsCheckboxMaker();
+  }, [mechanics]);
+
+  useEffect(() => {
     categoriesCheckboxMaker();
-  }, [mechanics, categories]);
+  }, [categories]);
 
   useEffect(() => {
     props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
@@ -109,14 +112,52 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
     setCategoriesCheckboxes(output);
   };
 
+  const uncheckCheckboxes = () => {
+    const output = categories.map((option: Option, ind: number) => {
+      return (
+        <div className="checkboxDiv" key={`div${option.id}`}>
+          <input
+            checked={false}
+            type="checkbox"
+            id={`category${ind}`}
+            value={option.id}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              checkToggler('category', e.target.value);
+              props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
+            }}></input>
+          <label className="checkLabel" htmlFor={`category${ind}`}>
+            {option.name}
+          </label>
+        </div>
+      );
+    });
+    setCategoriesCheckboxes(output);
+    const output2 = mechanics.map((option: Option, ind: number) => {
+      return (
+        <div className="checkboxDiv" key={`div${option.id}`}>
+          <input
+            checked={false}
+            type="checkbox"
+            value={option.id}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              checkToggler('mechanics', e.target.value);
+              props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
+            }}></input>
+          <label className="checkLabel" htmlFor={`mechanic${ind}`}>
+            {option.name}
+          </label>
+        </div>
+      );
+    });
+    setMechanicsCheckboxes(output2);
+  };
+
   return (
     <aside id="searchComponentContainer">
       <form
         id="searchForm"
         onSubmit={(e: React.SyntheticEvent) => {
           e.preventDefault();
-          props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-          setSearchEntry('');
         }}>
         <label id="titleDescriptionSearchLabel" htmlFor="titleDescriptionSearch">
           Search
@@ -127,7 +168,25 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
           value={searchEntry}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchEntry(e.target.value)}
           placeholder="game title"></input>
-        <Button>Search</Button>
+        <div id="searchButtonContainer">
+          <Button
+            onClick={() => {
+              props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
+              setSearchEntry('');
+            }}>
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              setSearchEntry('');
+              setMechanicsSelections([]);
+              setMechanicsCheckboxes([]);
+              uncheckCheckboxes();
+              props.getAPIGames(1, '', [], [], '');
+            }}>
+            Clear
+          </Button>
+        </div>
         <select
           id="itemsPerPageSelector"
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {

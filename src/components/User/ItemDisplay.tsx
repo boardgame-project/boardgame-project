@@ -148,27 +148,26 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
         <br />
         <h2>{name}</h2>
         <section className="game-info-row">
-          <h5>players-</h5>
+          <h4>players-</h4>
           {` ${minPlayers} to ${maxPlayer}`}
         </section>
         <section className="game-info-row">
-          <h5>Minimum Age</h5> -{minAge}
+          <h4>Minimum Age</h4> -{minAge}
         </section>
         <section className="game-info-container">{HTMLReactParser(description)}</section>
         <section>
-          <h5>Mechanics</h5>
+          <h4>Mechanics</h4>
           {mechanicsProc}
         </section>
         <section>
-          <h5>Categories</h5>
+          <h4>Categories</h4>
           {categoriesProc}
         </section>
         <section className="game-info-container">
-          <h5>Year Published:</h5> {yearPublished}
+          <h4>Year Published:</h4> {yearPublished}
         </section>
       </section>
-      <form onSubmit={toggleEditing}>
-      </form>
+      <form onSubmit={toggleEditing}></form>
       <br />
     </div>
   );
