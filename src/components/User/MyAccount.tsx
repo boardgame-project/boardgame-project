@@ -18,7 +18,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   const [username, setUsername] = useState<string>(user.username);
   const [email, setEmail] = useState<string>(user.email);
-  const [password, setPassword] = useState<string>('some password');
+  const [password, setPassword] = useState<string>('password');
   const [firstName, setFirstName] = useState<string>(user.first_name);
   const [lastName, setLastName] = useState<string>(user.last_name);
 
