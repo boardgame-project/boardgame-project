@@ -16,7 +16,6 @@ module.exports = {
     try {
       const db = req.app.get('db');
       const gameID = req.params.id;
-      // console.log(gameID)
       const reviews = await db.game.gameReviews(gameID);
       return res.status(200).send(reviews);
     } catch (err) {

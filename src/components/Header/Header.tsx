@@ -71,11 +71,6 @@ const Header: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
             ) : (
               ''
             )}
-            <li>
-              <Link onClick={toggleCheckBox} className="navLink" to="/game">
-                games
-              </Link>
-            </li>
             {user_id ? (
               <li>
                 <a

@@ -23,9 +23,7 @@ module.exports = {
     try {
       const db = req.app.get('db');
       const userID = req.session.user.user_id;
-      // console.log(userID);
       const gameID = req.params.id;
-      // console.log(gameID);
       const reviews = await db.player.getPlayerGameReview(userID, gameID);
       return res.status(200).send(reviews);
     } catch (err) {

@@ -20,7 +20,6 @@ const PasswordReset: React.FC<RouteComponentProps<{ token: string }>> = (
       .put(`/api/pwdReset/submit/${token}`, { newPassword })
       .then((res: AxiosResponse<User>) => {
         const user = res.data;
-        console.log(user);
         dispatch({ type: 'UPDATE_USER', payload: user });
         props.history.push('/');
       })

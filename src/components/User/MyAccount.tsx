@@ -22,24 +22,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const [firstName, setFirstName] = useState<string>(user.first_name);
   const [lastName, setLastName] = useState<string>(user.last_name);
 
-  // console.log(username);
-  // console.log(email);
-  // console.log(firstName);
-  // console.log(lastName);
-
   const dispatch = useDispatch();
-
-  // useEffect((): void => {
-  //   captureCurrentUser();
-  // }, []);
-
-  // const captureCurrentUser = (): void => {
-  //   setUsername(user.username);
-  //   setEmail(user.email);
-  //   // setPassword('fake password');
-  //   setFirstName(user.first_name);
-  //   setLastName(user.last_name);
-  // };
 
   const toggleEditUsername = (): void => {
     setIsEditingUsername(!isEditingUsername);
