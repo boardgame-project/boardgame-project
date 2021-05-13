@@ -1,7 +1,7 @@
 SELECT
-  email
+  user_id, reset_expiration
 FROM
-  user_info
+  users
 WHERE
   reset_token = $1;
 

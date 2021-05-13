@@ -16,6 +16,9 @@
   button {
     margin-top: 5px;
   }
+  .resetBtn {
+    margin-right: 5px;
+  }
 }
 
 .register {
@@ -30,6 +33,10 @@
   margin: 20px;
   padding: 20px;
   text-align: center;
+}
+
+.resetPasswordLink {
+  margin-top: 20px;
 }
 
 @media (min-width: $bp-mobile) {

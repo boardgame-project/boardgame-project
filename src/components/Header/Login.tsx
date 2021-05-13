@@ -126,7 +126,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               <br></br>
               <Button>login</Button>
               <br />
-              <Button onClick={toggleLogin}>need to register?</Button>
+              <Button onClick={toggleLogin}>register</Button>
             </form>
           ) : (
             <form
@@ -174,23 +174,27 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               <Button>register</Button>
             </form>
           )}
-          {resetDisabler ? (
-            <span style={{ cursor: 'pointer' }} onClick={() => setResetDisabler(!resetDisabler)}>
-              reset password
-            </span>
-          ) : (
-            <>
-              <input
-                value={resetEmail}
-                id="passwordResetRequest"
-                placeholder="email"
-                disabled={resetDisabler}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setResetEmail(e.target.value)}></input>
-              <br />
-              <Button onClick={() => submitResetReq()}>request reset</Button>
-              <Button onClick={() => setResetDisabler(!resetDisabler)}>cancel</Button>
-            </>
-          )}
+          <div className="resetPasswordLink">
+            {resetDisabler ? (
+              <span style={{ cursor: 'pointer' }} onClick={() => setResetDisabler(!resetDisabler)}>
+                reset password
+              </span>
+            ) : (
+              <>
+                <input
+                  value={resetEmail}
+                  id="passwordResetRequest"
+                  placeholder="email"
+                  disabled={resetDisabler}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setResetEmail(e.target.value)}></input>
+                <br />
+                <Button className="resetBtn" onClick={() => submitResetReq()}>
+                  request reset
+                </Button>
+                <Button onClick={() => setResetDisabler(!resetDisabler)}>cancel</Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </>
