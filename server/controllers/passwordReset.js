@@ -35,7 +35,7 @@ module.exports = {
                   <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>You, or someone with access to your account, has requested a password reset with TopTableGames.net.</p>            
                   <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>If this request was not made by you, please reset your password immediately using the "Reset Password" link on our login page.</p>
                   <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>Otherwise, please click on the following link within 24 hours to reset your password.</p>
-                  <a style='font-size: 18pt; font-family: Tahoma; font-weight: 400;'href="http://localhost:3000/reset/${token}"> Reset Password </a>
+                  <a style='font-size: 18pt; font-family: Tahoma; font-weight: 400;'href="https://toptablegames.net/reset/${token}"> Reset Password </a>
                   <p  style='font-size: 14pt; font-family: Tahoma; font-weight: 400'>Thank you, TopTable Games</p>
                 </main>
   
