@@ -108,6 +108,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
           <img src={imageUrlState} className="game-images" alt={name} />
           {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
           <br />
+
+          {inList ? <p className="alreadyGame">this game is already in your collection</p> : ''}
           <Button
             onClick={() => addRemoveGame(inList ? 'remove' : 'add')}
             style={email ? { display: 'inline-block' } : { display: 'none' }}>
