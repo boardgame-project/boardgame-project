@@ -27,12 +27,10 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   };
 
   const register = (): void => {
-    console.log(username, firstName, lastName, email, password);
     axios
       .post<User>('/api/auth/register', { username, first_name: firstName, last_name: lastName, email, password })
       .then((res) => {
         const user = res.data;
-        console.log(user);
         dispatch({ type: 'UPDATE_USER', payload: user });
         setFirstName('');
         setLastName('');
