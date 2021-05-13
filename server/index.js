@@ -22,9 +22,9 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24,
-    },
-  }),
+      maxAge: 1000 * 60 * 60 * 24
+    }
+  })
 );
 
 //Auth endpoints
@@ -44,7 +44,7 @@ app.get('/api/game/plays/:id', game.totalPlays);
 app.post('/api/usergame/:id', authMiddleware.authorize, userGames.addUserGame);
 app.get('/api/usergame', authMiddleware.authorize, userGames.getUserGames);
 // app.get('/api/usergame/:id', authMiddleware.authorize, userGames.getUserGame);
-// Item display 
+// Item display
 app.put('/api/usergame/review', authMiddleware.authorize, userGames.updateReview);
 app.put('/api/usergame/rating', authMiddleware.authorize, userGames.updateRating);
 app.put('/api/usergame/inccount/:id', authMiddleware.authorize, userGames.incPlayCount);
@@ -57,7 +57,7 @@ app.put('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
 
 // Password Reset Endpoints
 app.put('/api/pwdReset/req', passwordReset.resetPwdEmail);
-app.put ('/api/pwdReset/submit', passwordReset.processReset);
+app.put('/api/pwdReset/submit/:token', passwordReset.processReset);
 // //Player endpoints
 // Item Display //User Graph
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
@@ -69,7 +69,7 @@ app.get('/api/player/leaderboard', player.getAllPlayersTotalPlays);
 massive({
   connectionString: CONNECTION_STRING,
   // @ts-ignore
-  ssl: { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: false }
 })
   .then((dbInstance) => {
     app.set('db', dbInstance);
