@@ -25,6 +25,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [inList, setInList] = useState(false);
 
   const { id, name, avgRating } = props.location.state.thumbGame;
+  // console.log(props.location.state.thumbGame);
   const email = useSelector((state: RootState) => state.userReducer.email);
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
 
@@ -108,6 +109,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
           <img src={imageUrlState} className="game-images" alt={name} />
           {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
           <br />
+
+          {inList ? <p className="alreadyGame">this game is already in your collection</p> : ''}
           <Button
             onClick={() => addRemoveGame(inList ? 'remove' : 'add')}
             style={email ? { display: 'inline-block' } : { display: 'none' }}>

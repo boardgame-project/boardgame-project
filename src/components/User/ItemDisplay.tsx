@@ -1,14 +1,18 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { UserGameProps } from 'customTypes';
 import Button from '../StyledComponents/Button';
 import HTMLReactParser from 'html-react-parser';
 import mechCatProcessor from '../mechCatProccessor';
 import Rating from '../StyledComponents/Rating';
+import { getUserGames } from '../../redux/userGameReducer';
+import { RouteComponentProps } from 'react-router-dom';
 
-const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
+const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
+  props: UserGameProps & RouteComponentProps
+): JSX.Element => {
   const [gameID] = useState(props.location.state.userGame.game_id);
   const [yearPublished] = useState(props.location.state.userGame.year_published);
   const [minPlayers] = useState(props.location.state.userGame.min_players);
@@ -29,6 +33,8 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
 
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
+
+  const dispatch = useDispatch();
 
   useEffect((): void => {
     getReview();
@@ -53,6 +59,13 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
       .put(`/api/usergame/deccount/${gameID}`)
       .then((res) => setPlayCount(res.data.play_count))
       .catch((err) => console.log(err));
+  };
+
+  const removeGame = () => {
+    axios.delete(`/api/usergame/${gameID}`).then(() => {
+      dispatch(getUserGames());
+      props.history.push('/user');
+    });
   };
 
   const modRating = (type: string) => {
@@ -163,6 +176,9 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
         <section className="game-info-container">
           <h4>Year Published:</h4> {yearPublished}
         </section>
+        <Button className="removeButton" onClick={removeGame}>
+          remove game
+        </Button>
       </section>
       <form onSubmit={toggleEditing}></form>
       <br />

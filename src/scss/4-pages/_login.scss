@@ -21,13 +21,6 @@
   }
 }
 
-.register {
-  background: $base-color;
-  margin: 20px;
-  padding: 20px;
-  text-align: center;
-}
-
 .login {
   background: $base-color;
   margin: 20px;
@@ -36,7 +29,7 @@
 }
 
 .resetPasswordLink {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 @media (min-width: $bp-mobile) {

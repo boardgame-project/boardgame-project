@@ -5,6 +5,13 @@
   justify-content: center;
 }
 
+.removeButton {
+  margin-top: 15px;
+}
+.alreadyGame {
+  margin-bottom: 10px;
+}
+
 #counterBox {
   display: flex;
   flex-direction: row;
@@ -14,6 +21,9 @@
   margin-top: 10px;
 }
 
+.input {
+  height: 65%;
+}
 .addRemPlay,
 .addRemRating {
   height: 35px;
