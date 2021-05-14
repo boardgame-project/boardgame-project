@@ -73,17 +73,18 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   };
 
   const mechanicsCheckboxMaker = () => {
-    const output = mechanics.map((option: Option, ind: number) => {
+    const output = mechanics.map((option: Option) => {
       return (
         <div className="checkboxDiv" key={`div${option.id}`}>
           <input
             type="checkbox"
+            id={option.id}
             value={option.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               checkToggler('mechanics', e.target.value);
               props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
             }}></input>
-          <label className="checkLabel" htmlFor={`mechanic${ind}`}>
+          <label className="checkLabel" htmlFor={option.id}>
             {option.name}
           </label>
         </div>
@@ -93,18 +94,18 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   };
 
   const categoriesCheckboxMaker = () => {
-    const output = categories.map((option: Option, ind: number) => {
+    const output = categories.map((option: Option) => {
       return (
         <div className="checkboxDiv" key={`div${option.id}`}>
           <input
             type="checkbox"
-            id={`category${ind}`}
+            id={option.id}
             value={option.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               checkToggler('category', e.target.value);
               props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
             }}></input>
-          <label className="checkLabel" htmlFor={`category${ind}`}>
+          <label className="checkLabel" htmlFor={option.id}>
             {option.name}
           </label>
         </div>
