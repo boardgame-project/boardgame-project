@@ -28,7 +28,7 @@ const GameLibrary: React.FC = () => {
     });
   };
 
-  const associateReviews = (apiGames: ThumbGame[]) => {
+  const associateRatings = (apiGames: ThumbGame[]) => {
     const output = apiGames;
     output.forEach((game: ThumbGame, ind: number) => {
       gRatings.forEach((rating) => {
@@ -60,7 +60,7 @@ const GameLibrary: React.FC = () => {
         ) => (array[ind] = { ...el, ...{ avgRating: -1 } })
       );
       const apiGames: ThumbGame[] = res.data.games;
-      associateReviews(apiGames)
+      associateRatings(apiGames)
     });
   };
 

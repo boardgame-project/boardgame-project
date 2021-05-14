@@ -9,7 +9,6 @@ import mechCatProcessor from '../mechCatProccessor';
 import Rating from '../StyledComponents/Rating';
 
 const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element => {
-  // const user = useSelector((state: RootState) => state.userReducer);
   const [gameID] = useState(props.location.state.userGame.game_id);
   const [yearPublished] = useState(props.location.state.userGame.year_published);
   const [minPlayers] = useState(props.location.state.userGame.min_players);
@@ -55,9 +54,7 @@ const ItemDisplay: React.FC<UserGameProps> = (props: UserGameProps): JSX.Element
       .then((res) => setPlayCount(res.data.play_count))
       .catch((err) => console.log(err));
   };
-  // {
-  //   rating;
-  // }
+
   const modRating = (type: string) => {
     switch (type) {
       case 'inc':
