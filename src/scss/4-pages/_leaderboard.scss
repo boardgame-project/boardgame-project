@@ -1,9 +1,10 @@
 .leaderboard {
   background: $secondary-color;
-  padding: 15px;
-  margin: 0 auto 10px auto;
-  width: 230px;
-  @include border();
+  padding: 30px;
+  margin: 0 auto 20px auto;
+  width: 270px;
+  // @include border();
+  border: 6px double $text-color;
   .leaderHeader {
     font-family: $font-heading;
     display: block;
