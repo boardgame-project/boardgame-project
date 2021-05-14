@@ -1,3 +1,9 @@
+type Rating = {
+  game_id: string;
+  average_rating: number;
+};
+
+export type GameRatings = Rating[];
 export interface Mechanic {
   id: string;
   name: string;
@@ -13,14 +19,19 @@ export interface Category {
 export interface MecCatState {
   mechanic: Mechanic[];
   category: Category[];
+  rating: GameRatings;
 }
 
 const initialState: MecCatState = {
   mechanic: [],
-  category: []
+  category: [],
+  rating: []
 };
 
-type Actiontype = { type: 'UPDATE_MEC'; payload: Mechanic[] } | { type: 'UPDATE_CAT'; payload: Category[] };
+type Actiontype =
+  | { type: 'UPDATE_MEC'; payload: Mechanic[] }
+  | { type: 'UPDATE_CAT'; payload: Category[] }
+  | { type: 'UPDATE_RATINGS'; payload: GameRatings };
 
 export default function meccatReducer(state = initialState, action: Actiontype): MecCatState {
   switch (action.type) {
@@ -33,6 +44,11 @@ export default function meccatReducer(state = initialState, action: Actiontype):
       return {
         ...state,
         category: action.payload
+      };
+    case 'UPDATE_RATINGS':
+      return {
+        ...state,
+        rating: action.payload
       };
     default:
       return state;

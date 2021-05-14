@@ -4,31 +4,16 @@ import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
 import Leaderboard from '../Header/LeaderBoard';
-import { GameRatings, ThumbGame } from 'customTypes';
+import { ThumbGame } from 'customTypes';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
 const GameLibrary: React.FC = () => {
-  const [gRatings, setGameRatings] = useState<GameRatings>([
-    {
-      game_id: '',
-      average_rating: 0
-    }
-  ]);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
 
-  useEffect(() => {
-    getGameRatings();
-  }, []);
+  const rating = useSelector(state:)
 
-  const getGameRatings = async (): Promise<void> => {
-    await axios.get('/api/game/ratings').then((res) => {
-      const ratingsArray: GameRatings = res.data;
-      setGameRatings(ratingsArray);
-    });
-  };
-
-  const associateReviews = (apiGames: ThumbGame[]) => {
+  const associateRatings = (apiGames: ThumbGame[]) => {
     const output = apiGames;
     output.forEach((game: ThumbGame, ind: number) => {
       gRatings.forEach((rating) => {
