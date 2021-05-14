@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { ReactNodeArray, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Hero from '../Header/Hero';
@@ -12,13 +12,16 @@ const { REACT_APP_CLIENT_ID } = process.env;
 
 const GameLibrary: React.FC = () => {
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
+  const [mappedGames, setMappedGames] = useState<ReactNodeArray>([]);
 
   const rating = useSelector((state: RootState) => state.meccatReducer.rating);
+
+  useEffect(() => mapGames(), [searchResults, rating]);
 
   const associateRatings = (apiGames: ThumbGame[]) => {
     const output = apiGames;
     output.forEach((game: ThumbGame, ind: number) => {
-      gRatings.forEach((rating) => {
+      rating.forEach((rating) => {
         game.id === rating.game_id
           ? (apiGames[ind].avgRating = rating.average_rating)
           : (apiGames[ind].avgRating = apiGames[ind].avgRating);
@@ -51,13 +54,17 @@ const GameLibrary: React.FC = () => {
     });
   };
 
-  const mappedGames = searchResults.map((elem: ThumbGame, id: number) => {
-    return (
-      <div key={id}>
-        <GameBox thumbGame={elem}></GameBox>
-      </div>
+  const mapGames = () => {
+    setMappedGames(
+      searchResults.map((elem: ThumbGame, id: number) => {
+        return (
+          <div key={id}>
+            <GameBox thumbGame={elem}></GameBox>
+          </div>
+        );
+      })
     );
-  });
+  };
 
   return (
     <div id="gameLibrary">
@@ -76,6 +83,3 @@ const GameLibrary: React.FC = () => {
 };
 
 export default GameLibrary;
-function RootState(state: any, RootState: any) {
-  throw new Error('Function not implemented.');
-}
