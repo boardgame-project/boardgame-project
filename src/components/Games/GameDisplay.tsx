@@ -25,6 +25,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [inList, setInList] = useState(false);
 
   const { id, name, avgRating } = props.location.state.thumbGame;
+  // console.log(props.location.state.thumbGame);
   const email = useSelector((state: RootState) => state.userReducer.email);
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
 
