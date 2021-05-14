@@ -23,13 +23,6 @@ declare module 'customTypes' {
     avgRating: number;
   };
 
-  export type GameRatings = [
-    {
-      game_id: string;
-      average_rating: number;
-    }
-  ];
-
   export type PlayerCount = {
     username?: string;
     total?: number;

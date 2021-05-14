@@ -13,7 +13,6 @@ import mechCatProcessor from '../mechCatProccessor';
 const { REACT_APP_CLIENT_ID } = process.env;
 
 const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
-  // const [reviewsState, setReviews] = useState<Review[]>([]);
   const [yearPublishedState, setYearPublisehd] = useState('');
   const [minPlayersState, setMinPlayers] = useState('');
   const [maxPlayersState, setMaxPlayers] = useState('');
@@ -25,7 +24,6 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [inList, setInList] = useState(false);
 
   const { id, name, avgRating } = props.location.state.thumbGame;
-  // console.log(props.location.state.thumbGame);
   const email = useSelector((state: RootState) => state.userReducer.email);
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
 

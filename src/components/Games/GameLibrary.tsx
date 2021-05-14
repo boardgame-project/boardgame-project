@@ -1,37 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { ReactNodeArray, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
 import Leaderboard from '../Header/LeaderBoard';
-import { GameRatings, ThumbGame } from 'customTypes';
+import { ThumbGame } from 'customTypes';
+import { RootState } from '../../redux/store';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
 const GameLibrary: React.FC = () => {
-  const [gRatings, setGameRatings] = useState<GameRatings>([
-    {
-      game_id: '',
-      average_rating: 0
-    }
-  ]);
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
+  const [mappedGames, setMappedGames] = useState<ReactNodeArray>([]);
 
-  useEffect(() => {
-    getGameRatings();
-  }, []);
+  const rating = useSelector((state: RootState) => state.meccatReducer.rating);
 
-  const getGameRatings = async (): Promise<void> => {
-    await axios.get('/api/game/ratings').then((res) => {
-      const ratingsArray: GameRatings = res.data;
-      setGameRatings(ratingsArray);
-    });
-  };
+  useEffect(() => mapGames(), [searchResults, rating]);
 
   const associateRatings = (apiGames: ThumbGame[]) => {
     const output = apiGames;
     output.forEach((game: ThumbGame, ind: number) => {
-      gRatings.forEach((rating) => {
+      rating.forEach((rating) => {
         game.id === rating.game_id
           ? (apiGames[ind].avgRating = rating.average_rating)
           : (apiGames[ind].avgRating = apiGames[ind].avgRating);
@@ -64,13 +54,17 @@ const GameLibrary: React.FC = () => {
     });
   };
 
-  const mappedGames = searchResults.map((elem: ThumbGame, id: number) => {
-    return (
-      <div key={id}>
-        <GameBox thumbGame={elem}></GameBox>
-      </div>
+  const mapGames = () => {
+    setMappedGames(
+      searchResults.map((elem: ThumbGame, id: number) => {
+        return (
+          <div key={id}>
+            <GameBox thumbGame={elem}></GameBox>
+          </div>
+        );
+      })
     );
-  });
+  };
 
   return (
     <div id="gameLibrary">
