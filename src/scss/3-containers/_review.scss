@@ -13,6 +13,12 @@
   overflow: scroll;
   white-space: break-spaces;
   height: fit-content;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.reviewBox::-webkit-scrollbar {
+  display: none;
 }
 
 .usernameHeader {

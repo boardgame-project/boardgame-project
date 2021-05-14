@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ShelfItem from './ShelfItem';
 import LeaderBoard from '../Header/LeaderBoard';
 import { RootState } from '../../redux/store';
 import axios from 'axios';
 import { UserGame } from '../../redux/userGameReducer';
 // import {getUser} from '../../redux/userReducer';
+import { getUserGames } from '../../redux/userGameReducer';
 
 const User: React.FC = () => {
   const user = useSelector((state: RootState) => state.userReducer);
@@ -14,8 +15,11 @@ const User: React.FC = () => {
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
   const userID = useSelector((state: RootState) => state.userReducer.user_id);
 
+  const dispatch = useDispatch();
+
   useEffect((): void => {
     getPlayerStats();
+    dispatch(getUserGames());
   }, []);
 
   const getPlayerStats = () => {

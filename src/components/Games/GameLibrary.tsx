@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Hero from '../Header/Hero';
 import SearchBar from './SearchBar';
 import GameBox from './GameBox';
 import Leaderboard from '../Header/LeaderBoard';
 import { ThumbGame } from 'customTypes';
+import { RootState } from '../../redux/store';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
 const GameLibrary: React.FC = () => {
   const [searchResults, setSearchResults] = useState<ThumbGame[]>([]);
 
-  const rating = useSelector(state:)
+  const rating = useSelector((state: RootState) => state.meccatReducer.rating);
 
   const associateRatings = (apiGames: ThumbGame[]) => {
     const output = apiGames;
@@ -45,7 +47,7 @@ const GameLibrary: React.FC = () => {
         ) => (array[ind] = { ...el, ...{ avgRating: -1 } })
       );
       const apiGames: ThumbGame[] = res.data.games;
-      associateReviews(apiGames)
+      associateRatings(apiGames)
     });
   };
 
@@ -74,3 +76,6 @@ const GameLibrary: React.FC = () => {
 };
 
 export default GameLibrary;
+function RootState(state: any, RootState: any) {
+  throw new Error('Function not implemented.');
+}

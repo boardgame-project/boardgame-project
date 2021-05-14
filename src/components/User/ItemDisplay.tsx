@@ -13,7 +13,6 @@ import { RouteComponentProps } from 'react-router-dom';
 const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
   props: UserGameProps & RouteComponentProps
 ): JSX.Element => {
-  // const user = useSelector((state: RootState) => state.userReducer);
   const [gameID] = useState(props.location.state.userGame.game_id);
   const [yearPublished] = useState(props.location.state.userGame.year_published);
   const [minPlayers] = useState(props.location.state.userGame.min_players);
@@ -61,6 +60,7 @@ const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
       .then((res) => setPlayCount(res.data.play_count))
       .catch((err) => console.log(err));
   };
+
   const removeGame = () => {
     axios.delete(`/api/usergame/${gameID}`).then(() => {
       dispatch(getUserGames());
@@ -68,9 +68,6 @@ const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
     });
   };
 
-  // {
-  //   rating;
-  // }
   const modRating = (type: string) => {
     switch (type) {
       case 'inc':
