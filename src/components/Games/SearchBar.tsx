@@ -16,6 +16,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
 
   const mechanics = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categories = useSelector((state: RootState) => state.meccatReducer.category);
+  const rating = useSelector((state: RootState) => state.meccatReducer.rating);
 
   useEffect(() => {
     mechanicsCheckboxMaker();
@@ -27,7 +28,7 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
 
   useEffect(() => {
     props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-  }, [itemsPerPage, currentPage]);
+  }, [itemsPerPage, currentPage, rating]);
 
   const trackScroll: () => void = () => {
     if (window.scrollY > 900) {

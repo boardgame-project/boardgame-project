@@ -9,6 +9,7 @@ import Footer from './components/Header/footer';
 import { User } from 'customTypes';
 import { getUserGames } from './redux/userGameReducer';
 import dotenv from 'dotenv';
+import { GameRatings } from './redux/meccatReducer';
 dotenv.config();
 
 const App: React.FC = () => {
@@ -18,7 +19,15 @@ const App: React.FC = () => {
     getMechanics();
     getCatagories();
     getUser();
+    getGameRatings();
   }, []);
+
+  const getGameRatings = async (): Promise<void> => {
+    await axios.get('/api/game/ratings').then((res) => {
+      const ratingsArray: GameRatings = res.data;
+      dispatch({ type: 'UPDATE_RATINGS', payload: ratingsArray });
+    });
+  };
 
   const getUser = (): void => {
     axios
