@@ -9,10 +9,12 @@ import Rating from '../StyledComponents/Rating';
 import Button from '../StyledComponents/Button';
 import { UserGame, getUserGames } from '../../redux/userGameReducer';
 import mechCatProcessor from '../mechCatProccessor';
+import { GameRatings } from '../../redux/meccatReducer';
 
 const { REACT_APP_CLIENT_ID } = process.env;
 
 const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
+  const [nameState, setName] = useState('');
   const [yearPublishedState, setYearPublisehd] = useState('');
   const [minPlayersState, setMinPlayers] = useState('');
   const [maxPlayersState, setMaxPlayers] = useState('');
@@ -22,19 +24,32 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [descriptionState, setDescription] = useState('');
   const [imageUrlState, setImageUrl] = useState('');
   const [inList, setInList] = useState(false);
+  const [thisRating, setThisRating] = useState(0);
 
-  const { id, name, avgRating } = props.location.state.thumbGame;
+  const { id } = props.match.params;
   const email = useSelector((state: RootState) => state.userReducer.email);
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
 
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
+  const gameRatings: GameRatings = useSelector((state: RootState) => state.meccatReducer.rating);
+
   const dispatch = useDispatch();
 
   useEffect((): void => {
     getGameDetails();
   }, []);
+
+  useEffect(() => {
+    setRating();
+  }, [gameRatings]);
+
+  const setRating = () => {
+    let ratingFiltered = 0;
+    gameRatings.forEach((el) => (el.game_id === id ? (ratingFiltered = el.average_rating) : -1, -1));
+    setThisRating(ratingFiltered);
+  };
 
   useEffect((): void => {
     determineGameAdded();
@@ -50,10 +65,11 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const getGameDetails = async (): Promise<void> => {
     await axios
       .get(
-        `https://api.boardgameatlas.com/api/search?ids=${id}&fields=year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
+        `https://api.boardgameatlas.com/api/search?ids=${id}&fields=name,year_published,min_players,max_players,min_age,mechanics,categories,description,image_url&client_id=${REACT_APP_CLIENT_ID}`
       )
       .then((res) => {
         const {
+          name,
           year_published,
           min_players,
           max_players,
@@ -64,6 +80,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
           categories
         } = res.data.games[0];
 
+        setName(name);
         setYearPublisehd(year_published);
         setMinPlayers(min_players);
         setMaxPlayers(max_players);
@@ -104,8 +121,8 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
     <div className="game-display-page">
       <main className="pic-And-Game-Info">
         <div className="image-And-Rating">
-          <img src={imageUrlState} className="game-images" alt={name} />
-          {avgRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={avgRating} />}
+          <img src={imageUrlState} className="game-images" alt={nameState} />
+          {thisRating === -1 ? <h5>Not Yet Reviewed</h5> : <Rating rating={thisRating} />}
           <br />
 
           {inList ? <p className="alreadyGame">this game is already in your collection</p> : ''}
@@ -116,7 +133,7 @@ const GameDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
           </Button>
         </div>
         <div className="game-info-container">
-          <h2 className="game-name">{name}</h2>
+          <h2 className="game-name">{nameState}</h2>
           <section className="game-info-row">
             <h4>players-</h4>
             {` ${minPlayersState} to ${maxPlayersState}`}

@@ -29,9 +29,9 @@ declare module 'customTypes' {
   };
 
   export type GameDispProps = {
-    location: {
-      state: {
-        thumbGame: ThumbGame;
+    match: {
+      params: {
+        id: string;
       };
     };
   };
