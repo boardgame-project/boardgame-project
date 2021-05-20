@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import { RootState } from '../../redux/store';
@@ -23,6 +23,18 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const [lastName, setLastName] = useState<string>(user.last_name);
 
   const dispatch = useDispatch();
+
+  useEffect((): void => {
+    captureCurrentUser();
+  }, [user]);
+
+  const captureCurrentUser = (): void => {
+    setUsername(user.username);
+    setEmail(user.email);
+    setPassword('password');
+    setFirstName(user.first_name);
+    setLastName(user.last_name);
+  };
 
   const toggleEditUsername = (): void => {
     setIsEditingUsername(!isEditingUsername);
@@ -117,7 +129,12 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
               value={username}
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setUsername(e.target.value)}
             />
-            <Button onClick={(): void => saveChanges('username')}>save</Button>
+            <Button
+              onClick={(): void => {
+                saveChanges('username');
+              }}>
+              save
+            </Button>
             <Button
               onClick={(): void => {
                 cancelChanges();
@@ -142,7 +159,12 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
               value={email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)}
             />
-            <Button onClick={(): void => saveChanges('email')}>save</Button>
+            <Button
+              onClick={(): void => {
+                saveChanges('email');
+              }}>
+              save
+            </Button>
             <Button
               onClick={(): void => {
                 cancelChanges();
@@ -166,9 +188,14 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
             <input
               type="password"
               value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)}
             />
-            <Button onClick={(): void => saveChanges('password')}>save</Button>
+            <Button
+              onClick={(): void => {
+                saveChanges('password');
+              }}>
+              save
+            </Button>
             <Button
               onClick={(): void => {
                 cancelChanges();
@@ -193,7 +220,12 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
               value={firstName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)}
             />
-            <Button onClick={(): void => saveChanges('firstname')}>save</Button>
+            <Button
+              onClick={(): void => {
+                saveChanges('firstname');
+              }}>
+              save
+            </Button>
             <Button
               onClick={(): void => {
                 cancelChanges();
@@ -218,7 +250,12 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
               value={lastName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)}
             />
-            <Button onClick={(): void => saveChanges('lastname')}>save</Button>
+            <Button
+              onClick={(): void => {
+                saveChanges('lastname');
+              }}>
+              save
+            </Button>
             <Button
               onClick={(): void => {
                 cancelChanges();
