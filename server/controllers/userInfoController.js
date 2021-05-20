@@ -46,7 +46,7 @@ module.exports = {
           const salt = await bcrypt.genSalt(10);
           const hash = await bcrypt.hash(password, salt);
           await db2.userInfo.editPassword(user_id2, hash);
-          return res.sendStatus(200);
+          return res.status(200).send(req.session.user);
         } catch (err) {
           return res.sendStatus(500);
         }

@@ -115,43 +115,21 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
   };
 
   const uncheckCheckboxes = () => {
-    const output = categories.map((option: Option, ind: number) => {
-      return (
-        <div className="checkboxDiv" key={`div${option.id}`}>
-          <input
-            checked={false}
-            type="checkbox"
-            id={`category${ind}`}
-            value={option.id}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              checkToggler('category', e.target.value);
-              props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-            }}></input>
-          <label className="checkLabel" htmlFor={`category${ind}`}>
-            {option.name}
-          </label>
-        </div>
-      );
+    setSearchEntry('');
+    setMechanicsSelections([]);
+    setCategoriesSelections([]);
+    mechanics.forEach((el: Option) => {
+      const mechanic = document.getElementById(el.id) as HTMLInputElement;
+      if (mechanic.checked) {
+        mechanic.checked = false;
+      }
     });
-    setCategoriesCheckboxes(output);
-    const output2 = mechanics.map((option: Option, ind: number) => {
-      return (
-        <div className="checkboxDiv" key={`div${option.id}`}>
-          <input
-            checked={false}
-            type="checkbox"
-            value={option.id}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              checkToggler('mechanics', e.target.value);
-              props.getAPIGames(currentPage, searchEntry, mechanicsSelections, categoriesSelections, itemsPerPage);
-            }}></input>
-          <label className="checkLabel" htmlFor={`mechanic${ind}`}>
-            {option.name}
-          </label>
-        </div>
-      );
+    categories.forEach((el: Option) => {
+      const category = document.getElementById(el.id) as HTMLInputElement;
+      if (category.checked) {
+        category.checked = false;
+      }
     });
-    setMechanicsCheckboxes(output2);
   };
 
   return (
@@ -180,9 +158,6 @@ const SearchBar: React.FC<SearchProps> = (props: SearchProps) => {
           </Button>
           <Button
             onClick={() => {
-              setSearchEntry('');
-              setMechanicsSelections([]);
-              setMechanicsCheckboxes([]);
               uncheckCheckboxes();
               props.getAPIGames(1, '', [], [], '');
             }}>
