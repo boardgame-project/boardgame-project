@@ -73,11 +73,13 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     }
     axios
       .put(`api/user/${param}`, body)
-      .then((res: AxiosResponse<User>) => {
-        const user = res.data;
-        dispatch({ type: 'UPDATE_USER', payload: user });
-        setEditing();
-      })
+      .then(
+        async (res: AxiosResponse<User>): Promise<void> => {
+          const user = res.data;
+          dispatch({ type: 'UPDATE_USER', payload: user });
+          setEditing();
+        }
+      )
       .catch((err) => console.log(err));
   };
 

@@ -2,35 +2,34 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { UserGameProps } from 'customTypes';
+import { GameDispProps, OptionNoName } from 'customTypes';
 import Button from '../StyledComponents/Button';
 import HTMLReactParser from 'html-react-parser';
 import mechCatProcessor from '../mechCatProccessor';
 import Rating from '../StyledComponents/Rating';
-import { getUserGames } from '../../redux/userGameReducer';
-import { RouteComponentProps } from 'react-router-dom';
+import { getUserGames, UserGame } from '../../redux/userGameReducer';
 
-const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
-  props: UserGameProps & RouteComponentProps
-): JSX.Element => {
-  const [gameID] = useState(props.location.state.userGame.game_id);
-  const [yearPublished] = useState(props.location.state.userGame.year_published);
-  const [minPlayers] = useState(props.location.state.userGame.min_players);
-  const [maxPlayer] = useState(props.location.state.userGame.max_players);
-  const [minAge] = useState(props.location.state.userGame.min_age);
-  const [mechanics] = useState(props.location.state.userGame.mechanics);
-  const [categories] = useState(props.location.state.userGame.categories);
+const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
+  const [gameID] = useState(props.match.params.id);
+  const [yearPublished, setYearPublished] = useState('');
+  const [minPlayers, setMinPlayers] = useState(0);
+  const [maxPlayer, setMaxPlayers] = useState(0);
+  const [minAge, setMinAge] = useState(0);
+  const [maxAge, setMaxAge] = useState(0);
+  const [mechanicsState, setMechanics] = useState<OptionNoName[]>([]);
+  const [categoriesState, setCategories] = useState<OptionNoName[]>([]);
   const [mechanicsProc, setMechanicsProc] = useState('');
   const [categoriesProc, setCategoriesProc] = useState('');
-  const [description] = useState(props.location.state.userGame.description);
-  const [imageUrl] = useState(props.location.state.userGame.image_url);
-  const [name] = useState(props.location.state.userGame.name);
-  const [playCount, setPlayCount] = useState(props.location.state.userGame.play_count);
-  const [rating, setRating] = useState(props.location.state.userGame.rating);
+  const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [name, setName] = useState('');
+  const [playCount, setPlayCount] = useState(0);
+  const [rating, setRating] = useState(0);
   const [addEdit, setAddEdit] = useState(false);
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
+  const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
@@ -39,14 +38,43 @@ const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
   useEffect((): void => {
     getReview();
     const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
-      mechanics,
-      categories,
+      mechanicsState,
+      categoriesState,
       mechanicsLib,
       categoriesLib
     );
     setMechanicsProc(mechanicsProcessed);
     setCategoriesProc(categoriesProcessed);
   }, []);
+
+  useEffect((): void => {
+    const {
+      name,
+      play_count,
+      rating,
+      review,
+      image_url,
+      description,
+      mechanics,
+      categories,
+      min_age,
+      max_age,
+      min_players,
+      max_players,
+      year_published
+    } = userGames.filter((el: UserGame) => el.game_id === gameID ? el : {});
+
+    setYearPublished(year_published);
+    setMinPlayers(min_players);
+    setMaxPlayers(max_players);
+    setMinAge(min_age);
+    setMaxAge(max_age);
+    setMechanics(mechanics);
+    setCategories(categories);
+    setDescription(description);
+    setImageUrl(image_url);
+    setName(name);
+  }, [userGames]);
 
   const increasePlayCount = () => {
     axios

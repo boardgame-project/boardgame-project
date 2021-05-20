@@ -11,7 +11,7 @@ const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
           <h3>{props.name}</h3>
         </div>
         <div className="shelfItemFlex">
-          <Link to={{ pathname: `/usergame/${props.game_id}`, state: { userGame: props } }} className="linkContainer">
+          <Link to={`/usergame/${props.game_id}`} className="linkContainer">
             <div className="overlay">
               <p className="infoText">info</p>
             </div>
