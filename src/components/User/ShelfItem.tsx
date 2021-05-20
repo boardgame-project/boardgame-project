@@ -4,14 +4,14 @@ import { UserGame } from '../../redux/userGameReducer';
 import Rating from '../StyledComponents/Rating';
 
 const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
-  return (
+  return props.game_id ? (
     <div className="shelf">
       <section className="shelfItemBox">
         <div className="nameFlex">
           <h3>{props.name}</h3>
         </div>
         <div className="shelfItemFlex">
-          <Link to={{ pathname: `/usergame/${props.game_id}`, state: { userGame: props } }} className="linkContainer">
+          <Link to={`/usergame/${props.game_id}`} className="linkContainer">
             <div className="overlay">
               <p className="infoText">info</p>
             </div>
@@ -28,6 +28,8 @@ const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
         </div>
       </section>
     </div>
+  ) : (
+    <>,</>
   );
 };
 

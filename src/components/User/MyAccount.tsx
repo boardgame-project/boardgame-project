@@ -5,6 +5,7 @@ import { RootState } from '../../redux/store';
 import { RouteComponentProps } from 'react-router-dom';
 import Button from '../StyledComponents/Button';
 import { User } from 'customTypes';
+import { toast, ToastContainer } from 'react-toastify';
 
 const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const user = useSelector((state: RootState) => state.userReducer);
@@ -84,15 +85,32 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
         break;
     }
     axios
-      .put(`api/user/${param}`, body)
-      .then((res: AxiosResponse<User>) => {
-        const user = res.data;
-        dispatch({ type: 'UPDATE_USER', payload: user });
-        setEditing();
-      })
-      .catch((err) => console.log(err));
+      .put(`/api/user/${param}`, body)
+      .then(
+        async (res: AxiosResponse<User>): Promise<void> => {
+          const user = res.data;
+          dispatch({ type: 'UPDATE_USER', payload: user });
+          setEditing();
+        }
+      )
+      .catch((err) => {
+        if (err.response.data === 'email') {
+          toast.error(
+            'An account with the email you entered already exists in our database. Please use a different email.'
+          );
+        } else if (err.response.data === 'username') {
+          toast.error(
+            'An account with the username you entered already exists in our database. Please select a different username.'
+          );
+        } else if (err.response.data === 'incomplete') {
+          toast.error('You must have both a unique username and email.');
+        } else {
+          toast.error(
+            'A problem was encountered while attempting to change your credentials. Please try logging out then logging back in.'
+          );
+        }
+      });
   };
-
   const confirmDelete = (): void => {
     axios
       .delete('/api/user/delete')
@@ -112,6 +130,7 @@ const MyAccount: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   return (
     <div className="myAccount">
+      <ToastContainer />
       <div className="myAccountContainer">
         <h2>account</h2>
         {!isEditingUsername ? (

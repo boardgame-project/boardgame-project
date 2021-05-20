@@ -54,7 +54,7 @@ app.delete('/api/usergame/:id', authMiddleware.authorize, userGames.deleteGame);
 
 // //UserInfo endpoints -> My Account
 app.put('/api/user/:editType', authMiddleware.authorize, userInfo.editInfo);
-app.put('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
+app.delete('/api/user/delete', authMiddleware.authorize, userInfo.deleteUser);
 
 // Password Reset Endpoints
 app.put('/api/pwdReset/req', passwordReset.resetPwdEmail);
@@ -62,8 +62,6 @@ app.put('/api/pwdReset/submit/:token', passwordReset.processReset);
 // //Player endpoints
 // Item Display //User Graph
 app.get('/api/player/playcount/:id', player.getPlayerTotalPlays);
-// Game Display
-app.get('/api/player/reviews/:id', player.getPlayerGameReview);
 // Leaderboard
 app.get('/api/player/leaderboard', player.getAllPlayersTotalPlays);
 

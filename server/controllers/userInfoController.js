@@ -8,35 +8,43 @@ module.exports = {
         const db = req.app.get('db');
         const { email } = req.body;
         const emailFiltered = email.toLowerCase().replace(/\s/g, '');
-        const storedUser = await db.user.getUser(emailFiltered);
-        if (storedUser.length === 0) {
-          const user_id = req.session.user.user_id;
-          try {
-            await db.userInfo.editEmail(user_id, emailFiltered);
-            req.session.user = { ...req.session.user, email: emailFiltered };
-            return res.status(200).send(req.session.user);
-          } catch (err) {
-            return res.sendStatus(500);
+        const storedUser = await db.user.getUserByEmail(emailFiltered);
+        if (email) {
+          if (storedUser.length === 0) {
+            const user_id = req.session.user.user_id;
+            try {
+              await db.userInfo.editEmail(user_id, emailFiltered);
+              req.session.user = { ...req.session.user, email: emailFiltered };
+              return res.status(200).send(req.session.user);
+            } catch (err) {
+              return res.sendStatus(500);
+            }
+          } else {
+            return res.status(400).send('email');
           }
         } else {
-          return res.sendStatus(403);
+          return res.status(400).send('incomplete');
         }
       case 'username':
         const db1 = req.app.get('db');
         const { username } = req.body;
         const usernameFiltered = username.toLowerCase().replace(/\s/g, '');
-        const storedUser1 = await db1.user.getUser(usernameFiltered);
-        if (storedUser1.length === 0) {
-          const user_id1 = req.session.user.user_id;
-          try {
-            await db1.userInfo.editUsername(user_id1, usernameFiltered);
-            req.session.user = { ...req.session.user, username: usernameFiltered };
-            return res.status(200).send(req.session.user);
-          } catch (err) {
-            return res.sendStatus(500);
+        const storedUser1 = await db1.user.getUserByUsername(usernameFiltered);
+        if (username) {
+          if (storedUser1.length === 0) {
+            const user_id1 = req.session.user.user_id;
+            try {
+              await db1.userInfo.editUsername(user_id1, usernameFiltered);
+              req.session.user = { ...req.session.user, username: usernameFiltered };
+              return res.status(200).send(req.session.user);
+            } catch (err) {
+              return res.sendStatus(500);
+            }
+          } else {
+            return res.status(400).send('username');
           }
         } else {
-          return res.sendStatus(403);
+          return res.status(400).send('incomplete');
         }
       case 'password':
         const db2 = req.app.get('db');

@@ -10,10 +10,10 @@ module.exports = {
       try {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
-        const storedUserEmail = await db.user.getUser(emailFiltered);
+        const storedUserEmail = await db.user.getUserByEmail(emailFiltered);
         if (storedUserEmail.length === 0) {
           try {
-            const storedUserUsername = await db.user.getUser(usernameFiltered);
+            const storedUserUsername = await db.user.getUserByUsername(usernameFiltered);
             if (storedUserUsername.length === 0) {
               try {
                 const user_id = await db.user.register(emailFiltered, usernameFiltered, first_name, last_name, hash);

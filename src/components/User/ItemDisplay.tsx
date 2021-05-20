@@ -2,51 +2,87 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { UserGameProps } from 'customTypes';
+import { GameDispProps, OptionNoName } from 'customTypes';
 import Button from '../StyledComponents/Button';
 import HTMLReactParser from 'html-react-parser';
 import mechCatProcessor from '../mechCatProccessor';
 import Rating from '../StyledComponents/Rating';
-import { getUserGames } from '../../redux/userGameReducer';
+import { getUserGames, UserGame } from '../../redux/userGameReducer';
 import { RouteComponentProps } from 'react-router-dom';
 
-const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
-  props: UserGameProps & RouteComponentProps
+const ItemDisplay: React.FC<GameDispProps & RouteComponentProps> = (
+  props: GameDispProps & RouteComponentProps
 ): JSX.Element => {
-  const [gameID] = useState(props.location.state.userGame.game_id);
-  const [yearPublished] = useState(props.location.state.userGame.year_published);
-  const [minPlayers] = useState(props.location.state.userGame.min_players);
-  const [maxPlayer] = useState(props.location.state.userGame.max_players);
-  const [minAge] = useState(props.location.state.userGame.min_age);
-  const [mechanics] = useState(props.location.state.userGame.mechanics);
-  const [categories] = useState(props.location.state.userGame.categories);
+  const [gameID] = useState(props.match.params.id);
+  const [yearPublished, setYearPublished] = useState(0);
+  const [minPlayers, setMinPlayers] = useState(0);
+  const [maxPlayer, setMaxPlayers] = useState(0);
+  const [minAge, setMinAge] = useState(0);
+  const [mechanicsState, setMechanics] = useState<OptionNoName[]>([]);
+  const [categoriesState, setCategories] = useState<OptionNoName[]>([]);
   const [mechanicsProc, setMechanicsProc] = useState('');
   const [categoriesProc, setCategoriesProc] = useState('');
-  const [description] = useState(props.location.state.userGame.description);
-  const [imageUrl] = useState(props.location.state.userGame.image_url);
-  const [name] = useState(props.location.state.userGame.name);
-  const [playCount, setPlayCount] = useState(props.location.state.userGame.play_count);
-  const [rating, setRating] = useState(props.location.state.userGame.rating);
+  const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [name, setName] = useState('');
+  const [playCount, setPlayCount] = useState(0);
+  const [rating, setRating] = useState(0);
   const [addEdit, setAddEdit] = useState(false);
-  const [input, setInput] = useState<string>('');
+  const [review, setReview] = useState('');
   const [editing, setEditing] = useState(false);
 
+  const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
   const mechanicsLib = useSelector((state: RootState) => state.meccatReducer.mechanic);
   const categoriesLib = useSelector((state: RootState) => state.meccatReducer.category);
 
   const dispatch = useDispatch();
 
   useEffect((): void => {
-    getReview();
-    const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
+    if (mechanicsLib && categoriesLib) {
+      const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
+        mechanicsState,
+        categoriesState,
+        mechanicsLib,
+        categoriesLib
+      );
+      setMechanicsProc(mechanicsProcessed);
+      setCategoriesProc(categoriesProcessed);
+    }
+  }, [mechanicsState, categoriesState, mechanicsLib, categoriesLib]);
+
+  useEffect((): void => {
+    const userGame: UserGame[] = userGames.filter((el: UserGame) => {
+      return el.game_id === gameID ? el : {};
+    });
+    const {
+      name,
+      play_count,
+      rating,
+      review,
+      image_url,
+      description,
       mechanics,
       categories,
-      mechanicsLib,
-      categoriesLib
-    );
-    setMechanicsProc(mechanicsProcessed);
-    setCategoriesProc(categoriesProcessed);
-  }, []);
+      min_age,
+      min_players,
+      max_players,
+      year_published
+    } = userGame[0];
+
+    setYearPublished(year_published);
+    setMinPlayers(min_players);
+    setMaxPlayers(max_players);
+    setMinAge(min_age);
+    setMechanics(mechanics);
+    setCategories(categories);
+    setDescription(description);
+    setImageUrl(image_url);
+    setName(name);
+    setPlayCount(play_count);
+    setRating(rating);
+    setReview(review ? review : '');
+    review ? setAddEdit(true) : setAddEdit(false);
+  }, [userGames]);
 
   const increasePlayCount = () => {
     axios
@@ -74,14 +110,14 @@ const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
         return axios
           .put('/api/usergame/rating', { gameID, rating: rating + 1 })
           .then((res: AxiosResponse<{ rating: string }>) => {
-            setRating(res.data.rating);
+            setRating(Number.parseInt(res.data.rating));
           })
           .catch((err: AxiosError) => console.log(err));
       case 'dec':
         return axios
           .put('/api/usergame/rating', { gameID, rating: rating - 1 })
           .then((res: AxiosResponse<{ rating: string }>) => {
-            setRating(res.data.rating);
+            setRating(Number.parseInt(res.data.rating));
           })
           .catch((err: AxiosError) => console.log(err));
       default:
@@ -89,15 +125,10 @@ const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
     }
   };
   const postReview = () => {
-    axios.put(`/api/usergame/review`, { gameID, review: input });
-  };
-
-  const getReview = (): void => {
     axios
-      .get(`/api/player/reviews/${gameID}`)
-      .then((res: AxiosResponse<[{ review: string | null }]>) => {
-        setInput(res.data[0].review ? res.data[0].review : '');
-        res.data[0].review ? setAddEdit(true) : setAddEdit(false);
+      .put(`/api/usergame/review`, { gameID, review })
+      .then((res: AxiosResponse<{ review: string }>) => {
+        setReview(res.data.review);
       })
       .catch((err) => console.log(err));
   };
@@ -107,7 +138,6 @@ const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
     if (editing) {
       setEditing(false);
       postReview();
-      getReview();
     } else {
       setEditing(true);
     }
@@ -146,8 +176,8 @@ const ItemDisplay: React.FC<UserGameProps & RouteComponentProps> = (
             role="textbox"
             rows={5}
             id="review"
-            value={input}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => setInput(e.target.value)}
+            value={review}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => setReview(e.target.value)}
             placeholder="write review here"
             name="review"
             disabled={!editing}></textarea>
