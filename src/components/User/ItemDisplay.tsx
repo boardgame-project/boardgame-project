@@ -52,36 +52,38 @@ const ItemDisplay: React.FC<GameDispProps & RouteComponentProps> = (
 
   useEffect((): void => {
     const userGame: UserGame[] = userGames.filter((el: UserGame) => {
-      return el.game_id === gameID ? el : {};
+      return el.game_id === gameID ? true : false;
     });
-    const {
-      name,
-      play_count,
-      rating,
-      review,
-      image_url,
-      description,
-      mechanics,
-      categories,
-      min_age,
-      min_players,
-      max_players,
-      year_published
-    } = userGame[0];
+    if (userGame.length === 1) {
+      const {
+        name,
+        play_count,
+        rating,
+        review,
+        image_url,
+        description,
+        mechanics,
+        categories,
+        min_age,
+        min_players,
+        max_players,
+        year_published
+      } = userGame[0];
 
-    setYearPublished(year_published);
-    setMinPlayers(min_players);
-    setMaxPlayers(max_players);
-    setMinAge(min_age);
-    setMechanics(mechanics);
-    setCategories(categories);
-    setDescription(description);
-    setImageUrl(image_url);
-    setName(name);
-    setPlayCount(play_count);
-    setRating(rating);
-    setReview(review ? review : '');
-    review ? setAddEdit(true) : setAddEdit(false);
+      setYearPublished(year_published);
+      setMinPlayers(min_players);
+      setMaxPlayers(max_players);
+      setMinAge(min_age);
+      setMechanics(mechanics);
+      setCategories(categories);
+      setDescription(description);
+      setImageUrl(image_url);
+      setName(name);
+      setPlayCount(play_count);
+      setRating(rating);
+      setReview(review ? review : '');
+      review ? setAddEdit(true) : setAddEdit(false);
+    }
   }, [userGames]);
 
   const increasePlayCount = () => {
