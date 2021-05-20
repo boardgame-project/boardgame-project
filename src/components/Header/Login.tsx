@@ -18,12 +18,12 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const [resetDisabler, setResetDisabler] = useState(true);
   const [resetEmail, setResetEmail] = useState('');
 
-  const [isLogin, setIslogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
 
   const dispatch = useDispatch();
 
   const toggleLogin = (): void => {
-    setIslogin(!isLogin);
+    setIsLogin(!isLogin);
   };
 
   const register = (): void => {
@@ -173,6 +173,11 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               />
               <br></br>
               <Button>register</Button>
+              <div className="alreadyRegistered">
+                <span style={{ cursor: 'pointer' }} onClick={toggleLogin}>
+                  already register?
+                </span>
+              </div>
             </form>
           )}
           <div className="resetPasswordLink">
