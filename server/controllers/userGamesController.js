@@ -44,7 +44,7 @@ module.exports = {
       const gameID = req.body.gameID;
       const review = req.body.review;
       await db.userGames.updateReview(userID, gameID, review);
-      return res.sendStatus(200);
+      return res.status(200).send(review);
     } catch (err) {
       return res.sendStatus(500)
     }

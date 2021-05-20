@@ -5,7 +5,6 @@ import LeaderBoard from '../Header/LeaderBoard';
 import { RootState } from '../../redux/store';
 import axios from 'axios';
 import { UserGame } from '../../redux/userGameReducer';
-// import {getUser} from '../../redux/userReducer';
 import { getUserGames } from '../../redux/userGameReducer';
 
 const User: React.FC = () => {
@@ -20,7 +19,7 @@ const User: React.FC = () => {
   useEffect((): void => {
     getPlayerStats();
     dispatch(getUserGames());
-  }, []);
+  }, [userID]);
 
   const getPlayerStats = () => {
     axios.get(`/api/player/playcount/${userID}`).then((res) => {

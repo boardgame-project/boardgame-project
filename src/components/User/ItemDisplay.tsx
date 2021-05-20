@@ -8,14 +8,16 @@ import HTMLReactParser from 'html-react-parser';
 import mechCatProcessor from '../mechCatProccessor';
 import Rating from '../StyledComponents/Rating';
 import { getUserGames, UserGame } from '../../redux/userGameReducer';
+import { RouteComponentProps } from 'react-router-dom';
 
-const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouterProps): JSX.Element => {
+const ItemDisplay: React.FC<GameDispProps & RouteComponentProps> = (
+  props: GameDispProps & RouteComponentProps
+): JSX.Element => {
   const [gameID] = useState(props.match.params.id);
   const [yearPublished, setYearPublished] = useState(0);
   const [minPlayers, setMinPlayers] = useState(0);
   const [maxPlayer, setMaxPlayers] = useState(0);
   const [minAge, setMinAge] = useState(0);
-  const [maxAge, setMaxAge] = useState(0);
   const [mechanicsState, setMechanics] = useState<OptionNoName[]>([]);
   const [categoriesState, setCategories] = useState<OptionNoName[]>([]);
   const [mechanicsProc, setMechanicsProc] = useState('');
@@ -26,7 +28,7 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouter
   const [playCount, setPlayCount] = useState(0);
   const [rating, setRating] = useState(0);
   const [addEdit, setAddEdit] = useState(false);
-  const [review, setReview] = useState<string>('');
+  const [review, setReview] = useState('');
   const [editing, setEditing] = useState(false);
 
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
@@ -36,22 +38,22 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouter
   const dispatch = useDispatch();
 
   useEffect((): void => {
-    getReview();
-    const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
-      mechanicsState,
-      categoriesState,
-      mechanicsLib,
-      categoriesLib
-    );
-    setMechanicsProc(mechanicsProcessed);
-    setCategoriesProc(categoriesProcessed);
-  }, []);
+    if (mechanicsLib && categoriesLib) {
+      const { mechanicsProcessed, categoriesProcessed } = mechCatProcessor(
+        mechanicsState,
+        categoriesState,
+        mechanicsLib,
+        categoriesLib
+      );
+      setMechanicsProc(mechanicsProcessed);
+      setCategoriesProc(categoriesProcessed);
+    }
+  }, [mechanicsState, categoriesState, mechanicsLib, categoriesLib]);
 
   useEffect((): void => {
     const userGame: UserGame[] = userGames.filter((el: UserGame) => {
       return el.game_id === gameID ? el : {};
     });
-
     const {
       name,
       play_count,
@@ -62,7 +64,6 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouter
       mechanics,
       categories,
       min_age,
-      max_age,
       min_players,
       max_players,
       year_published
@@ -72,15 +73,15 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouter
     setMinPlayers(min_players);
     setMaxPlayers(max_players);
     setMinAge(min_age);
-    setMaxAge(max_age);
-    setMechanicsProc(mechanics);
-    setCategoriesProc(categories);
+    setMechanics(mechanics);
+    setCategories(categories);
     setDescription(description);
     setImageUrl(image_url);
     setName(name);
     setPlayCount(play_count);
     setRating(rating);
-    setReview(review);
+    setReview(review ? review : '');
+    review ? setAddEdit(true) : setAddEdit(false);
   }, [userGames]);
 
   const increasePlayCount = () => {
@@ -109,14 +110,14 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouter
         return axios
           .put('/api/usergame/rating', { gameID, rating: rating + 1 })
           .then((res: AxiosResponse<{ rating: string }>) => {
-            setRating(res.data.rating);
+            setRating(Number.parseInt(res.data.rating));
           })
           .catch((err: AxiosError) => console.log(err));
       case 'dec':
         return axios
           .put('/api/usergame/rating', { gameID, rating: rating - 1 })
           .then((res: AxiosResponse<{ rating: string }>) => {
-            setRating(res.data.rating);
+            setRating(Number.parseInt(res.data.rating));
           })
           .catch((err: AxiosError) => console.log(err));
       default:
@@ -124,15 +125,10 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouter
     }
   };
   const postReview = () => {
-    axios.put(`/api/usergame/review`, { gameID, review });
-  };
-
-  const getReview = (): void => {
     axios
-      .get(`/api/player/reviews/${gameID}`)
-      .then((res: AxiosResponse<[{ review: string | null }]>) => {
-        setReview(res.data[0].review ? res.data[0].review : '');
-        res.data[0].review ? setAddEdit(true) : setAddEdit(false);
+      .put(`/api/usergame/review`, { gameID, review })
+      .then((res: AxiosResponse<{ review: string }>) => {
+        setReview(res.data.review);
       })
       .catch((err) => console.log(err));
   };
@@ -142,7 +138,6 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouter
     if (editing) {
       setEditing(false);
       postReview();
-      getReview();
     } else {
       setEditing(true);
     }

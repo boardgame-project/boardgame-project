@@ -19,17 +19,6 @@ module.exports = {
   //     return res.sendStatus(500)
   //   }
   // },
-  getPlayerGameReview: async (req, res) => {
-    try {
-      const db = req.app.get('db');
-      const userID = req.session.user.user_id;
-      const gameID = req.params.id;
-      const reviews = await db.player.getPlayerGameReview(userID, gameID);
-      return res.status(200).send(reviews);
-    } catch (err) {
-      return res.sendStatus(500);
-    }
-  },
   getAllPlayersTotalPlays: async (req, res) => {
     try {
       const db = req.app.get('db');

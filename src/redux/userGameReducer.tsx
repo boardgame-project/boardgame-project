@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DBGame } from 'customTypes';
+import { DBGame, OptionNoName } from 'customTypes';
 import dotenv from 'dotenv';
 dotenv.config();
 const { REACT_APP_CLIENT_ID } = process.env;
@@ -9,8 +9,8 @@ export interface APIGame {
   name: string;
   image_url: string;
   description: string;
-  mechanics: string;
-  categories: string;
+  mechanics: OptionNoName[];
+  categories: OptionNoName[];
   min_age: number;
   min_players: number;
   max_players: number;
@@ -25,10 +25,9 @@ export interface UserGame {
   review: string;
   image_url: string;
   description: string;
-  mechanics: string;
-  categories: string;
+  mechanics: OptionNoName[];
+  categories: OptionNoName[];
   min_age: number;
-  max_age: number;
   min_players: number;
   max_players: number;
   year_published: number;
@@ -48,8 +47,8 @@ const initialState: GameState = {
       review: '',
       image_url: '',
       description: '',
-      mechanics: '',
-      categories: '',
+      mechanics: [],
+      categories: [],
       min_age: 0,
       min_players: 0,
       max_players: 0,
@@ -105,8 +104,8 @@ const apiLogic = async (): Promise<UserGame[]> => {
         name: '',
         image_url: '',
         description: '',
-        mechanics: '',
-        categories: '',
+        mechanics: [],
+        categories: [],
         min_age: 0,
         min_players: 0,
         max_players: 0,

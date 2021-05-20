@@ -4,7 +4,7 @@ import { UserGame } from '../../redux/userGameReducer';
 import Rating from '../StyledComponents/Rating';
 
 const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
-  return (
+  return props.game_id ? (
     <div className="shelf">
       <section className="shelfItemBox">
         <div className="nameFlex">
@@ -28,6 +28,8 @@ const ShelfItem: React.FC<UserGame> = (props: UserGame): JSX.Element => {
         </div>
       </section>
     </div>
+  ) : (
+    <>,</>
   );
 };
 
