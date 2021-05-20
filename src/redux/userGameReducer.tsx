@@ -28,6 +28,7 @@ export interface UserGame {
   mechanics: string;
   categories: string;
   min_age: number;
+  max_age: number;
   min_players: number;
   max_players: number;
   year_published: number;

@@ -9,9 +9,9 @@ import mechCatProcessor from '../mechCatProccessor';
 import Rating from '../StyledComponents/Rating';
 import { getUserGames, UserGame } from '../../redux/userGameReducer';
 
-const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element => {
+const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps & ReactRouterProps): JSX.Element => {
   const [gameID] = useState(props.match.params.id);
-  const [yearPublished, setYearPublished] = useState('');
+  const [yearPublished, setYearPublished] = useState(0);
   const [minPlayers, setMinPlayers] = useState(0);
   const [maxPlayer, setMaxPlayers] = useState(0);
   const [minAge, setMinAge] = useState(0);
@@ -26,7 +26,7 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   const [playCount, setPlayCount] = useState(0);
   const [rating, setRating] = useState(0);
   const [addEdit, setAddEdit] = useState(false);
-  const [input, setInput] = useState<string>('');
+  const [review, setReview] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
   const userGames = useSelector((state: RootState) => state.userGameReducer.userGames);
@@ -48,6 +48,10 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
   }, []);
 
   useEffect((): void => {
+    const userGame: UserGame[] = userGames.filter((el: UserGame) => {
+      return el.game_id === gameID ? el : {};
+    });
+
     const {
       name,
       play_count,
@@ -62,18 +66,21 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
       min_players,
       max_players,
       year_published
-    } = userGames.filter((el: UserGame) => el.game_id === gameID ? el : {});
+    } = userGame[0];
 
     setYearPublished(year_published);
     setMinPlayers(min_players);
     setMaxPlayers(max_players);
     setMinAge(min_age);
     setMaxAge(max_age);
-    setMechanics(mechanics);
-    setCategories(categories);
+    setMechanicsProc(mechanics);
+    setCategoriesProc(categories);
     setDescription(description);
     setImageUrl(image_url);
     setName(name);
+    setPlayCount(play_count);
+    setRating(rating);
+    setReview(review);
   }, [userGames]);
 
   const increasePlayCount = () => {
@@ -117,14 +124,14 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
     }
   };
   const postReview = () => {
-    axios.put(`/api/usergame/review`, { gameID, review: input });
+    axios.put(`/api/usergame/review`, { gameID, review });
   };
 
   const getReview = (): void => {
     axios
       .get(`/api/player/reviews/${gameID}`)
       .then((res: AxiosResponse<[{ review: string | null }]>) => {
-        setInput(res.data[0].review ? res.data[0].review : '');
+        setReview(res.data[0].review ? res.data[0].review : '');
         res.data[0].review ? setAddEdit(true) : setAddEdit(false);
       })
       .catch((err) => console.log(err));
@@ -174,8 +181,8 @@ const ItemDisplay: React.FC<GameDispProps> = (props: GameDispProps): JSX.Element
             role="textbox"
             rows={5}
             id="review"
-            value={input}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => setInput(e.target.value)}
+            value={review}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => setReview(e.target.value)}
             placeholder="write review here"
             name="review"
             disabled={!editing}></textarea>
