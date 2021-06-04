@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Rating from '../StyledComponents/Rating';
 import SearchResPic from '../StyledComponents/SearchResPic';
 
+// Individual search results
+
 const GameBox: React.FC<GameBoxProps> = (props: GameBoxProps): JSX.Element => {
   const { id, name, thumb_url, avgRating } = props.thumbGame;
   return (
