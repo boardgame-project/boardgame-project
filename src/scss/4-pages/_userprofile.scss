@@ -37,12 +37,15 @@
 }
 
 @media (min-width: $bp-tablet) {
+  .userProfile,
+  .sticky {
+    height: 650px;
+  }
   .userProfile {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
-    height: 400px;
     margin: 20px 20px 0 30px;
     text-align: center;
     @include border();
@@ -59,8 +62,7 @@
   .sticky {
     position: -webkit-sticky;
     position: sticky;
-    top: 10px;
-    height: 350px;
+    top: 20px;
   }
   .flexProfile {
     display: flex;

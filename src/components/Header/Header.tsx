@@ -17,8 +17,8 @@ const Header: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     axios
       .delete('/api/auth/logout')
       .then(() => {
-        dispatch({ type: 'LOGOUT_USER' });
         props.history.push('/');
+        dispatch({ type: 'LOGOUT_USER' });
       })
       .catch((err) => console.log(err));
   };
