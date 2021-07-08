@@ -1,8 +1,6 @@
 # TopTable Games
 
-## Carlos Chavez
-## David Koser
-## Richard Miller Wimmer
+## Carlos Chavez, David Koser, and Richard Miller Wimmer
 
 ### DevMountain Group Project 
 
