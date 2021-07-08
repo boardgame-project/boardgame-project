@@ -5,6 +5,7 @@
 ### DevMountain Group Project 
 
 **Link to live example** - https://toptablegames.net
+
 **Link to video tour** - https://www.youtube.com/watch?v=Wvh4OBv8mN8
 
 This web application is designed to create a platform for users to track their game collections and then rate and review them for others to see. A user is able to make an account add games to their collection, rate, review, and track plays per game. Users do not need to have an account nor do they need to login to browse games and see reviews for those games from other users.
